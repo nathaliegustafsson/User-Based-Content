@@ -1,7 +1,7 @@
+import mongoose from "mongoose";
 import { app } from "./app";
 
 // HÄR SKRIVER NI KODEN FÖR ATT ANSLUTA TILL DATABASEN OCH STARTA SERVERN!
-import mongoose from "mongoose";
 
 async function main() {
   await mongoose.connect(
