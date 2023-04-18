@@ -1,10 +1,33 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App'
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import {
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+} from "react-router-dom";
+import "./index.css";
+import CreateProfilePage from "./pages/CreateProfilePage";
+import ProfilePage from "./pages/ProfilePage";
+import SignInPage from "./pages/SignInPage";
+import StartPage from "./pages/StartPage";
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route>
+      <Route index element={<StartPage />} />
+      <Route path="/signin" element={<SignInPage />} />
+      <Route path="/createprofile" element={<CreateProfilePage />} />
+      <Route path="/user/:id" element={<ProfilePage />} />
+      {/* <Route path="/user/:id/posts" element={<CreatePostPage />} /> */}
+      {/* <Route path="/user/:id/posts" element={<EditAndDeletePostPage />} /> */}
+    </Route>
+  )
+);
+
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+    {/* <App /> */}
+    <RouterProvider router={router} />
+  </React.StrictMode>
+);
