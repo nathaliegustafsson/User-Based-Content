@@ -1,19 +1,17 @@
-// import { app } from './app';
+import { app } from "./app";
 
 // HÄR SKRIVER NI KODEN FÖR ATT ANSLUTA TILL DATABASEN OCH STARTA SERVERN!
-// import { MongoClient } from "mongodb";
+import mongoose from "mongoose";
 
-// const url =
-//   "mongodb+srv://admin:mmqkz2H7uDhNSbpz@ubp-assignment.r5vwm1v.mongodb.net/?retryWrites=true&w=majority";
-// const client = new MongoClient(url);
-// const dbName = "ubp-assignment";
+async function main() {
+  await mongoose.connect(
+    "mongodb+srv://admin:mmqkz2H7uDhNSbpz@ubp-assignment.r5vwm1v.mongodb.net/?retryWrites=true&w=majority"
+  );
+  console.log("Connected to Database");
 
-// async function main() {
-//   await client.connect();
-//   console.log("Connected to the database server");
-//   const db = client.db(dbName);
-//   const collection = db.collection("bots");
-//   collection.collectionName;
-// }
+  app.listen(3000, () => {
+    console.log("Server is running: http://localhost:3000");
+  });
+}
 
-// main().catch(console.error);
+main().catch(console.error);
