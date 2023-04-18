@@ -1,0 +1,12 @@
+###
+
+GET http://localhost:3000/api/posts
+
+### CREATE POST
+POST http://localhost:3000/api/posts
+Content-Type: application/json
+
+{
+    "title": "Hello Developers",
+    "content": "I hope you have a great day!"
+}
