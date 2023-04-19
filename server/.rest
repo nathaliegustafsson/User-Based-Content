@@ -1,5 +1,4 @@
 ###
-
 GET http://localhost:3000/api/posts
 
 ### CREATE POST
@@ -7,15 +6,14 @@ POST http://localhost:3000/api/posts
 Content-Type: application/json
 
 {
-    "title": "Hello Developers",
-    "content": "I hope you have a great day!"
+    "title": "Hello hello",
+    "content": "Testa ta bort"
 }
 
 ###
-
 GET http://localhost:3000/api/users
 
-### CREATE POST
+### CREATE USER
 POST http://localhost:3000/api/users
 Content-Type: application/json
 
@@ -24,3 +22,6 @@ Content-Type: application/json
     "username": "nnamnmanm",
     "password": "ettlosen"
 }
+
+### DELETE POST
+DELETE http://localhost:3000/api/posts/643fcf177f5ad7b9ce98e181
