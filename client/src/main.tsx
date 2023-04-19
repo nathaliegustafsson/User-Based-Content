@@ -1,3 +1,5 @@
+import { ThemeProvider } from "@mui/material";
+import { theme } from "./theme/theme";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import {
@@ -28,6 +30,8 @@ const router = createBrowserRouter(
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     {/* <App /> */}
-    <RouterProvider router={router} />
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </React.StrictMode>
 );
