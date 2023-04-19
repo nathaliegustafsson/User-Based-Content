@@ -1,147 +1,134 @@
-import { Theme } from "@emotion/react";
+import MenuIcon from "@mui/icons-material/Menu";
 import {
   AppBar,
+  Avatar,
   Box,
   Button,
   Container,
   IconButton,
   Menu,
   MenuItem,
-  styled,
-  SxProps,
   Toolbar,
+  Tooltip,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import * as React from "react";
-import { Link, LinkProps } from "react-router-dom";
-import HeaderIcons from "./HeaderIcons";
 
-const pages = [
-  {
-    name: "Products",
-    link: "/",
-  },
-  { name: "Brands", link: "/underconstruction" },
-  {
-    name: "Campaigns",
-    link: "/underconstruction",
-  },
-];
+const pages = ["Products", "Pricing", "Blog"];
+const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
-/**
- * Renders the main header.
- * On tablet the links to the left becomes a hamburger menu
- */
-function HeaderMain() {
+function Header() {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null
+  );
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
   return (
-    <AppBar
-      elevation={0}
-      position="static"
-      sx={{
-        background: (theme) => theme.palette.background.default,
-      }}>
-      <Container
-        maxWidth="xl"
-        sx={{
-          borderBottom: "0.01rem solid black",
-        }}>
-        <Toolbar
-          disableGutters
-          sx={{ display: "grid", gridTemplateColumns: "1fr auto 1fr" }}>
+    <AppBar>
+      <Container>
+        <Toolbar disableGutters>
           <Box
+            component="img"
+            src="./src/assets/share.png"
+            alt="logo photo share"
             sx={{
+              height: isSmallScreen ? "4rem" : "5rem",
               display: { xs: "flex", md: "none" },
-            }}>
-            <IconButton
-              aria-label="show"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              sx={{ color: "black" }}>
-              <Box
-                sx={{ fontSize: { xs: "2.1rem", sm: "2.5rem" } }}
-                className="material-symbols-outlined">
-                menu
-              </Box>
+            }}></Box>
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
+            <IconButton size="large" onClick={handleOpenNavMenu}>
+              <MenuIcon />
             </IconButton>
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
+              anchorOrigin={{ vertical: "top", horizontal: "left" }}
               keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
+              transformOrigin={{ vertical: "top", horizontal: "left" }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
                 display: { xs: "block", md: "none" },
               }}>
               {pages.map((page) => (
-                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                  <StyledLink to={page.link}>
-                    <Typography padding="0.5rem">{page.name}</Typography>
-                  </StyledLink>
+                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
           <Box
+            component="img"
+            src="./src/assets/share.png"
+            alt="logo photo share"
             sx={{
+              height: isSmallScreen ? "6rem" : "7rem",
               display: { xs: "none", md: "flex" },
-            }}>
+            }}></Box>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
-                key={page.name}
-                component={Link}
-                to={page.link}
+                key={page}
                 onClick={handleCloseNavMenu}
-                sx={headerButtonsStyling}>
-                {page.name}
+                sx={{
+                  my: 2,
+                  color: "white",
+                  display: "block",
+                }}>
+                {page}
               </Button>
             ))}
           </Box>
-          <Box
-            sx={{
-              flexGrow: { xs: 0, md: 1 },
-              justifyContent: "center",
-              alignItems: "center",
-            }}>
-            <StyledLink to="/">
-              <Box
-                component="img"
-                src="/logohome.png"
-                alt="logga"
-                sx={{
-                  height: { xs: "6rem", sm: "7rem" },
-                  marginTop: "1rem",
-                  marginBottom: "1rem",
-                }}
-              />
-            </StyledLink>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-            }}>
-            <HeaderIcons />
+
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}>
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
           </Box>
         </Toolbar>
       </Container>
@@ -149,24 +136,4 @@ function HeaderMain() {
   );
 }
 
-/* Styling */
-
-const headerButtonsStyling: SxProps<Theme> = {
-  color: "black",
-  display: "block",
-  fontSize: "1.1rem",
-  textTransform: "none",
-  marginRight: "1.5rem",
-  "&:hover": {
-    textDecoration: "underline",
-    textDecorationThickness: "0.01rem",
-    textUnderlineOffset: "0.5rem",
-  },
-};
-
-const StyledLink = styled(Link)<LinkProps>(() => ({
-  textDecoration: "none",
-  color: "inherit",
-}));
-
-export default HeaderMain;
+export default Header;
