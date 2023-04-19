@@ -10,3 +10,17 @@ Content-Type: application/json
     "title": "Hello Developers",
     "content": "I hope you have a great day!"
 }
+
+###
+
+GET http://localhost:3000/api/users
+
+### CREATE POST
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+    "email": "enemail@email.com",
+    "username": "nnamnmanm",
+    "password": "ettlosen"
+}
