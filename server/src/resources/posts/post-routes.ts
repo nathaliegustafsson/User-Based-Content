@@ -9,16 +9,21 @@ const postRouter = express
     res.status(200).json(posts);
   })
   .post("/api/posts", isAuthenticated, async (req, res) => {
-    const post = await PostModel.create(req.body);
+    const userId = req.session!.userId;
+    const post = await PostModel.create({ ...req.body, author: userId });
     res.json(post);
   })
   .put("/api/posts/:id", isAuthenticated, async (req, res) => {
     const postId = req.params.id;
+    const userId = req.session!.userId;
 
-    // Check if the post exists
-    const existingPost = await PostModel.findById(postId);
+    // Check if the post exists and belongs to the user
+    const existingPost = await PostModel.findOne({
+      _id: postId,
+      author: userId,
+    });
     if (!existingPost) {
-      return res.status(404).json("Post not found");
+      return res.status(404).json("Post not found or not owned by the user");
     }
     // Update the post
     const updatedPost = await PostModel.findByIdAndUpdate(postId, req.body, {
@@ -28,13 +33,20 @@ const postRouter = express
   })
   .delete("/api/posts/:id", isAuthenticated, async (req, res) => {
     const postId = req.params.id;
-    const deletedPost = await PostModel.findOneAndDelete({ _id: postId });
+    const userId = req.session!.userId;
 
-    if (deletedPost) {
-      res.status(204).json(deletedPost);
-    } else {
-      res.status(404).json({ error: `Post with ID ${postId} not found.` });
+    // Check if the post exists and belongs to the user
+    const existingPost = await PostModel.findOne({
+      _id: postId,
+      author: userId,
+    });
+    if (!existingPost) {
+      return res.status(404).json("Post not found or not owned by the user");
     }
+
+    // Delete the post
+    await PostModel.findByIdAndDelete(postId);
+    res.status(204).json({ message: "Post deleted successfully" });
   });
 
 export default postRouter;
