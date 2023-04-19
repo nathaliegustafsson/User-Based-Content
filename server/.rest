@@ -10,5 +10,18 @@ Content-Type: application/json
     "content": "Testa ta bort"
 }
 
+###
+GET http://localhost:3000/api/users
+
+### CREATE USER
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+    "email": "enemail@email.com",
+    "username": "nnamnmanm",
+    "password": "ettlosen"
+}
+
 ### DELETE POST
 DELETE http://localhost:3000/api/posts/643fcf177f5ad7b9ce98e181

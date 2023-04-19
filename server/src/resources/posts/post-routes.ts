@@ -1,4 +1,5 @@
 import express from "express";
+import { isAuthenticated } from "../../middlewares/auth-middleware";
 import PostModel from "./post-model";
 
 const postRouter = express
@@ -7,9 +8,23 @@ const postRouter = express
     const posts = await PostModel.find({});
     res.json(posts);
   })
-  .post("/api/posts", async (req, res) => {
+  .post("/api/posts", isAuthenticated, async (req, res) => {
     const post = await PostModel.create(req.body);
     res.json(post);
+  })
+  .put("/api/posts/:id", isAuthenticated, async (req, res) => {
+    const postId = req.params.id;
+
+    // Check if the post exists
+    const existingPost = await PostModel.findById(postId);
+    if (!existingPost) {
+      return res.status(404).json("Post not found");
+    }
+    // Update the post
+    const updatedPost = await PostModel.findByIdAndUpdate(postId, req.body, {
+      new: true,
+    });
+    res.json(updatedPost);
   })
   .delete("/api/posts/:id", async (req, res) => {
     const postId = req.params.id;
