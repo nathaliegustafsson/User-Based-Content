@@ -1,3 +1,4 @@
+import cookieSession from "cookie-session";
 import express from "express";
 import "express-async-errors";
 import postRouter from "./resources/posts/post-routes";
@@ -7,6 +8,15 @@ export const app = express();
 
 // Global middlewares
 app.use(express.json());
+app.use(
+  cookieSession({
+    name: "login",
+    secure: false,
+    httpOnly: true,
+    secret: "hgsgshtdhpdhdhdndbdsplladawgsbf",
+    maxAge: 1000 * 20,
+  })
+);
 
 // Routes
 app.use(postRouter);
