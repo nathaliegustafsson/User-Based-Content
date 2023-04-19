@@ -27,13 +27,23 @@ DELETE http://localhost:3000/api/posts/643fdef5d1f363bbbd91b01a
 GET http://localhost:3000/api/users
 
 ### CREATE USER
-POST http://localhost:3000/api/users
+POST http://localhost:3000/api/users/signup
 Content-Type: application/json
 
 {
-    "email": "enemail@email.com",
-    "username": "nnamnmanm",
-    "password": "ettlosen"
+    "email": "testaigen@email.com",
+    "username": "testa",
+    "password": "ettlosen1234"
+}
+
+### LOGIN USER
+POST http://localhost:3000/api/users/signin
+Content-Type: application/json
+
+{
+    "email": "testaigen@email.com",
+    "username": "testa",
+    "password": "ettlosen1234"
 }
 
 
