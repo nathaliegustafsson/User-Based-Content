@@ -45,6 +45,7 @@ export async function loginUser(req: Request, res: Response) {
 
   // Check session/cookie
   req.session!.email = user.email;
+  req.session!.userId = user._id.toString(); // Store user ID in the session
 
   // Send response
   res.status(200).json("Login successful");
