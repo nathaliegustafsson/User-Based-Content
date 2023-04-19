@@ -8,7 +8,7 @@ const userRouter = express
     res.json(users);
   })
   .post("/api/users", async (req, res) => {
-    const user= await UserModel.create(req.body);
+    const user = await UserModel.create(req.body);
     res.json(user);
   });
 
