@@ -6,7 +6,7 @@ const postRouter = express
   .Router()
   .get("/api/posts", async (req, res) => {
     const posts = await PostModel.find({});
-    res.json(posts);
+    res.status(200).json(posts);
   })
   .post("/api/posts", isAuthenticated, async (req, res) => {
     const post = await PostModel.create(req.body);
@@ -26,7 +26,7 @@ const postRouter = express
     });
     res.json(updatedPost);
   })
-  .delete("/api/posts/:id", async (req, res) => {
+  .delete("/api/posts/:id", isAuthenticated, async (req, res) => {
     const postId = req.params.id;
     const deletedPost = await PostModel.findOneAndDelete({ _id: postId });
 
