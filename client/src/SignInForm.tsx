@@ -49,7 +49,7 @@ function SignInForm() {
           }}
         />
         <Box>
-          <Typography variant="body2" sx={{ marginLeft: "1.1rem" }}>
+          <Typography variant="subtitle2" sx={{ marginLeft: "1.1rem" }}>
             Forgot Password?
           </Typography>
         </Box>
