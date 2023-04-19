@@ -1,4 +1,5 @@
 import express from "express";
+import { isAuthenticated } from "../../auth-middleware";
 import PostModel from "./post-model";
 
 const postRouter = express
@@ -7,7 +8,7 @@ const postRouter = express
     const posts = await PostModel.find({});
     res.json(posts);
   })
-  .post("/api/posts", async (req, res) => {
+  .post("/api/posts", isAuthenticated, async (req, res) => {
     const post = await PostModel.create(req.body);
     res.json(post);
   });
