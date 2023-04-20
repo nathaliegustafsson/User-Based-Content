@@ -74,7 +74,7 @@ function SignInForm() {
           <Typography
             variant="body1"
             component={Link}
-            to="/signup"
+            to="/createprofile"
             sx={{ marginLeft: "0.4rem", color: "black" }}
           >
             Join now
