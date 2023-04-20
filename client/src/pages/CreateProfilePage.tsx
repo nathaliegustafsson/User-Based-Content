@@ -1,5 +1,13 @@
+import CreateProfileForm from "../CreateProfileForm";
+
 function CreateProfilePage() {
-  return <div></div>;
+  return (
+    <div>
+      <main>
+        <CreateProfileForm />
+      </main>
+    </div>
+  );
 }
 
 export default CreateProfilePage;
