@@ -1,4 +1,4 @@
-import ExploreGrid from "./ExploreGrid";
+import ExploreGrid from "../components/ExploreGrid";
 
 function StartPage() {
   return (
