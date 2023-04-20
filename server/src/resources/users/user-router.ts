@@ -1,5 +1,5 @@
 import express from "express";
-import { loginUser, registerUser } from "./user-controller";
+import { loginUser, logoutUser, registerUser } from "./user-controller";
 import UserModel from "./user-model";
 
 const userRouter = express
@@ -8,8 +8,8 @@ const userRouter = express
     const users = await UserModel.find({});
     res.json(users);
   })
-  .post("/api/users/signup", registerUser)
-
-  .post("/api/users/signin", loginUser);
+  .post("/api/users/register", registerUser)
+  .post("/api/users/login", loginUser)
+  .post("/api/users/logout", logoutUser);
 
 export default userRouter;
