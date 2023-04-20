@@ -14,22 +14,20 @@ import {
 } from "@mui/material";
 import * as React from "react";
 
-const pages = ["Home", "Explore"];
+const pages = ["Explore", "Search"];
 const loggedInSettings = ["Profile", "Account", "Logout"];
 const settings = ["Create profile", "Login"];
 
 function Header() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
-
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);

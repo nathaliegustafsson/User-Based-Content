@@ -18,6 +18,7 @@ export const theme = createTheme({
   typography: {
     button: {
       fontFamily: "Marcellus",
+      textTransform: "none",
     },
     body2: {
       fontFamily: "Mulish",
