@@ -89,7 +89,18 @@ function SignInForm() {
             }}
           />
           <Box>
-            <Typography variant="subtitle2" sx={{ marginLeft: "1.1rem" }}>
+            <Typography
+              variant="subtitle2"
+              sx={{
+                marginLeft: "1.1rem",
+                cursor: "pointer",
+                "&:hover": {
+                  textDecoration: "underline",
+                  textDecorationThickness: "0.05rem",
+                  textUnderlineOffset: "0.1rem",
+                },
+              }}
+            >
               Forgot Password?
             </Typography>
           </Box>
@@ -100,11 +111,7 @@ function SignInForm() {
               marginTop: "3rem",
             }}
           >
-            <Button
-              variant="contained"
-              type="submit"
-              sx={{ width: "6rem" }}
-            >
+            <Button variant="contained" type="submit" sx={{ width: "6rem" }}>
               Sign in
             </Button>
           </Box>
@@ -116,9 +123,7 @@ function SignInForm() {
               marginTop: "5rem",
             }}
           >
-            <Typography variant="body1">
-              New to Photo Share?
-            </Typography>
+            <Typography variant="body1">New to Photo Share?</Typography>
             <Typography
               variant="body1"
               component={Link}
