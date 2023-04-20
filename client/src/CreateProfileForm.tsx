@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 import * as Yup from "yup";
 
 const CreateProfileSchema = Yup.object({
-  username: Yup.string().required("Please enter your username"),
-  password: Yup.string().required("Please enter your password"),
+  username: Yup.string().required("Please enter a username"),
+  password: Yup.string().min(5, "Your password needs to be at least 5 characters").required("Please enter a password"),
 });
 
 export type CreateProfileValues = Yup.InferType<typeof CreateProfileSchema>;
