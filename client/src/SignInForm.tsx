@@ -58,8 +58,14 @@ function SignInForm() {
             error={Boolean(formik.touched.username && formik.errors.username)}
             helperText={formik.touched.username && formik.errors.username}
             sx={{
-              bgcolor: (theme) => theme.palette.secondary.main,
+              "& .MuiInputBase-input": {
+                bgcolor: (theme) => theme.palette.secondary.main,
+                borderRadius: "0.6rem",
+              },
               "& .MuiOutlinedInput-root": { borderRadius: "0.6rem" },
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: (theme) => theme.palette.secondary.main,
+              },
             }}
           />
           <TextField
@@ -72,8 +78,14 @@ function SignInForm() {
             helperText={formik.touched.password && formik.errors.password}
             autoComplete="current-password"
             sx={{
-              bgcolor: (theme) => theme.palette.secondary.main,
+              "& .MuiInputBase-input": {
+                bgcolor: (theme) => theme.palette.secondary.main,
+                borderRadius: "0.6rem",
+              },
               "& .MuiOutlinedInput-root": { borderRadius: "0.6rem" },
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: (theme) => theme.palette.secondary.main,
+              },
             }}
           />
           <Box>
