@@ -2,8 +2,16 @@ import { Button, Container, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { Link } from "react-router-dom";
+import * as Yup from "yup";
+
+const SignInSchema = Yup.object({
+  username: Yup.string().required("Please enter your username"),
+  password: Yup.string().required("Please enter your password"),
+});
 
 function SignInForm() {
+
+  
   return (
     <Container
       maxWidth="md"
