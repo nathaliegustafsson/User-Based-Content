@@ -98,11 +98,7 @@ function CreateProfileForm() {
               marginTop: "2.5rem",
             }}
           >
-            <Button
-              variant="contained"
-              type="submit"
-              sx={{ width: "6rem" }}
-            >
+            <Button variant="contained" type="submit" sx={{ width: "6rem" }}>
               Sign up
             </Button>
           </Box>
@@ -117,7 +113,7 @@ function CreateProfileForm() {
             <Typography variant="body2" sx={{ color: "#696969" }}>
               By signing up, you agree to Photo Share's
             </Typography>
-            <Typography variant="body2">
+            <Typography variant="body2" sx={{ cursor: "pointer" }}>
               Terms of Use & Privacy Policy
             </Typography>
           </Box>
