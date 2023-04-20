@@ -15,7 +15,8 @@ import {
 import * as React from "react";
 
 const pages = ["Home", "Explore"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const loggedInSettings = ["Profile", "Account", "Logout"];
+const settings = ["Create profile", "Login"];
 
 function Header() {
   const theme = useTheme();
@@ -27,6 +28,8 @@ function Header() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -42,6 +45,20 @@ function Header() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    handleCloseUserMenu();
+  };
+
+  const settings = isLoggedIn
+    ? ["Create profile"]
+    : ["Create profile", "Login"];
+  const loggedInSettings = isLoggedIn ? ["Profile", "Account", "Logout"] : [];
 
   return (
     <AppBar
@@ -135,10 +152,11 @@ function Header() {
                 onClick={handleOpenUserMenu}
                 className="material-symbols-outlined"
                 sx={{
-                  fontSize: { xs: "2rem", sm: "2.5rem", cursor: "pointer" },
+                  fontSize: { xs: "2.5rem", sm: "3rem", cursor: "pointer" },
                   color: (theme) => theme.palette.text.primary,
                   padding: 0,
                 }}>
+                {/* Do a isLoggedIn thing for changing icon to photo */}
                 account_circle
               </IconButton>
             </Tooltip>
@@ -157,11 +175,17 @@ function Header() {
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}>
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              {isLoggedIn
+                ? loggedInSettings.map((option) => (
+                    <MenuItem key={option} onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">{option}</Typography>
+                    </MenuItem>
+                  ))
+                : settings.map((option) => (
+                    <MenuItem key={option} onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">{option}</Typography>
+                    </MenuItem>
+                  ))}
             </Menu>
           </Box>
         </Toolbar>
