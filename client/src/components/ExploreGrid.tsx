@@ -22,6 +22,7 @@ function ExploreGrid() {
       id: 1,
       avatar:
         "https://user-images.githubusercontent.com/116926631/233385334-05af6be5-c0bf-49ed-8691-2eed4ac15f62.jpeg",
+      username: "sadiesink",
       content:
         "https://user-images.githubusercontent.com/116926631/233002457-be833494-2c6d-4c8a-9932-81a0791893b6.JPG",
       title: "Found this pretty tree with these flowers!!!",
@@ -39,6 +40,7 @@ function ExploreGrid() {
       id: 3,
       avatar:
         "https://user-images.githubusercontent.com/116926631/233385334-05af6be5-c0bf-49ed-8691-2eed4ac15f62.jpeg",
+      username: "sadiesink",
       content:
         "https://user-images.githubusercontent.com/116926631/233002175-166792cc-0b12-405f-8080-d081acae2507.JPG",
       title: "Amazing chairs, for an amazing Pedro.",
@@ -47,6 +49,7 @@ function ExploreGrid() {
       id: 4,
       avatar:
         "https://user-images.githubusercontent.com/116926631/233385334-05af6be5-c0bf-49ed-8691-2eed4ac15f62.jpeg",
+      username: "sadiesink",
       content:
         "https://user-images.githubusercontent.com/116926631/233377366-b95d05f9-11a7-4d1b-9d9f-5d912a5e522f.JPG",
       title: "I took this.",
