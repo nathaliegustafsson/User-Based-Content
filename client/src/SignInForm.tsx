@@ -1,6 +1,7 @@
 import { Button, Container, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 
@@ -9,9 +10,21 @@ const SignInSchema = Yup.object({
   password: Yup.string().required("Please enter your password"),
 });
 
-function SignInForm() {
+export type SignInValues = Yup.InferType<typeof SignInSchema>;
 
-  
+function SignInForm() {
+  const formik = useFormik<SignInValues>({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    validationSchema: SignInSchema,
+    onSubmit: (signInValues) => {
+      // logInUser(signInValues);
+      // navigate("/profilepage");
+    },
+  });
+
   return (
     <Container
       maxWidth="md"
@@ -25,70 +38,87 @@ function SignInForm() {
       <Typography variant="h5" sx={{ marginBottom: "2rem" }}>
         Sign In
       </Typography>
-      <Box
-        component="form"
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          "& .MuiTextField-root": {
-            m: 2,
-            width: "35ch",
-            borderRadius: "0.6rem",
-          },
-        }}
-        noValidate
-        autoComplete="off"
-      >
-        <TextField
-          id="outlined-username-input"
-          label="Username"
-          sx={{
-            bgcolor: (theme) => theme.palette.secondary.main,
-            "& .MuiOutlinedInput-root": { borderRadius: "0.6rem" },
-          }}
-        />
-        <TextField
-          id="outlined-password-input"
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-          sx={{
-            bgcolor: (theme) => theme.palette.secondary.main,
-            "& .MuiOutlinedInput-root": { borderRadius: "0.6rem" },
-          }}
-        />
-        <Box>
-          <Typography variant="subtitle2" sx={{ marginLeft: "1.1rem" }}>
-            Forgot Password?
-          </Typography>
-        </Box>
-        <Box
-          sx={{ display: "flex", justifyContent: "center", marginTop: "3rem" }}
-        >
-          <Button variant="contained" sx={{ width: "6rem" }}>
-            Sign in
-          </Button>
-        </Box>
+      <form onSubmit={formik.handleSubmit}>
         <Box
           sx={{
             display: "flex",
-            justifyContent: "center",
-            marginTop: "5rem",
+            flexDirection: "column",
+            "& .MuiTextField-root": {
+              m: 2,
+              width: "35ch",
+              borderRadius: "0.6rem",
+            },
           }}
         >
-          <Typography variant="body1" sx={{ marginLeft: "1.1rem" }}>
-            New to Photo Share?
-          </Typography>
-          <Typography
-            variant="body1"
-            component={Link}
-            to="/createprofile"
-            sx={{ marginLeft: "0.4rem", color: "black" }}
+          <TextField
+            id="outlined-username-input"
+            label="Username"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={Boolean(formik.touched.username && formik.errors.username)}
+            helperText={formik.touched.username && formik.errors.username}
+            sx={{
+              bgcolor: (theme) => theme.palette.secondary.main,
+              "& .MuiOutlinedInput-root": { borderRadius: "0.6rem" },
+            }}
+          />
+          <TextField
+            id="outlined-password-input"
+            label="Password"
+            type="password"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={Boolean(formik.touched.password && formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
+            autoComplete="current-password"
+            sx={{
+              bgcolor: (theme) => theme.palette.secondary.main,
+              "& .MuiOutlinedInput-root": { borderRadius: "0.6rem" },
+            }}
+          />
+          <Box>
+            <Typography variant="subtitle2" sx={{ marginLeft: "1.1rem" }}>
+              Forgot Password?
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "3rem",
+            }}
           >
-            Join now
-          </Typography>
+            <Button
+              variant="contained"
+              type="submit"
+              // disabled={!formik.isValid || formik.isSubmitting}
+              sx={{ width: "6rem" }}
+            >
+              Sign in
+            </Button>
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "5rem",
+            }}
+          >
+            <Typography variant="body1" sx={{ marginLeft: "1.1rem" }}>
+              New to Photo Share?
+            </Typography>
+            <Typography
+              variant="body1"
+              component={Link}
+              to="/createprofile"
+              sx={{ marginLeft: "0.4rem", color: "black" }}
+            >
+              Join now
+            </Typography>
+          </Box>
         </Box>
-      </Box>
+      </form>
     </Container>
   );
 }
