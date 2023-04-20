@@ -1,8 +1,10 @@
 import cookieSession from "cookie-session";
-import express from "express";
+import dotenv from "dotenv";
+import express, { NextFunction, Request, Response } from "express";
 import "express-async-errors";
 import postRouter from "./resources/posts/post-routes";
 import userRouter from "./resources/users/user-router";
+dotenv.config();
 
 export const app = express();
 
@@ -25,3 +27,9 @@ app.use(
 // Routes
 app.use(postRouter);
 app.use(userRouter);
+
+// Error
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  console.error(err);
+  res.status(500).json(err.message);
+});
