@@ -1,6 +1,10 @@
 ### GET POSTS
 GET http://localhost:3000/api/posts
 
+### GET A SPECIFIC POST
+GET http://localhost:3000/api/posts/643fb8bfba0a23cb43517744
+
+
 ### CREATE POST
 POST http://localhost:3000/api/posts
 Content-Type: application/json
@@ -27,23 +31,28 @@ DELETE http://localhost:3000/api/posts/643fdef5d1f363bbbd91b01a
 GET http://localhost:3000/api/users
 
 ### CREATE USER
-POST http://localhost:3000/api/users/signup
+POST http://localhost:3000/api/users/register
 Content-Type: application/json
 
 {
-    "email": "testaigen@email.com",
-    "username": "testa",
+    "username": "hejhejhej",
     "password": "ettlosen1234"
 }
 
 ### LOGIN USER
-POST http://localhost:3000/api/users/signin
+POST http://localhost:3000/api/users/login
 Content-Type: application/json
 
 {
-    "email": "testaigen@email.com",
     "username": "testa",
     "password": "ettlosen1234"
 }
 
+### LOGOUT USER
+POST http://localhost:3000/api/users/logout
+Content-Type: application/json
 
+{
+    "username": "testa",
+    "password": "ettlosen1234"
+}
