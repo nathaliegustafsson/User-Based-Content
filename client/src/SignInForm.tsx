@@ -1,6 +1,7 @@
 import { Button, Container, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import { Link } from "react-router-dom";
 
 function SignInForm() {
   return (
@@ -31,8 +32,8 @@ function SignInForm() {
         autoComplete="off"
       >
         <TextField
-          id="outlined-email-input"
-          label="E-mail"
+          id="outlined-username-input"
+          label="Username"
           sx={{
             bgcolor: (theme) => theme.palette.secondary.main,
             "& .MuiOutlinedInput-root": { borderRadius: "0.6rem" },
@@ -53,7 +54,9 @@ function SignInForm() {
             Forgot Password?
           </Typography>
         </Box>
-        <Box sx={{ display: "flex", justifyContent: "center", marginTop: "3rem" }}>
+        <Box
+          sx={{ display: "flex", justifyContent: "center", marginTop: "3rem" }}
+        >
           <Button variant="contained" sx={{ width: "6rem" }}>
             Sign in
           </Button>
@@ -62,13 +65,18 @@ function SignInForm() {
           sx={{
             display: "flex",
             justifyContent: "center",
-            marginTop: "5rem"
+            marginTop: "5rem",
           }}
         >
           <Typography variant="body1" sx={{ marginLeft: "1.1rem" }}>
             New to Photo Share?
           </Typography>
-          <Typography variant="body1" sx={{ marginLeft: "0.4rem" }}>
+          <Typography
+            variant="body1"
+            component={Link}
+            to="/signup"
+            sx={{ marginLeft: "0.4rem", color: "black" }}
+          >
             Join now
           </Typography>
         </Box>
