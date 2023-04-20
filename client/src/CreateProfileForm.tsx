@@ -20,7 +20,7 @@ function CreateProfileForm() {
     },
     validationSchema: CreateProfileSchema,
     onSubmit: (createProfileValues) => {
-      // logInUser(createProfileValues);
+      // createProfile(createProfileValues);
       // navigate("/login");
     },
   });
