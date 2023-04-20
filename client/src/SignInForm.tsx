@@ -103,7 +103,6 @@ function SignInForm() {
             <Button
               variant="contained"
               type="submit"
-              // disabled={!formik.isValid || formik.isSubmitting}
               sx={{ width: "6rem" }}
             >
               Sign in
@@ -117,7 +116,7 @@ function SignInForm() {
               marginTop: "5rem",
             }}
           >
-            <Typography variant="body1" sx={{ marginLeft: "1.1rem" }}>
+            <Typography variant="body1">
               New to Photo Share?
             </Typography>
             <Typography
