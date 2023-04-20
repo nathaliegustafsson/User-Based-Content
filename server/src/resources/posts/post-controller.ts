@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { Types as MongooseTypes } from "mongoose";
 import * as Yup from "yup";
 import PostModel from "./post-model";
 import postValidationSchema from "./post-validation";
@@ -10,6 +11,10 @@ export async function getAllPosts(req: Request, res: Response) {
 
 export async function getPostById(req: Request, res: Response) {
   const postId = req.params.id;
+  // Check if the provided postId is a valid ObjectId - vet inte om vi ska ha denna?
+  if (!MongooseTypes.ObjectId.isValid(postId)) {
+    return res.status(400).json({ error: `Invalid post ID.` });
+  }
   const post = await PostModel.findById(postId);
   if (post) {
     res.status(200).json(post);
