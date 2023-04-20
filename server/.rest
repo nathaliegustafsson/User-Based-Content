@@ -25,7 +25,7 @@ Content-Type: application/json
 }
 
 ### DELETE POST
-DELETE http://localhost:3000/api/posts/643fdef5d1f363bbbd91b01a
+DELETE http://localhost:3000/api/posts/643fb8bfba0a23cb43517744
 
 ### GET USERS
 GET http://localhost:3000/api/users
