@@ -1,62 +1,19 @@
 import express from "express";
 import { isAuthenticated } from "../../middlewares/auth-middleware";
-import PostModel from "./post-model";
+import {
+  createPost,
+  deletePost,
+  getAllPosts,
+  getPostById,
+  updatePost,
+} from "./post-controller";
 
 const postRouter = express
   .Router()
-  .get("/api/posts", async (req, res) => {
-    const posts = await PostModel.find({});
-    res.status(200).json(posts);
-  })
-  .get("/api/posts/:id", async (req, res) => {
-    const postId = req.params.id;
-    const post = await PostModel.findById(postId);
-
-    if (post) {
-      res.status(200).json(post);
-    } else {
-      res.status(404).json({ error: `Post with ID ${postId} not found.` });
-    }
-  })
-  .post("/api/posts", isAuthenticated, async (req, res) => {
-    const userId = req.session!.userId;
-    const post = await PostModel.create({ ...req.body, author: userId });
-    res.json(post);
-  })
-  .put("/api/posts/:id", isAuthenticated, async (req, res) => {
-    const postId = req.params.id;
-    const userId = req.session!.userId;
-
-    // Check if the post exists and belongs to the user
-    const existingPost = await PostModel.findOne({
-      _id: postId,
-      author: userId,
-    });
-    if (!existingPost) {
-      return res.status(404).json("Post not found or not owned by the user");
-    }
-    // Update the post
-    const updatedPost = await PostModel.findByIdAndUpdate(postId, req.body, {
-      new: true,
-    });
-    res.json(updatedPost);
-  })
-  .delete("/api/posts/:id", isAuthenticated, async (req, res) => {
-    const postId = req.params.id;
-    const userId = req.session!.userId;
-
-    // Check if the post exists and belongs to the user
-    const existingPost = await PostModel.findOne({
-      _id: postId,
-      author: userId,
-    });
-    if (!existingPost) {
-      return res.status(404).json("Post not found or not owned by the user");
-    }
-
-    // Delete the post
-    await PostModel.findByIdAndDelete(postId);
-    res.status(204).json({ message: "Post deleted successfully" });
-  });
+  .get("/api/posts", getAllPosts)
+  .get("/api/posts/:id", getPostById)
+  .post("/api/posts", isAuthenticated, createPost)
+  .put("/api/posts/:id", isAuthenticated, updatePost)
+  .delete("/api/posts/:id", isAuthenticated, deletePost);
 
 export default postRouter;
