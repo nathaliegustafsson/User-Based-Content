@@ -14,6 +14,6 @@ const postSchema = new Schema(
 
 export type Post = InferSchemaType<typeof postSchema>;
 
-const PostModel = model("post", postSchema);
+export const PostModel = model("post", postSchema);
 
 export default PostModel;
