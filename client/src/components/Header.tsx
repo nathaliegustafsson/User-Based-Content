@@ -1,7 +1,5 @@
-import MenuIcon from "@mui/icons-material/Menu";
 import {
   AppBar,
-  Avatar,
   Box,
   Button,
   Container,
@@ -16,7 +14,7 @@ import {
 } from "@mui/material";
 import * as React from "react";
 
-const pages = ["Products", "Pricing", "Blog"];
+const pages = ["Home", "Explore"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function Header() {
@@ -46,20 +44,42 @@ function Header() {
   };
 
   return (
-    <AppBar>
-      <Container>
-        <Toolbar disableGutters>
+    <AppBar
+      elevation={0}
+      sx={{
+        background: (theme) => theme.palette.background.default,
+        padding: { xs: "0.5rem", md: "1rem" },
+      }}>
+      <Container maxWidth="xl">
+        <Toolbar
+          disableGutters
+          sx={{
+            display: "flex",
+            justifyContent: { xs: "space-between", md: "space-between" },
+          }}>
           <Box
             component="img"
-            src="./src/assets/share.png"
+            src="./src/assets/share-thin.png"
             alt="logo photo share"
             sx={{
-              height: isSmallScreen ? "4rem" : "5rem",
-              display: { xs: "flex", md: "none" },
+              height: { xs: "4rem", md: "5rem" },
+              display: { xs: "none", md: "flex" },
             }}></Box>
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton size="large" onClick={handleOpenNavMenu}>
-              <MenuIcon />
+
+          <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              className="material-symbols-outlined"
+              sx={{
+                fontSize: { xs: "2rem", sm: "2.5rem", cursor: "pointer" },
+                color: (theme) => theme.palette.text.primary,
+                padding: 0,
+              }}>
+              menu
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -71,6 +91,7 @@ function Header() {
               onClose={handleCloseNavMenu}
               sx={{
                 display: { xs: "block", md: "none" },
+                mt: "45px",
               }}>
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
@@ -81,21 +102,27 @@ function Header() {
           </Box>
           <Box
             component="img"
-            src="./src/assets/share.png"
+            src="./src/assets/share-thin.png"
             alt="logo photo share"
             sx={{
-              height: isSmallScreen ? "6rem" : "7rem",
-              display: { xs: "none", md: "flex" },
+              height: isSmallScreen ? "4rem" : "5rem",
+              display: { xs: "flex", md: "none" },
             }}></Box>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", md: "flex" },
+              ml: "1rem",
+            }}>
             {pages.map((page) => (
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
                 sx={{
                   my: 2,
-                  color: "white",
+                  color: "black",
                   display: "block",
+                  fontSize: "1.2rem",
                 }}>
                 {page}
               </Button>
@@ -104,8 +131,15 @@ function Header() {
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <IconButton
+                onClick={handleOpenUserMenu}
+                className="material-symbols-outlined"
+                sx={{
+                  fontSize: { xs: "2rem", sm: "2.5rem", cursor: "pointer" },
+                  color: (theme) => theme.palette.text.primary,
+                  padding: 0,
+                }}>
+                account_circle
               </IconButton>
             </Tooltip>
             <Menu
