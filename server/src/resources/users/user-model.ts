@@ -1,3 +1,4 @@
+import argon2 from "argon2";
 import { InferSchemaType, Schema, model } from "mongoose";
 
 const userSchema = new Schema(
@@ -12,8 +13,12 @@ const userSchema = new Schema(
   }
 );
 
+userSchema.pre("save", async function (next) {
+  // kryptera lösenordet
+  this.password = await argon2.hash(this.password);
+  next();
+});
+
 export type User = InferSchemaType<typeof userSchema>;
 
 export const UserModel = model("user", userSchema);
-
-export default UserModel;
