@@ -1,8 +1,6 @@
 import argon2 from "argon2";
 import { Request, Response } from "express";
-import * as Yup from "yup";
 import { UserModel } from "./user-model";
-import { userRegistrationSchema } from "./user-validation";
 
 export function getLoggedInUserInfo(req: Request, res: Response) {
   if (!req.session?.username) {
@@ -19,32 +17,20 @@ export async function getAllUsers(req: Request, res: Response) {
 
 // Register user
 export async function registerUser(req: Request, res: Response) {
-  try {
-    // Validate request body
-    const validatedData = await userRegistrationSchema.validate(req.body);
+  const existingUser = await UserModel.findOne({ username: req.body.username });
 
-    // Check if a user with the same username already exists
-    const existingUser = await UserModel.findOne({
-      username: validatedData.username,
-    });
-    if (existingUser) {
-      res
-        .status(400)
-        .json("Username already exists. Please choose a different one.");
-      return;
-    }
-
-    // Create and save the new user
-    const user = new UserModel(validatedData);
-    await user.save();
-    res.status(201).json(user);
-  } catch (error) {
-    if (error instanceof Yup.ValidationError) {
-      res.status(400).json(error.message);
-    } else {
-      res.status(500).json("An unexpected error occurred.");
-    }
+  if (existingUser) {
+    return res.status(409).json("Username already exists");
   }
+
+  const user = new UserModel(req.body);
+  await user.save();
+
+  res.status(201).json({
+    _id: user._id,
+    username: user.username,
+    isAdmin: user.isAdmin,
+  });
 }
 
 // Login user
