@@ -1,5 +1,7 @@
+import Footer from "../components/Footer";
+
 function StartPage() {
-  return <div></div>;
+  return <Footer />;
 }
 
 export default StartPage;
