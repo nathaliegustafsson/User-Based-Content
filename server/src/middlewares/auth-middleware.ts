@@ -5,7 +5,7 @@ export function isAuthenticated(
   res: express.Response,
   next: express.NextFunction
 ) {
-  if (req.session?.username) {
+  if (req.session?.userId) {
     next();
   } else {
     res.status(401).json("You must be logged in to perform this action");
