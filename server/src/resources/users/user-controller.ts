@@ -77,9 +77,10 @@ export async function loginUser(req: Request, res: Response) {
 
 // Logout user
 export function logoutUser(req: Request, res: Response) {
-  if (!req.session) {
-    return res.status(401).json("You are not logged in!");
-  }
   req.session = null;
-  res.status(204);
+  res.setHeader(
+    "Set-Cookie",
+    `session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`
+  );
+  res.sendStatus(204);
 }
