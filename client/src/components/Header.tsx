@@ -62,6 +62,7 @@ function Header() {
 
   return (
     <AppBar
+      // position="static"
       elevation={0}
       sx={{
         background: (theme) => theme.palette.background.default,
