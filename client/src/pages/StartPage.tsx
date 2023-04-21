@@ -1,11 +1,11 @@
-import ExploreGrid from "../components/ExploreGrid";
+import ExplorePostsGrid from "../components/ExplorePostsGrid";
 
 function StartPage() {
   return (
     <div>
       <header></header>
       <main>
-        <ExploreGrid />
+        <ExplorePostsGrid />
       </main>
       <footer></footer>
     </div>
