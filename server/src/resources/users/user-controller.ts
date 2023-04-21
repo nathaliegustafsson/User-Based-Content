@@ -1,5 +1,6 @@
 import argon2 from "argon2";
 import { Request, Response } from "express";
+import { Error } from "mongoose";
 import { UserModel } from "./user-model";
 
 export function getLoggedInUserInfo(req: Request, res: Response) {
@@ -25,14 +26,22 @@ export async function registerUser(req: Request, res: Response) {
     return res.status(409).json("Username already exists");
   }
 
-  const user = new UserModel(req.body);
-  await user.save();
+  try {
+    const user = new UserModel(req.body);
+    await user.save();
 
-  res.status(201).json({
-    _id: user._id,
-    username: user.username,
-    isAdmin: user.isAdmin,
-  });
+    res.status(201).json({
+      _id: user._id,
+      username: user.username,
+      isAdmin: user.isAdmin,
+    });
+  } catch (error) {
+    if (error instanceof Error.ValidationError) {
+      res.status(400).json(error.message);
+    } else {
+      res.status(500).json("An unexpected error occurred.");
+    }
+  }
 }
 
 // Login user
