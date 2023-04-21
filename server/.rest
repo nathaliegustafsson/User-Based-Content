@@ -2,7 +2,7 @@
 GET http://localhost:3000/api/posts
 
 ### GET A SPECIFIC POST
-GET http://localhost:3000/api/posts/643fb8bfba0a23cb43517744
+GET http://localhost:3000/api/posts/5f4dab42c36a6d0c34e00000
 
 
 ### CREATE POST
