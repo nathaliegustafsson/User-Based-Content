@@ -16,7 +16,7 @@ Content-Type: application/json
 
 ### UPDATE POST 
 
-PUT http://localhost:3000/api/posts/643fdef5d1f363bbbd91b01a
+PUT http://localhost:3000/api/posts/643e96e5712459260b62d035
 Content-Type: application/json
 
 {
