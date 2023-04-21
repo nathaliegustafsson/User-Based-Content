@@ -1,8 +1,10 @@
 import {
   AppBar,
+  Avatar,
   Box,
   Button,
   Container,
+  Icon,
   IconButton,
   Menu,
   MenuItem,
@@ -150,12 +152,19 @@ function Header() {
                 onClick={handleOpenUserMenu}
                 className="material-symbols-outlined"
                 sx={{
-                  fontSize: { xs: "2.5rem", sm: "3rem", cursor: "pointer" },
                   color: (theme) => theme.palette.text.primary,
                   padding: 0,
                 }}>
-                {/* Do a isLoggedIn thing for changing icon to photo */}
-                account_circle
+                {isLoggedIn ? (
+                  <Avatar src={"/react.svg"} alt="User avatar" />
+                ) : (
+                  <Icon
+                    sx={{
+                      fontSize: { xs: "2.5rem", sm: "3rem", cursor: "pointer" },
+                    }}>
+                    account_circle
+                  </Icon>
+                )}
               </IconButton>
             </Tooltip>
             <Menu
