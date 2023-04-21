@@ -1,9 +1,18 @@
-import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Header from "../components/Header";
 
 function StartPage() {
-  return <Header></Header>;
-  return <Footer />;
+  return (
+    <div>
+      <header>
+        <Header />
+      </header>
+      <main></main>
+      <footer>
+        <Footer />
+      </footer>
+    </div>
+  );
 }
 
 export default StartPage;
