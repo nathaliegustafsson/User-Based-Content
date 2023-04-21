@@ -9,11 +9,13 @@ export function getLoggedInUserInfo(req: Request, res: Response) {
   res.status(200).json(req.session);
 }
 
+// Get all users
 export async function getAllUsers(req: Request, res: Response) {
-  const users = await UserModel.find();
+  const users = await UserModel.find({});
   res.status(200).json(users);
 }
 
+// Register user
 export async function registerUser(req: Request, res: Response) {
   const { username, password, adminSecret } = req.body;
 
@@ -36,6 +38,7 @@ export async function registerUser(req: Request, res: Response) {
   res.status(201).json(user);
 }
 
+// Login user
 export async function loginUser(req: Request, res: Response) {
   const { username, password } = req.body;
 
@@ -58,6 +61,7 @@ export async function loginUser(req: Request, res: Response) {
   res.status(200).json("Login successful");
 }
 
+// Logout user
 export function logoutUser(req: Request, res: Response) {
   if (!req.session) {
     return res.status(401).json("You are not logged in!");
