@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
+import "express-async-errors";
 import { Types as MongooseTypes } from "mongoose";
 import * as Yup from "yup";
-import PostModel from "./post-model";
+import { PostModel } from "./post-model";
 import postValidationSchema from "./post-validation";
 
 export async function getAllPosts(req: Request, res: Response) {
@@ -36,6 +37,19 @@ export async function createPost(req: Request, res: Response) {
       return res.status(500).json("An unexpected error occurred.");
     }
   }
+}
+
+export async function createPostTest(req: Request, res: Response) {
+  // validate body
+  // ensure user is logged in
+  if (!req.session?.user) {
+    res.status(401).json("You must login to create a post in your username");
+    return;
+  }
+  const postData = { ...req.body, author: req.session.user };
+  const post = new PostModel(postData);
+  await post.save();
+  res.status(201).json(post);
 }
 
 export async function updatePost(req: Request, res: Response) {
