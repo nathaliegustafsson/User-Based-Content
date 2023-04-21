@@ -1,4 +1,3 @@
-// user-validation.ts
 import * as Yup from "yup";
 
 export const userRegistrationSchema = Yup.object().shape({
