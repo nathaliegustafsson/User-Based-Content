@@ -17,7 +17,9 @@ export async function getAllUsers(req: Request, res: Response) {
 
 // Register user
 export async function registerUser(req: Request, res: Response) {
-  const existingUser = await UserModel.findOne({ username: req.body.username });
+  const { username } = req.body;
+
+  const existingUser = await UserModel.findOne({ username });
 
   if (existingUser) {
     return res.status(409).json("Username already exists");
@@ -48,7 +50,7 @@ export async function loginUser(req: Request, res: Response) {
   // Check session/cookie
   req.session!.username = user.username;
   req.session!.userId = user.id; // Stores user ID in the session
-  // req.session!.isAdmin = user.isAdmin; // Stores isAdmin status in the session
+  req.session!.isAdmin = user.isAdmin; // Stores isAdmin status in the session
 
   // Create a new user object without the password field
   const userResponse = {
