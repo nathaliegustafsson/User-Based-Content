@@ -1,10 +1,8 @@
 import cookieSession from "cookie-session";
-import dotenv from "dotenv";
 import express, { NextFunction, Request, Response } from "express";
 import "express-async-errors";
 import postRouter from "./resources/posts/post-routes";
 import userRouter from "./resources/users/user-router";
-dotenv.config();
 
 export const app = express();
 
@@ -16,7 +14,7 @@ app.use((req, res, next) => {
 });
 app.use(
   cookieSession({
-    name: "login",
+    // name: "login",
     secure: false,
     httpOnly: true,
     secret: "hgsgshtdhpdhdhdndbdsplladawgsbf",
