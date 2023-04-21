@@ -9,6 +9,7 @@ import {
   SxProps,
   Typography,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 
 function Footer() {
   const theme = useTheme();
@@ -17,31 +18,23 @@ function Footer() {
       maxWidth="xl"
       sx={{
         display: "flex",
-        flexDirection: "row",
-        backgroundColor: "#FCF2D3",
+        flexDirection: "column",
+        backgroundColor: (theme) => theme.palette.secondary.main,
         width: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: "4rem",
+        paddingTop: "1rem",
       }}>
-      <Grid container xs={6} md={6}>
-        <Grid item>
-          <Box
-            component="img"
-            src="/src/assets/share-thin.png"
-            sx={{ height: "4rem", marginTop: "1rem" }}></Box>
-          <Typography>Photo Share</Typography>
-          <Typography
-            variant="body2"
-            sx={{
-              fontWeight: "200",
-              fontSize: "12px",
-              marginTop: "1rem",
-              marginBottom: "1rem",
-            }}>
-            Copyright 2023 Photo Share. All rights reserved
-          </Typography>
-        </Grid>
-      </Grid>
-      <Grid container xs={6} md={6}>
-        <Grid item sx={{ width: "25%" }}>
+      <Grid
+        container
+        xs={6}
+        md={6}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+        }}>
+        <Grid item xs>
           <List>
             <ListItem sx={{ padding: "0 1rem" }}>
               <ListItemText sx={hoverEffectStyling}>
@@ -59,7 +52,7 @@ function Footer() {
             </ListItem>
           </List>
         </Grid>
-        <Grid item sx={{ width: "25%" }}>
+        <Grid item xs>
           <List>
             <ListItem sx={{ padding: "0 1rem" }}>
               <ListItemText sx={hoverEffectStyling}>
@@ -77,7 +70,7 @@ function Footer() {
             </ListItem>
           </List>
         </Grid>
-        <Grid item sx={{ width: "25%" }}>
+        <Grid item xs>
           <List>
             <ListItem sx={{ padding: "0 1rem" }}>
               <ListItemText sx={hoverEffectStyling}>
@@ -97,7 +90,7 @@ function Footer() {
             </ListItem>
           </List>
         </Grid>
-        <Grid item sx={{ width: "25%" }}>
+        <Grid item xs>
           <List>
             <ListItem sx={{ padding: "0 1rem" }}>
               <ListItemText sx={hoverEffectStyling}>
@@ -113,11 +106,36 @@ function Footer() {
           </List>
         </Grid>
       </Grid>
+
+      <Link to="/">
+        <Box
+          component="img"
+          src="/src/assets/share-thin.png"
+          sx={{
+            height: "4rem",
+            marginTop: "1rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}></Box>
+      </Link>
+      <Typography sx={{ marginTop: "0.5rem" }}>Photo Share</Typography>
+      <Typography
+        variant="body2"
+        sx={{
+          fontWeight: "200",
+          fontSize: "12px",
+          marginTop: "1rem",
+          marginBottom: "1rem",
+        }}>
+        Copyright 2023 Photo Share. All rights reserved
+      </Typography>
     </Container>
   );
 }
 
 const hoverEffectStyling: SxProps<Theme> = {
+  textAlign: "center",
   "&:hover": {
     textDecoration: "underline",
     textDecorationThickness: "0.01rem",
