@@ -44,19 +44,24 @@ export async function createPost(req: Request, res: Response) {
 
 export async function updatePost(req: Request, res: Response) {
   const postId = req.params.id;
-  const userId = req.session!.userId;
+  const userId = req.session?.userId;
 
-  // Check if the post exists and belongs to the user
-  const existingPost = await PostModel.findOne({
-    _id: postId,
-    author: userId,
-  });
-  if (!existingPost) {
-    return res.status(403).json("Post not found or not owned by the user");
+  if (!userId) {
+    return res.status(401).json("You must be logged in to update a post.");
   }
 
-  // Update the post
   try {
+    const post = await PostModel.findById(postId);
+    if (!post) {
+      return res.status(404).json(`/${postId} not found.`);
+    }
+
+    if (post.author.toString() !== userId.toString()) {
+      return res
+        .status(403)
+        .json("You do not have permission to update this post.");
+    }
+
     const updatedPost = await PostModel.findByIdAndUpdate(postId, req.body, {
       new: true,
       runValidators: true,
