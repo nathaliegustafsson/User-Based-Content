@@ -10,7 +10,7 @@ export async function getAllPosts(req: Request, res: Response) {
 
 export async function getPostById(req: Request, res: Response) {
   const postId = req.params.id;
-  // Check if the provided postId is a valid ObjectId - vet inte om vi ska ha denna?
+  // Check if the provided postId is a valid ObjectId
   if (!MongooseTypes.ObjectId.isValid(postId)) {
     return res.status(400).json({ error: `Invalid post ID.` });
   }
@@ -23,13 +23,13 @@ export async function getPostById(req: Request, res: Response) {
 }
 
 export async function createPost(req: Request, res: Response) {
-  if (!req.session?.user) {
+  if (!req.session?.userId) {
     res.status(401).json("You must login to create a post in your username");
     return;
   }
 
   try {
-    const postData = { ...req.body, author: req.session.user };
+    const postData = { ...req.body, author: req.session.userId };
     const post = new PostModel(postData);
     await post.save();
     res.status(201).json(post);
