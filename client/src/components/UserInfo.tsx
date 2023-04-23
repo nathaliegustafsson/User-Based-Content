@@ -11,7 +11,7 @@ function UserInfo() {
       <Avatar
         alt="Remy Sharp"
         src="https://www.dmarge.com/wp-content/uploads/2021/01/dwayne-the-rock-.jpg"
-        sx={{ width: "5rem", height: "5rem" }}
+        sx={{ width: "6rem", height: "6rem" }}
       />
       <Typography variant="h5">{/*username*/}The Rock</Typography>
       <Typography variant="subtitle2" color={"#696969"} marginTop={"0.2rem"}>
@@ -20,7 +20,7 @@ function UserInfo() {
       <Typography marginTop={"0.8rem"}>
         I'm The Rock and here's some of my best flowers. Enjoy.
       </Typography>
-      <Box sx={{ marginTop: "1rem", "& > *": { mx: 1 } }}>
+      <Box sx={{ marginTop: "1rem", "& > *": { mx: 0.8 } }}>
         <Button variant="contained">Create</Button>
         <Button variant="contained">Edit profile</Button>
       </Box>
