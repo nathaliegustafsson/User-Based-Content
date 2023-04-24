@@ -1,10 +1,24 @@
+import argon2 from "argon2";
 import { InferSchemaType, Schema, model } from "mongoose";
 
 const userSchema = new Schema(
   {
-    email: { type: String, required: true },
-    username: { type: String, required: true },
-    password: { type: String, required: true },
+    username: {
+      type: String,
+      required: [true, "Username is required"],
+      unique: true,
+      minlength: [3, "Username must be at least 3 characters"],
+      maxlength: [32, "Username cannot exceed 32 characters"],
+    },
+    password: {
+      type: String,
+      required: [true, "Password is required"],
+      minlength: [5, "Password must be at least 5 characters"],
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     versionKey: false,
@@ -12,8 +26,12 @@ const userSchema = new Schema(
   }
 );
 
+userSchema.pre("save", async function (next) {
+  // kryptera lösenordet
+  this.password = await argon2.hash(this.password);
+  next();
+});
+
 export type User = InferSchemaType<typeof userSchema>;
 
-const UserModel = model("user", userSchema);
-
-export default UserModel;
+export const UserModel = model("user", userSchema);

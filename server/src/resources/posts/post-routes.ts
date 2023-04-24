@@ -1,40 +1,19 @@
 import express from "express";
 import { isAuthenticated } from "../../middlewares/auth-middleware";
-import PostModel from "./post-model";
+import {
+  createPost,
+  deletePost,
+  getAllPosts,
+  getPostById,
+  updatePost,
+} from "./post-controller";
 
 const postRouter = express
   .Router()
-  .get("/api/posts", async (req, res) => {
-    const posts = await PostModel.find({});
-    res.json(posts);
-  })
-  .post("/api/posts", isAuthenticated, async (req, res) => {
-    const post = await PostModel.create(req.body);
-    res.json(post);
-  })
-  .put("/api/posts/:id", isAuthenticated, async (req, res) => {
-    const postId = req.params.id;
-
-    // Check if the post exists
-    const existingPost = await PostModel.findById(postId);
-    if (!existingPost) {
-      return res.status(404).json("Post not found");
-    }
-    // Update the post
-    const updatedPost = await PostModel.findByIdAndUpdate(postId, req.body, {
-      new: true,
-    });
-    res.json(updatedPost);
-  })
-  .delete("/api/posts/:id", async (req, res) => {
-    const postId = req.params.id;
-    const deletedPost = await PostModel.findOneAndDelete({ _id: postId });
-
-    if (deletedPost) {
-      res.status(204).json(deletedPost);
-    } else {
-      res.status(404).json({ error: `Post with ID ${postId} not found.` });
-    }
-  });
+  .get("/api/posts", getAllPosts)
+  .get("/api/posts/:id", getPostById)
+  .post("/api/posts", isAuthenticated, createPost)
+  .put("/api/posts/:id", isAuthenticated, updatePost)
+  .delete("/api/posts/:id", isAuthenticated, deletePost);
 
 export default postRouter;

@@ -1,5 +1,9 @@
-###
+### GET POSTS
 GET http://localhost:3000/api/posts
+
+### GET A SPECIFIC POST
+GET http://localhost:3000/api/posts/5f4dab42c36a6d0c34e00000
+
 
 ### CREATE POST
 POST http://localhost:3000/api/posts
@@ -10,18 +14,39 @@ Content-Type: application/json
     "content": "Testa ta bort"
 }
 
-###
-GET http://localhost:3000/api/users
+### UPDATE POST 
 
-### CREATE USER
-POST http://localhost:3000/api/users
+PUT http://localhost:3000/api/posts/643e96e5712459260b62d035
 Content-Type: application/json
 
 {
-    "email": "enemail@email.com",
-    "username": "nnamnmanm",
-    "password": "ettlosen"
+    "title": "Ny post",
+    "content": "Uppdaterad"
 }
 
 ### DELETE POST
-DELETE http://localhost:3000/api/posts/643fcf177f5ad7b9ce98e181
+DELETE http://localhost:3000/api/posts/643fb8bfba0a23cb43517744
+
+### GET USERS
+GET http://localhost:3000/api/users
+
+### CREATE USER
+POST http://localhost:3000/api/users/register
+Content-Type: application/json
+
+{
+    "username": "hejhejhejhejhej",
+    "password": "ettlosen1234!"
+}
+
+### LOGIN USER
+POST http://localhost:3000/api/users/login
+Content-Type: application/json
+
+{
+    "username": "hejhejhejhej",
+    "password": "ettlosen1234!"
+}
+
+### LOGOUT USER
+DELETE  http://localhost:3000/api/users/logout
