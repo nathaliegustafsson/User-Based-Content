@@ -1,5 +1,7 @@
 import {
+  Avatar,
   Box,
+  Button,
   Container,
   IconButton,
   Typography,
@@ -37,6 +39,57 @@ function EditAndDeletePost() {
             sx={{
               width: "100%",
             }}></Box>
+        </Container>
+        <Container
+          sx={{
+            padding: "0px !important",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}>
+          <Container
+            sx={{
+              padding: "0px !important",
+            }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}>
+              <Avatar
+                alt="Remy Sharp"
+                src="https://www.dmarge.com/wp-content/uploads/2021/01/dwayne-the-rock-.jpg"
+                sx={{ width: "4rem", height: "4rem" }}
+              />
+              <Typography
+                variant="h6"
+                sx={{
+                  marginLeft: "1rem",
+                }}>
+                The Rock
+              </Typography>
+            </Box>
+            <Box>
+              <Typography sx={{ marginTop: "1rem" }}>
+                Found this pretty tree with these flowers!!!
+              </Typography>
+            </Box>
+          </Container>
+          <Container
+            sx={{
+              padding: "0px !important",
+            }}>
+            <Button
+              component={Link}
+              to="/"
+              variant="contained"
+              sx={{ marginRight: "0.5rem" }}>
+              Edit
+            </Button>
+            <Button component={Link} to="/" variant="contained">
+              Delete
+            </Button>
+          </Container>
         </Container>
       </Container>
     </Container>
