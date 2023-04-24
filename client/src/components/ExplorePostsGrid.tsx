@@ -78,7 +78,11 @@ function ExplorePostsGrid() {
         </Typography>
       </Box>
       <Box sx={{ width: "100%" }}>
-        <Grid container rowSpacing={2} columnSpacing={2}>
+        <Grid
+          container
+          rowSpacing={{ xs: 2, sm: 4 }}
+          columnSpacing={{ xs: 2, sm: 4 }}
+        >
           {posts.map((postItem) => {
             return (
               <Grid key={postItem.id} xs={6} sm={6} md={6}>
