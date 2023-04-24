@@ -1,10 +1,9 @@
 import { Box, Button, Container, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useUserContext } from "../context/UserContext";
-import { redirect } from "react-router-dom";
 
 const CreateProfileSchema = Yup.object({
   username: Yup.string().required("Please enter a username"),
@@ -17,6 +16,7 @@ export type CreateProfileValues = Yup.InferType<typeof CreateProfileSchema>;
 
 function CreateProfileForm() {
   const { register, login } = useUserContext();
+  const navigate = useNavigate();
   const formik = useFormik<CreateProfileValues>({
     initialValues: {
       username: "",
@@ -30,7 +30,7 @@ function CreateProfileForm() {
           createProfileValues.password
         );
         await login(createProfileValues.username, createProfileValues.password);
-        // redirect("/profile")
+        navigate("/user/:id");
         console.log(user);
       } catch (error) {
         console.log(error);
