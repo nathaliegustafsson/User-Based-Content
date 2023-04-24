@@ -1,3 +1,4 @@
+import Footer from "../components/Footer";
 import ProfilePageGrid from "../components/ProfilePageGrid";
 
 function ProfilePage() {
@@ -7,7 +8,9 @@ function ProfilePage() {
       <main>
         <ProfilePageGrid />
       </main>
-      <footer></footer>
+      <footer>
+        <Footer />
+      </footer>
     </div>
   );
 }
