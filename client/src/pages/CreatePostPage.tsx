@@ -1,18 +1,17 @@
-import CreateProfileForm from "../components/CreateProfileForm";
+import CreatePost from "../components/CreatePost";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
-function CreateProfilePage() {
+function CreatePostPage() {
   return (
     <div>
       <Header />
       <main>
-        <Header />
-        <CreateProfileForm />
+        <CreatePost />
       </main>
       <Footer />
     </div>
   );
 }
 
-export default CreateProfilePage;
+export default CreatePostPage;
