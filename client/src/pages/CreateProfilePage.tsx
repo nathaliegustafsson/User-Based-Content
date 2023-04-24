@@ -7,6 +7,7 @@ function CreateProfilePage() {
     <div>
       <Header />
       <main>
+        <Header />
         <CreateProfileForm />
       </main>
       <Footer />

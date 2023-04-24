@@ -27,7 +27,7 @@ function Footer() {
         paddingTop: "1rem",
       }}>
       <Grid
-        container
+        item
         xs={6}
         md={6}
         sx={{

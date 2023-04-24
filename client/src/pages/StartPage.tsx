@@ -1,7 +1,6 @@
+import ExplorePostsGrid from "../components/ExplorePostsGrid";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-
-import ExplorePostsGrid from "../components/ExplorePostsGrid";
 
 function StartPage() {
   return (
