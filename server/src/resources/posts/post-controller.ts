@@ -34,8 +34,12 @@ export async function createPost(req: Request, res: Response) {
     await post.save();
     res.status(201).json(post);
   } catch (error) {
-    if ((error as Error.ValidationError).name === "ValidationError") {
-      res.status(400).json((error as Error.ValidationError).message);
+    if (error instanceof Error.ValidationError) {
+      const validationErrors = Object.entries(error.errors)
+        .map(([key, err]: [string, any]) => `"${key}": ${err.message}`)
+        .join(", ");
+
+      res.status(400).json(`Post validation failed: ${validationErrors}`);
     } else {
       res.status(500).json("An unexpected error occurred.");
     }
@@ -53,7 +57,7 @@ export async function updatePost(req: Request, res: Response) {
   try {
     const post = await PostModel.findById(postId);
     if (!post) {
-      return res.status(404).json(`/${postId} not found.`);
+      return res.status(404).json(`Post with ID ${postId} not found.`);
     }
 
     if (post.author.toString() !== userId.toString()) {
@@ -62,16 +66,30 @@ export async function updatePost(req: Request, res: Response) {
         .json("You do not have permission to update this post.");
     }
 
+    // Check for empty object values and empty required fields in the request body
+    for (const key in req.body) {
+      if (Object.prototype.toString.call(req.body[key]) === "[object Object]") {
+        return res.status(400).json(`Invalid value for field: ${key}`);
+      }
+      if (key === "title" || key === "content") {
+        if (req.body[key].trim() === "") {
+          return res.status(400).json(`Empty value for required field: ${key}`);
+        }
+      }
+    }
+
     const updatedPost = await PostModel.findByIdAndUpdate(postId, req.body, {
       new: true,
       runValidators: true,
     });
-    res.json(updatedPost);
+    res.status(200).json(updatedPost);
   } catch (error) {
     if (error instanceof Error.ValidationError) {
-      res.status(400).json(error.message);
-    } else if (error instanceof Error.CastError) {
-      res.status(400).json("not found");
+      const validationErrors = Object.entries(error.errors)
+        .map(([key, err]: [string, any]) => `"${key}": ${err.message}`)
+        .join(", ");
+
+      res.status(400).json(`Post validation failed: ${validationErrors}`);
     } else {
       res.status(500).json("An unexpected error occurred.");
     }
