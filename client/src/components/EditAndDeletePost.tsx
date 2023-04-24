@@ -81,7 +81,7 @@ function EditAndDeletePost() {
             }}>
             <Button
               component={Link}
-              to="/"
+              to="/user/:id/create/posts"
               variant="contained"
               sx={{ marginRight: "0.5rem" }}>
               Edit
