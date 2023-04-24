@@ -15,6 +15,7 @@ import {
   useTheme,
 } from "@mui/material";
 import * as React from "react";
+import { Link } from "react-router-dom";
 
 const pages = ["Explore", "Search"];
 const loggedInSettings = ["Profile", "Account", "Logout"];
@@ -75,14 +76,16 @@ function Header() {
             display: "flex",
             justifyContent: { xs: "space-between", md: "space-between" },
           }}>
-          <Box
-            component="img"
-            src="/src/assets/share-thin.png"
-            alt="logo photo share"
-            sx={{
-              height: { xs: "4rem", md: "5rem" },
-              display: { xs: "none", md: "flex" },
-            }}></Box>
+          <Link to="/">
+            <Box
+              component="img"
+              src="/src/assets/share-thin.png"
+              alt="logo photo share"
+              sx={{
+                height: isSmallScreen ? "4rem" : "5rem",
+                display: { xs: "none", md: "flex" },
+              }}></Box>
+          </Link>
 
           <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -118,14 +121,16 @@ function Header() {
               ))}
             </Menu>
           </Box>
-          <Box
-            component="img"
-            src="/src/assets/share-thin.png"
-            alt="logo photo share"
-            sx={{
-              height: isSmallScreen ? "4rem" : "5rem",
-              display: { xs: "flex", md: "none" },
-            }}></Box>
+          <Link to="/">
+            <Box
+              component="img"
+              src="/src/assets/share-thin.png"
+              alt="logo photo share"
+              sx={{
+                height: isSmallScreen ? "4rem" : "5rem",
+                display: { xs: "flex", md: "none" },
+              }}></Box>
+          </Link>
           <Box
             sx={{
               flexGrow: 1,
