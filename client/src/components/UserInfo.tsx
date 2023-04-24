@@ -1,6 +1,22 @@
 import { Avatar, Box, Button, Container, Typography } from "@mui/material";
+import * as React from "react";
 
 function UserInfo() {
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
+
+  const settings = isLoggedIn
+    ? ["Create profile"]
+    : ["Create profile", "Login"];
+  const loggedInSettings = isLoggedIn ? ["Profile", "Account", "Logout"] : [];
+
   return (
     <Container
       sx={{
@@ -21,10 +37,16 @@ function UserInfo() {
         I'm The Rock and here's some of my best flowers. Enjoy.
       </Typography>
       <Box sx={{ marginTop: "1rem" }}>
-        <Button variant="contained" sx={{ marginRight: "1rem" }}>
-          Create
-        </Button>
-        <Button variant="contained">Edit profile</Button>
+        {isLoggedIn ? (
+          <>
+            <Button variant="contained" sx={{ marginRight: "1rem" }}>
+              Create
+            </Button>
+            <Button variant="contained">Edit profile</Button>
+          </>
+        ) : (
+          <Button variant="contained">Share</Button>
+        )}
       </Box>
     </Container>
   );
