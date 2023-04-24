@@ -20,8 +20,10 @@ function UserInfo() {
       <Typography marginTop={"0.8rem"}>
         I'm The Rock and here's some of my best flowers. Enjoy.
       </Typography>
-      <Box sx={{ marginTop: "1rem", "& > *": { mx: 0.8 } }}>
-        <Button variant="contained">Create</Button>
+      <Box sx={{ marginTop: "1rem" }}>
+        <Button variant="contained" sx={{ marginRight: "1rem" }}>
+          Create
+        </Button>
         <Button variant="contained">Edit profile</Button>
       </Box>
     </Container>
