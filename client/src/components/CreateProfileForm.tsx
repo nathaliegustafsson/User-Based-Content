@@ -3,6 +3,8 @@ import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
+import { useUserContext } from "../context/UserContext";
+import { redirect } from "react-router-dom";
 
 const CreateProfileSchema = Yup.object({
   username: Yup.string().required("Please enter a username"),
@@ -14,15 +16,25 @@ const CreateProfileSchema = Yup.object({
 export type CreateProfileValues = Yup.InferType<typeof CreateProfileSchema>;
 
 function CreateProfileForm() {
+  const { register, login } = useUserContext();
   const formik = useFormik<CreateProfileValues>({
     initialValues: {
       username: "",
       password: "",
     },
     validationSchema: CreateProfileSchema,
-    onSubmit: (createProfileValues) => {
-      // createProfile(createProfileValues);
-      // navigate("/login");
+    onSubmit: async (createProfileValues) => {
+      try {
+        const user = await register(
+          createProfileValues.username,
+          createProfileValues.password
+        );
+        await login(createProfileValues.username, createProfileValues.password);
+        redirect("/profile")
+        console.log(user);
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
 
@@ -34,7 +46,8 @@ function CreateProfileForm() {
         alignItems: "center",
         flexDirection: "column",
         marginTop: "1rem",
-      }}>
+      }}
+    >
       <Typography variant="h5" sx={{ marginBottom: "1.1rem" }}>
         Create a profile
       </Typography>
@@ -51,12 +64,15 @@ function CreateProfileForm() {
               width: "35ch",
               borderRadius: "0.6rem",
             },
-          }}>
+          }}
+        >
           <TextField
             id="outlined-username-input"
+            name="username"
             label="Username"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            value={formik.values.username}
             error={Boolean(formik.touched.username && formik.errors.username)}
             helperText={formik.touched.username && formik.errors.username}
             sx={{
@@ -72,10 +88,12 @@ function CreateProfileForm() {
           />
           <TextField
             id="outlined-password-input"
+            name="password"
             label="Password"
             type="password"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            value={formik.values.password}
             error={Boolean(formik.touched.password && formik.errors.password)}
             helperText={formik.touched.password && formik.errors.password}
             autoComplete="current-password"
@@ -95,7 +113,8 @@ function CreateProfileForm() {
               display: "flex",
               justifyContent: "center",
               marginTop: "2.5rem",
-            }}>
+            }}
+          >
             <Button variant="contained" type="submit" sx={{ width: "6rem" }}>
               Sign up
             </Button>
@@ -106,7 +125,8 @@ function CreateProfileForm() {
               alignItems: "center",
               flexDirection: "column",
               marginTop: "4rem",
-            }}>
+            }}
+          >
             <Typography variant="body2" sx={{ color: "#696969" }}>
               By signing up, you agree to Photo Share's
             </Typography>
@@ -119,13 +139,15 @@ function CreateProfileForm() {
               display: "flex",
               justifyContent: "center",
               marginTop: "5rem",
-            }}>
+            }}
+          >
             <Typography variant="body1">Already have a profile?</Typography>
             <Typography
               variant="body1"
               component={Link}
               to="/signin"
-              sx={{ marginLeft: "0.4rem", color: "black" }}>
+              sx={{ marginLeft: "0.4rem", color: "black" }}
+            >
               Log in
             </Typography>
           </Box>
