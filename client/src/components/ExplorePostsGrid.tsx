@@ -72,6 +72,11 @@ function ExplorePostsGrid() {
 
   return (
     <Container maxWidth="md" sx={rootStyle}>
+      <Box>
+        <Typography variant="h5" sx={{ marginBottom: "3rem" }}>
+          Posts to Explore
+        </Typography>
+      </Box>
       <Box sx={{ width: "100%" }}>
         <Grid container rowSpacing={2} columnSpacing={2}>
           {posts.map((postItem) => {
@@ -153,7 +158,9 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const rootStyle: SxProps<Theme> = {
   display: "flex",
+  flexDirection: "column",
   justifyContent: "center",
+  alignItems: "center",
   marginTop: "1.5rem",
 };
 
