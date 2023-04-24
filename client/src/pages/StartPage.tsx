@@ -1,7 +1,7 @@
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
-import CreatePost from "../components/CreatePost";
+import ExplorePostsGrid from "../components/ExplorePostsGrid";
 
 function StartPage() {
   return (
@@ -10,7 +10,7 @@ function StartPage() {
         <Header />
       </header>
       <main>
-        <CreatePost />
+        <ExplorePostsGrid />
       </main>
       <footer>
         <Footer />
