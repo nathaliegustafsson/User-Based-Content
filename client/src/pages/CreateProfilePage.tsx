@@ -11,7 +11,9 @@ function CreateProfilePage() {
       <main>
         <CreateProfileForm />
       </main>
-      <Footer />
+      <footer>
+        <Footer />
+      </footer>
     </div>
   );
 }
