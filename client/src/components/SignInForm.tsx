@@ -4,6 +4,8 @@ import { useFormik } from "formik";
 import { Link, redirect } from "react-router-dom";
 import * as Yup from "yup";
 import { useUserContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
+
 
 const SignInSchema = Yup.object({
   username: Yup.string().required("Please enter your username"),
@@ -14,6 +16,7 @@ export type SignInValues = Yup.InferType<typeof SignInSchema>;
 
 function SignInForm() {
   const { login } = useUserContext();
+  const navigate = useNavigate();
   const formik = useFormik<SignInValues>({
     initialValues: {
       username: "",
@@ -24,7 +27,7 @@ function SignInForm() {
       try {
         const user = await login(signInValues.username, signInValues.password);
         console.log(user + "INLOGGAD!");
-        // redirect("/createprofile");
+        navigate("/user/:id");
       } catch (error) {
         console.log(error);
       }
