@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { CSSProperties, ChangeEvent, useState } from "react";
+import { Link } from "react-router-dom";
 import * as Yup from "yup";
 
 const CreatePostSchema = Yup.object({
@@ -47,7 +48,11 @@ function CreatePost() {
         sx={{ display: "flex", justifyContent: "center" }}>
         Create a new post
       </Typography>
-      <IconButton className="material-symbols-outlined" sx={{ color: "black" }}>
+      <IconButton
+        component={Link}
+        to="/"
+        className="material-symbols-outlined"
+        sx={{ color: "black" }}>
         arrow_back
       </IconButton>
       <Container sx={{ display: "flex" }}>
@@ -73,6 +78,7 @@ function CreatePost() {
               <Typography variant="subtitle2">No image uploaded yet</Typography>
             </Box>
           )}
+          <Typography variant="subtitle2">Preview</Typography>
         </Container>
         <Container>
           <form onSubmit={formik.handleSubmit} style={rootStyle}>
