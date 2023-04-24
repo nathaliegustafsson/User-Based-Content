@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import "express-async-errors";
-import { Error, Types as MongooseTypes } from "mongoose";
-import { ValidationError } from "yup";
+import mongoose, { Error, Types as MongooseTypes } from "mongoose";
+import * as Yup from "yup";
 import { PostModel } from "./post-model";
 import postValidationSchema from "./post-validation";
 
@@ -72,13 +72,8 @@ export async function updatePost(req: Request, res: Response) {
     try {
       await postValidationSchema.validate(req.body, { abortEarly: false });
     } catch (validationError) {
-      if (validationError instanceof ValidationError) {
-        const validationErrors = validationError.inner
-          .map((err) => `"${err.path}": ${err.message}`)
-          .join(", ");
-        return res
-          .status(400)
-          .json(`Post validation failed: ${validationErrors}`);
+      if (validationError instanceof Yup.ValidationError) {
+        return res.status(400).json(validationError.message);
       } else {
         return res.status(500).json("An unexpected error occurred.");
       }
@@ -90,7 +85,14 @@ export async function updatePost(req: Request, res: Response) {
     });
     res.status(200).json(updatedPost);
   } catch (error) {
-    res.status(500).json("An unexpected error occurred.");
+    if (error instanceof mongoose.Error.ValidationError) {
+      const validationErrors = Object.entries(error.errors)
+        .map(([key, err]) => `"${key}": ${err.message}`)
+        .join(", ");
+      res.status(400).json(`Post validation failed: ${validationErrors}`);
+    } else {
+      res.status(500).json("An unexpected error occurred.");
+    }
   }
 }
 
