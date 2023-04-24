@@ -1,5 +1,6 @@
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import ProfilePageGrid from "../components/ProfilePageGrid";
 import UserInfo from "../components/UserInfo";
 
 function ProfilePage() {
@@ -10,6 +11,7 @@ function ProfilePage() {
       </header>
       <main>
         <UserInfo />
+        <ProfilePageGrid />
       </main>
       <footer>
         <Footer />
