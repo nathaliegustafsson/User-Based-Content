@@ -26,7 +26,7 @@ import { Link } from "react-router-dom";
  * Returns a grid of posts to explore
  */
 function ExplorePostsGrid() {
-  const contents = [
+  const posts = [
     {
       id: 1,
       avatar:
@@ -74,9 +74,9 @@ function ExplorePostsGrid() {
     <Container maxWidth="md" sx={rootStyle}>
       <Box sx={{ width: "100%" }}>
         <Grid container rowSpacing={2} columnSpacing={2}>
-          {contents.map((contentItem) => {
+          {posts.map((postItem) => {
             return (
-              <Grid key={contentItem.id} xs={6} sm={6} md={6}>
+              <Grid key={postItem.id} xs={6} sm={6} md={6}>
                 <StyledLink
                   to={`/user/:id`}
                   onClick={() => {
@@ -94,13 +94,10 @@ function ExplorePostsGrid() {
                           gap: "1rem",
                         }}
                       >
-                        <Avatar
-                          src={contentItem.avatar}
-                          alt={contentItem.title}
-                        />
+                        <Avatar src={postItem.avatar} alt={postItem.title} />
                         <Box>
                           <Typography variant="subtitle1">
-                            {contentItem.username}
+                            {postItem.username}
                           </Typography>
                           <Typography
                             variant="caption"
@@ -108,19 +105,19 @@ function ExplorePostsGrid() {
                               color: "#777777",
                             }}
                           >
-                            {contentItem.location}
+                            {postItem.location}
                           </Typography>
                         </Box>
                       </Box>
                     </CardContent>
-                    <img src={contentItem.content} alt={contentItem.title} />
+                    <img src={postItem.content} alt={postItem.title} />
                     <CardContent sx={cardContentStyle}>
                       <Box>
                         <Typography
                           variant="caption"
                           sx={{ marginTop: "1rem" }}
                         >
-                          {contentItem.title}
+                          {postItem.title}
                         </Typography>
                       </Box>
                     </CardContent>
