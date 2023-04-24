@@ -103,6 +103,16 @@ function CreatePost() {
               onBlur={formik.handleBlur}
               error={Boolean(formik.touched.title && formik.errors.title)}
               helperText={formik.touched.title && formik.errors.title}
+              sx={{
+                "& .MuiInputBase-input": {
+                  bgcolor: (theme) => theme.palette.secondary.main,
+                  borderRadius: "0.6rem",
+                },
+                "& .MuiOutlinedInput-root": { borderRadius: "0.6rem" },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: (theme) => theme.palette.secondary.main,
+                },
+              }}
             />
             <TextField
               id="content"
@@ -117,6 +127,16 @@ function CreatePost() {
               onBlur={formik.handleBlur}
               error={Boolean(formik.touched.content && formik.errors.content)}
               helperText={formik.touched.content && formik.errors.content}
+              sx={{
+                "& .MuiInputBase-input": {
+                  bgcolor: (theme) => theme.palette.secondary.main,
+                  borderRadius: "0.6rem",
+                },
+                "& .MuiOutlinedInput-root": { borderRadius: "0.6rem" },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: (theme) => theme.palette.secondary.main,
+                },
+              }}
             />
             <Button type="submit" variant="contained">
               Post
