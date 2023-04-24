@@ -1,8 +1,9 @@
 import { Box, Button, Container, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import * as Yup from "yup";
+import { useUserContext } from "../context/UserContext";
 
 const SignInSchema = Yup.object({
   username: Yup.string().required("Please enter your username"),
@@ -12,15 +13,21 @@ const SignInSchema = Yup.object({
 export type SignInValues = Yup.InferType<typeof SignInSchema>;
 
 function SignInForm() {
+  const { login } = useUserContext();
   const formik = useFormik<SignInValues>({
     initialValues: {
       username: "",
       password: "",
     },
     validationSchema: SignInSchema,
-    onSubmit: (signInValues) => {
-      // logInUser(signInValues);
-      // navigate("/profilepage");
+    onSubmit: async (signInValues) => {
+      try {
+        const user = await login(signInValues.username, signInValues.password);
+        console.log(user + "INLOGGAD!");
+        // redirect("/createprofile");
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
 
@@ -32,7 +39,8 @@ function SignInForm() {
         alignItems: "center",
         flexDirection: "column",
         marginTop: "1rem",
-      }}>
+      }}
+    >
       <Typography variant="h5" sx={{ marginBottom: "2rem" }}>
         Sign In
       </Typography>
@@ -46,12 +54,15 @@ function SignInForm() {
               width: "35ch",
               borderRadius: "0.6rem",
             },
-          }}>
+          }}
+        >
           <TextField
             id="outlined-username-input"
+            name="username"
             label="Username"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            value={formik.values.username}
             error={Boolean(formik.touched.username && formik.errors.username)}
             helperText={formik.touched.username && formik.errors.username}
             sx={{
@@ -67,10 +78,12 @@ function SignInForm() {
           />
           <TextField
             id="outlined-password-input"
+            name="password"
             label="Password"
             type="password"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            value={formik.values.password}
             error={Boolean(formik.touched.password && formik.errors.password)}
             helperText={formik.touched.password && formik.errors.password}
             autoComplete="current-password"
@@ -96,7 +109,8 @@ function SignInForm() {
                   textDecorationThickness: "0.05rem",
                   textUnderlineOffset: "0.1rem",
                 },
-              }}>
+              }}
+            >
               Forgot Password?
             </Typography>
           </Box>
@@ -105,7 +119,8 @@ function SignInForm() {
               display: "flex",
               justifyContent: "center",
               marginTop: "3rem",
-            }}>
+            }}
+          >
             <Button variant="contained" type="submit" sx={{ width: "6rem" }}>
               Sign in
             </Button>
@@ -116,13 +131,15 @@ function SignInForm() {
               display: "flex",
               justifyContent: "center",
               marginTop: "5rem",
-            }}>
+            }}
+          >
             <Typography variant="body1">New to Photo Share?</Typography>
             <Typography
               variant="body1"
               component={Link}
               to="/createprofile"
-              sx={{ marginLeft: "0.4rem", color: "black" }}>
+              sx={{ marginLeft: "0.4rem", color: "black" }}
+            >
               Join now
             </Typography>
           </Box>

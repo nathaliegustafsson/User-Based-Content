@@ -42,7 +42,7 @@ export const UserProvider = ({ children }: Props) => {
       }
       const user = await response.json();
       setUser(user);
-      LogInUser(user.username, user.password);
+      // LogInUser(user.username, user.password);
       return user;
     } catch (error: any) {
       throw new Error(error.message || "Failed to register user");
