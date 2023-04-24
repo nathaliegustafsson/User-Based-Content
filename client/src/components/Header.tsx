@@ -77,7 +77,7 @@ function Header() {
           }}>
           <Box
             component="img"
-            src="./src/assets/share-thin.png"
+            src="/src/assets/share-thin.png"
             alt="logo photo share"
             sx={{
               height: { xs: "4rem", md: "5rem" },
@@ -120,7 +120,7 @@ function Header() {
           </Box>
           <Box
             component="img"
-            src="./src/assets/share-thin.png"
+            src="/src/assets/share-thin.png"
             alt="logo photo share"
             sx={{
               height: isSmallScreen ? "4rem" : "5rem",

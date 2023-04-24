@@ -1,5 +1,4 @@
-import { Button, Container, Typography } from "@mui/material";
-import Box from "@mui/material/Box";
+import { Box, Button, Container, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import { Link } from "react-router-dom";
@@ -33,8 +32,7 @@ function SignInForm() {
         alignItems: "center",
         flexDirection: "column",
         marginTop: "1rem",
-      }}
-    >
+      }}>
       <Typography variant="h5" sx={{ marginBottom: "2rem" }}>
         Sign In
       </Typography>
@@ -48,8 +46,7 @@ function SignInForm() {
               width: "35ch",
               borderRadius: "0.6rem",
             },
-          }}
-        >
+          }}>
           <TextField
             id="outlined-username-input"
             label="Username"
@@ -99,8 +96,7 @@ function SignInForm() {
                   textDecorationThickness: "0.05rem",
                   textUnderlineOffset: "0.1rem",
                 },
-              }}
-            >
+              }}>
               Forgot Password?
             </Typography>
           </Box>
@@ -109,8 +105,7 @@ function SignInForm() {
               display: "flex",
               justifyContent: "center",
               marginTop: "3rem",
-            }}
-          >
+            }}>
             <Button variant="contained" type="submit" sx={{ width: "6rem" }}>
               Sign in
             </Button>
@@ -121,15 +116,13 @@ function SignInForm() {
               display: "flex",
               justifyContent: "center",
               marginTop: "5rem",
-            }}
-          >
+            }}>
             <Typography variant="body1">New to Photo Share?</Typography>
             <Typography
               variant="body1"
               component={Link}
               to="/createprofile"
-              sx={{ marginLeft: "0.4rem", color: "black" }}
-            >
+              sx={{ marginLeft: "0.4rem", color: "black" }}>
               Join now
             </Typography>
           </Box>
