@@ -11,7 +11,7 @@
     "check": "tsc --noEmit",
     "dev": "nodemon --transpile-only src/server.ts",
     "test": "plugga test --vitest --ts",
-    "update": "npm update"
+    "update": "plugga update"
   },
   "dependencies": {
     "@plugga-tech/react-express-user-content-ts-server": "^1.0.2",
