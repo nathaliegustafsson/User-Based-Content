@@ -22,7 +22,7 @@ import { Link } from "react-router-dom";
  * Returns a grid of posts to explore
  */
 function ProfilePageGrid() {
-  const contents = [
+  const posts = [
     {
       id: 1,
       content:
@@ -88,9 +88,9 @@ function ProfilePageGrid() {
           rowSpacing={{ xs: 0.5, sm: 1.5 }}
           columnSpacing={{ xs: 1, sm: 2 }}
         >
-          {contents.map((contentItem) => {
+          {posts.map((postItem) => {
             return (
-              <Grid key={contentItem.id} xs={4} sm={4} md={4}>
+              <Grid key={postItem.id} xs={4} sm={4} md={4}>
                 <StyledLink
                   to={`/posts/:id`}
                   onClick={() => {
@@ -99,8 +99,8 @@ function ProfilePageGrid() {
                 >
                   <Box
                     component="img"
-                    src={contentItem.content}
-                    alt={contentItem.title}
+                    src={postItem.content}
+                    alt={postItem.title}
                     sx={{
                       width: "100%",
                       height: "auto",
