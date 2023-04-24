@@ -29,7 +29,7 @@ function CreateProfileForm() {
           createProfileValues.username,
           createProfileValues.password
         );
-        // await login(createProfileValues.username, createProfileValues.password);
+        await login(createProfileValues.username, createProfileValues.password);
         // redirect("/profile")
         console.log(user);
       } catch (error) {
