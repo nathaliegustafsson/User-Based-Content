@@ -1,6 +1,6 @@
+import Footer from "../components/Footer";
 import Header from "../components/Header";
 import SignInForm from "../components/SignInForm";
-import Footer from "../components/Footer";
 
 function SignInPage() {
   return (
@@ -10,8 +10,10 @@ function SignInPage() {
       </header>
       <main>
         <SignInForm />
-        <Footer />
       </main>
+      <footer>
+        <Footer />
+      </footer>
     </div>
   );
 }
