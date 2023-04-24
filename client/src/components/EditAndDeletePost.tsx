@@ -30,7 +30,7 @@ function EditAndDeletePost() {
       <Container
         sx={{
           display: "flex",
-          flexDirection: isSmallScreen ? "column" : "row",
+          flexDirection: isSmallScreen ? "column-reverse" : "row",
         }}>
         <Container sx={{ display: "flex", flexDirection: "column" }}>
           <Box
@@ -38,6 +38,7 @@ function EditAndDeletePost() {
             src="https://user-images.githubusercontent.com/116926631/233002175-166792cc-0b12-405f-8080-d081acae2507.JPG"
             sx={{
               width: "100%",
+              marginTop: isSmallScreen ? "1rem" : "0",
             }}></Box>
         </Container>
         <Container
@@ -46,6 +47,7 @@ function EditAndDeletePost() {
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
+            marginTop: isSmallScreen ? "1rem" : "0",
           }}>
           <Container
             sx={{
@@ -59,7 +61,10 @@ function EditAndDeletePost() {
               <Avatar
                 alt="Remy Sharp"
                 src="https://www.dmarge.com/wp-content/uploads/2021/01/dwayne-the-rock-.jpg"
-                sx={{ width: "4rem", height: "4rem" }}
+                sx={{
+                  width: isSmallScreen ? "3rem" : "4rem",
+                  height: isSmallScreen ? "3rem" : "4rem",
+                }}
               />
               <Typography
                 variant="h6"

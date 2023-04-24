@@ -74,7 +74,8 @@ function Header() {
           disableGutters
           sx={{
             display: "flex",
-            justifyContent: { xs: "space-between", md: "space-between" },
+            justifyContent: "space-between",
+            alignItems: "center",
           }}>
           <Link to="/">
             <Box
