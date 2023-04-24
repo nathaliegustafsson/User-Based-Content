@@ -5,6 +5,8 @@ import {
   IconButton,
   TextField,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { useFormik } from "formik";
 import { CSSProperties, ChangeEvent, useState } from "react";
@@ -22,6 +24,8 @@ export type CreateProfileValues = Yup.InferType<typeof CreatePostSchema>;
 
 function CreatePost() {
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const formik = useFormik<CreateProfileValues>({
     initialValues: {
@@ -55,7 +59,11 @@ function CreatePost() {
         sx={{ color: "black" }}>
         arrow_back
       </IconButton>
-      <Container sx={{ display: "flex" }}>
+      <Container
+        sx={{
+          display: "flex",
+          flexDirection: isSmallScreen ? "column" : "row",
+        }}>
         <Container sx={{ display: "flex", flexDirection: "column" }}>
           {imageUrl && (
             <Box
@@ -80,7 +88,10 @@ function CreatePost() {
           )}
           <Typography variant="subtitle2">Preview</Typography>
         </Container>
-        <Container>
+        <Container
+          sx={{
+            marginTop: isSmallScreen ? "1rem" : "0",
+          }}>
           <form onSubmit={formik.handleSubmit} style={rootStyle}>
             <TextField
               id="title"
