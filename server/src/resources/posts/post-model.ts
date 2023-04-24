@@ -11,7 +11,7 @@ const postSchema = new Schema(
     content: {
       type: String,
       required: [true, "Content is required"],
-      minlength: [10, "Content must be at least 10 characters"],
+      minlength: [3, "Content must be at least 3 characters"],
     },
     author: {
       type: Schema.Types.ObjectId,
@@ -22,6 +22,7 @@ const postSchema = new Schema(
   {
     versionKey: false,
     timestamps: true,
+    strict: "throw",
   }
 );
 
