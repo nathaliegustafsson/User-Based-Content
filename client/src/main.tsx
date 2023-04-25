@@ -26,7 +26,7 @@ const router = createBrowserRouter(
       <Route path="/createprofile" element={<CreateProfilePage />} />
       <Route path="/user/:id" element={<ProfilePage />} />
       <Route path="/user/:id/create/posts" element={<CreatePostPage />} />
-      <Route path="/user/:id/edit/posts" element={<EditAndDeletePostPage />} />
+      <Route path="/posts/:id" element={<EditAndDeletePostPage />} />
       <Route path="/user/:id/edit/post" element={<EditPostPage />} />
     </Route>
   )
