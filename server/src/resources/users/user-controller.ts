@@ -1,7 +1,7 @@
 import argon2 from "argon2";
 import { Request, Response } from "express";
-import { Error } from "mongoose";
 import { UserModel } from "./user-model";
+import userRegistrationSchema from "./user-validation";
 
 export function getLoggedInUserInfo(req: Request, res: Response) {
   if (!req.session?.username) {
@@ -26,22 +26,19 @@ export async function registerUser(req: Request, res: Response) {
     return res.status(409).json("Username already exists");
   }
 
-  try {
-    const user = new UserModel(req.body);
-    await user.save();
+  // Validate request body with Yup
+  await userRegistrationSchema.validate(req.body, {
+    abortEarly: false,
+  });
 
-    res.status(201).json({
-      _id: user._id,
-      username: user.username,
-      isAdmin: user.isAdmin,
-    });
-  } catch (error) {
-    if (error instanceof Error.ValidationError) {
-      res.status(400).json(error.message);
-    } else {
-      res.status(500).json("An unexpected error occurred.");
-    }
-  }
+  const user = new UserModel(req.body);
+  await user.save();
+
+  res.status(201).json({
+    _id: user._id,
+    username: user.username,
+    isAdmin: user.isAdmin,
+  });
 }
 
 // Login user
