@@ -28,24 +28,22 @@ export const useUserContext = () => useContext(UserContext);
 export const UserProvider = ({ children }: Props) => {
   const [user, setUser] = useState<User | null>(null);
 
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     try {
-  //       const response = await fetch(`/api/user/${user?.username}`);
-  //       if (!response.ok) {
-  //         throw new Error("Failed to fetch user information");
-  //       }
-  //       const userResponse = await response.json();
-  //       setUser(userResponse);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`/api/user/auth`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch user information");
+        }
+        const userResponse = await response.json();
+        setUser(userResponse);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  //   if (user) {
-  //     fetchUser();
-  //   }
-  // }, [user]);
+      fetchUser();
+  }, []);
 
   const RegisterUser = async (username: string, password: string) => {
     try {
@@ -84,7 +82,7 @@ export const UserProvider = ({ children }: Props) => {
     }
   };
 
-  const handleLogout = () => {
+  const LogoutUser = () => {
     setUser(null);
   };
 
@@ -94,7 +92,7 @@ export const UserProvider = ({ children }: Props) => {
         user,
         register: RegisterUser,
         login: LogInUser,
-        logout: handleLogout,
+        logout: LogoutUser,
       }}
     >
       {children}
