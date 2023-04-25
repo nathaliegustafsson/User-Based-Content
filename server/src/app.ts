@@ -30,7 +30,6 @@ app.use(userRouter);
 // Error
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof Yup.ValidationError) {
-    console.log(err);
     res.status(400).json(err.message);
   } else {
     console.error(err);
