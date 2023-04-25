@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import * as React from "react";
 import { Link } from "react-router-dom";
+import { useUserContext } from "../context/UserContext";
 
 const pages = ["Explore", "Search"];
 const loggedInSettings = ["Profile", "Account", "Logout"];
@@ -25,6 +26,22 @@ function Header() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const userContext = useUserContext();
+  const { user, login, logout } = userContext;
+
+  React.useEffect(() => {
+    if (user) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, [user]);
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    handleCloseUserMenu();
+    userContext.logout();
+  };
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -51,11 +68,6 @@ function Header() {
     setIsLoggedIn(true);
   };
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    handleCloseUserMenu();
-  };
-
   const settings = isLoggedIn
     ? [{ name: "Create profile", link: "/createprofile" }]
     : [
@@ -65,7 +77,8 @@ function Header() {
   const loggedInSettings = isLoggedIn
     ? [
         { name: "Profile", link: "/user/:id" },
-        { name: "Logout", link: "/SignOutPage" },
+        { name: "Logout", link: "/logout" },
+        // { name: "Logout", handleClick: handleLogout },
       ]
     : [];
 
@@ -171,7 +184,12 @@ function Header() {
                   padding: 0,
                 }}>
                 {isLoggedIn ? (
-                  <Avatar src={"/react.svg"} alt="User avatar" />
+                  <Avatar
+                    src={
+                      "https://www.dmarge.com/wp-content/uploads/2021/01/dwayne-the-rock-.jpg"
+                    }
+                    alt="User avatar"
+                  />
                 ) : (
                   <Icon
                     sx={{
