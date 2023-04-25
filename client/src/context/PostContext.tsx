@@ -28,19 +28,35 @@ export const usePostContext = () => useContext(PostContext);
 export const PostProvider = ({ children }: Props) => {
   const [post, setPost] = useState<Post | null>(null);
 
-  const createPost = (newPost: Post) => {
-    setPost(newPost);
+  const createPost = async (newPost: Post) => {
+    try {
+        const response = await fetch("/api/posts", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newPost),
+        });
+        if (!response.ok) {
+            throw new Error("Failed to create post.")
+        }
+        const createdPost = await response.json();
+        setPost(createdPost);
+    } catch (error) {
+        console.error(error);
+    }
   };
 
   const updatePost = (updatePost: Post) => {
-    setPost((prevPost) =>
-      prevPost ? { ...prevPost, ...updatePost } : prevPost
-    );
+    // setPost((prevPost) =>
+    //   prevPost ? { ...prevPost, ...updatePost } : prevPost
+    // );
   };
 
   const deletePost = () => {
-    setPost(null);
+    // setPost(null);
   };
+
   return (
     <PostContext.Provider
       value={{
