@@ -1,6 +1,4 @@
-import { createContext, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
+import { createContext, useContext, useEffect, useState } from "react";
 
 interface User {
   username: string;
@@ -29,6 +27,25 @@ export const useUserContext = () => useContext(UserContext);
 
 export const UserProvider = ({ children }: Props) => {
   const [user, setUser] = useState<User | null>(null);
+
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       const response = await fetch(`/api/user/${user?.username}`);
+  //       if (!response.ok) {
+  //         throw new Error("Failed to fetch user information");
+  //       }
+  //       const userResponse = await response.json();
+  //       setUser(userResponse);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+
+  //   if (user) {
+  //     fetchUser();
+  //   }
+  // }, [user]);
 
   const RegisterUser = async (username: string, password: string) => {
     try {
