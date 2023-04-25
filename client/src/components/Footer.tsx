@@ -28,8 +28,7 @@ function Footer() {
       }}>
       <Grid
         container
-        xs={6}
-        md={6}
+        maxWidth={"sm"}
         sx={{
           display: "flex",
           justifyContent: "center",
