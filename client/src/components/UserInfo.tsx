@@ -15,11 +15,6 @@ function UserInfo() {
     setIsLoggedIn(false);
   };
 
-  const settings = isLoggedIn
-    ? ["Create profile"]
-    : ["Create profile", "Login"];
-  const loggedInSettings = isLoggedIn ? ["Profile", "Account", "Logout"] : [];
-
   return (
     <Container
       sx={{
