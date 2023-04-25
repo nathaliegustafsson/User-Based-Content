@@ -8,6 +8,6 @@ const postUpdateValidationSchema = Yup.object()
     author: Yup.string().required(),
     createdAt: Yup.string().required(),
   })
-  .noUnknown("Additional properties are not allowed");
+  .noUnknown();
 
 export default postUpdateValidationSchema;
