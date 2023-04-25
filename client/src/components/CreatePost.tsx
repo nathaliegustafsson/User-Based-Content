@@ -12,12 +12,11 @@ import { useFormik } from "formik";
 import { CSSProperties, ChangeEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { usePostContext } from "../context/PostContext";
 
 const CreatePostSchema = Yup.object({
   title: Yup.string().required("Please enter a title"),
-  content: Yup.string()
-    .required("Please enter your content")
-    .url("Please enter a valid url"),
+  content: Yup.string().required("Please enter your content"),
 });
 
 export type CreateProfileValues = Yup.InferType<typeof CreatePostSchema>;
@@ -27,7 +26,7 @@ function CreatePost() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
-  // const { createPost } = usePostContext;
+  const { createPost } = usePostContext();
   const onSubmit = async (createPostValues: CreateProfileValues) => {};
 
   const formik = useFormik<CreateProfileValues>({
@@ -36,17 +35,17 @@ function CreatePost() {
       content: "",
     },
     validationSchema: CreatePostSchema,
-    onSubmit: async (CreateProfileValues) => {
-      // try {
-      //   const post = await createPost(
-      //     CreateProfileValues.title,
-      //     CreateProfileValues.content
-      //   );
-      //   console.log(post + "post skapad");
-      //   navigate("/user/:id");
-      // } catch (error) {
-      //   console.log(error);
-      // }
+    onSubmit: async (createProfileValues) => {
+      try {
+        const post = createPost({
+          title: createProfileValues.title,
+          content: createProfileValues.content,
+        });
+        console.log(post + "post skapad");
+        navigate("/user/:id");
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
 
