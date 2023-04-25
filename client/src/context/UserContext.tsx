@@ -31,7 +31,7 @@ export const UserProvider = ({ children }: Props) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`/api/user/auth`);
+        const response = await fetch(`/api/users/auth`);
         if (!response.ok) {
           throw new Error("Failed to fetch user information");
         }
