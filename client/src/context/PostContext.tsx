@@ -68,12 +68,19 @@ export const PostProvider = ({ children }: Props) => {
       const updatedPostData = await response.json();
       setPost(updatedPostData);
     } catch (error) {
-        console.error(error);
+      console.error(error);
     }
   };
 
-  const deletePost = () => {
-    // setPost(null);
+  const deletePost = async () => {
+    try {
+      await fetch("/api/posts/:id", {
+        method: "DELETE",
+      });
+      setPost(null);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
