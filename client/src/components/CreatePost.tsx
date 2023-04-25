@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { CSSProperties, ChangeEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
 const CreatePostSchema = Yup.object({
@@ -26,6 +26,9 @@ function CreatePost() {
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const navigate = useNavigate();
+  // const { createPost } = usePostContext;
+  const onSubmit = async (createPostValues: CreateProfileValues) => {};
 
   const formik = useFormik<CreateProfileValues>({
     initialValues: {
@@ -33,8 +36,17 @@ function CreatePost() {
       content: "",
     },
     validationSchema: CreatePostSchema,
-    onSubmit: (createPostValues) => {
-      // createPost(createPostValues);
+    onSubmit: async (CreateProfileValues) => {
+      // try {
+      //   const post = await createPost(
+      //     CreateProfileValues.title,
+      //     CreateProfileValues.content
+      //   );
+      //   console.log(post + "post skapad");
+      //   navigate("/user/:id");
+      // } catch (error) {
+      //   console.log(error);
+      // }
     },
   });
 
