@@ -2,8 +2,9 @@ import { Request, Response } from "express";
 import "express-async-errors";
 import mongoose, { Error, Types as MongooseTypes } from "mongoose";
 import * as Yup from "yup";
+import { default as postCreateValidationSchema } from "./post-create-validation";
 import { PostModel } from "./post-model";
-import postValidationSchema from "./post-validation";
+import postUpdateValidationSchema from "./post-update-validation";
 
 export async function getAllPosts(req: Request, res: Response) {
   const posts = await PostModel.find({});
@@ -28,6 +29,24 @@ export async function createPost(req: Request, res: Response) {
   if (!req.session?.userId) {
     res.status(401).json("You must login to create a post in your username");
     return;
+  }
+
+  // Validate request body with Yup
+  try {
+    await postCreateValidationSchema.validate(req.body, {
+      abortEarly: false,
+    });
+  } catch (validationError) {
+    if (validationError instanceof Yup.ValidationError) {
+      const validationErrors = validationError.inner
+        .map((err) => `"${err.path}": ${err.message}`)
+        .join(", ");
+      return res
+        .status(400)
+        .json(`Post validation failed: ${validationErrors}`);
+    } else {
+      return res.status(500).json("An unexpected error occurred.");
+    }
   }
 
   try {
@@ -70,7 +89,9 @@ export async function updatePost(req: Request, res: Response) {
 
     // Validate request body with Yup
     try {
-      await postValidationSchema.validate(req.body, { abortEarly: false });
+      await postUpdateValidationSchema.validate(req.body, {
+        abortEarly: false,
+      });
     } catch (validationError) {
       if (validationError instanceof Yup.ValidationError) {
         return res.status(400).json(validationError.message);
