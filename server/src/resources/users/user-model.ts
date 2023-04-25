@@ -22,13 +22,16 @@ const userSchema = new Schema(
   },
   {
     versionKey: false,
-    timestamps: true,
+    timestamps: { createdAt: true, updatedAt: false },
   }
 );
 
 userSchema.pre("save", async function (next) {
   // kryptera lösenordet
-  this.password = await argon2.hash(this.password);
+  this.password = await argon2.hash(this.password, {
+    memoryCost: 1024,
+    timeCost: 2,
+  });
   next();
 });
 
