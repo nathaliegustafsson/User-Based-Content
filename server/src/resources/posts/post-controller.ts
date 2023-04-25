@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import "express-async-errors";
-import { Error, Types as MongooseTypes } from "mongoose";
-import * as Yup from "yup";
+import { Types as MongooseTypes } from "mongoose";
 import { default as postCreateValidationSchema } from "./post-create-validation";
 import { PostModel } from "./post-model";
 import postUpdateValidationSchema from "./post-update-validation";
@@ -25,6 +24,7 @@ export async function getPostById(req: Request, res: Response) {
   }
 }
 
+// Create post
 export async function createPost(req: Request, res: Response) {
   if (!req.session?.userId) {
     res.status(401).json("You must login to create a post in your username");
@@ -32,41 +32,17 @@ export async function createPost(req: Request, res: Response) {
   }
 
   // Validate request body with Yup
-  try {
-    await postCreateValidationSchema.validate(req.body, {
-      abortEarly: false,
-    });
-  } catch (validationError) {
-    if (validationError instanceof Yup.ValidationError) {
-      const validationErrors = validationError.inner
-        .map((err) => `"${err.path}": ${err.message}`)
-        .join(", ");
-      return res
-        .status(400)
-        .json(`Post validation failed: ${validationErrors}`);
-    } else {
-      return res.status(500).json("An unexpected error occurred.");
-    }
-  }
+  await postCreateValidationSchema.validate(req.body, {
+    abortEarly: false,
+  });
 
-  try {
-    const postData = { ...req.body, author: req.session.userId };
-    const post = new PostModel(postData);
-    await post.save();
-    res.status(201).json(post);
-  } catch (error) {
-    if (error instanceof Error.ValidationError) {
-      const validationErrors = Object.entries(error.errors)
-        .map(([key, err]: [string, any]) => `"${key}": ${err.message}`)
-        .join(", ");
-
-      res.status(400).json(`Post validation failed: ${validationErrors}`);
-    } else {
-      res.status(500).json("An unexpected error occurred.");
-    }
-  }
+  const postData = { ...req.body, author: req.session.userId };
+  const post = new PostModel(postData);
+  await post.save();
+  res.status(201).json(post);
 }
 
+// Update Post
 export async function updatePost(req: Request, res: Response) {
   const postId = req.params.id;
   const userId = req.session?.userId;
@@ -98,6 +74,7 @@ export async function updatePost(req: Request, res: Response) {
   res.status(200).json(updatedPost);
 }
 
+// Delete post
 export async function deletePost(req: Request, res: Response) {
   const postId = req.params.id;
   const userId = req.session!.userId;
