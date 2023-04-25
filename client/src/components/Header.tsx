@@ -11,11 +11,12 @@ import {
   Toolbar,
   Tooltip,
   Typography,
+  styled,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
 import * as React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, LinkProps, useNavigate } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
 
 const pages = ["Explore", "Search"];
@@ -105,17 +106,22 @@ function Header() {
             alignItems: "center",
           }}
         >
-          <Link to="/">
-            <Box
-              component="img"
-              src="/src/assets/share-thin.png"
-              alt="logo photo share"
-              sx={{
-                height: isSmallScreen ? "4rem" : "5rem",
-                display: { xs: "none", md: "flex" },
-              }}
-            ></Box>
-          </Link>
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+            }}
+          >
+            <StyledLink to="/">
+              <Box
+                component="img"
+                src="/src/assets/share-thin.png"
+                alt="logo photo share"
+                sx={{
+                  height: isSmallScreen ? "4rem" : "5rem",
+                }}
+              ></Box>
+            </StyledLink>
+          </Box>
 
           <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -153,7 +159,7 @@ function Header() {
               ))}
             </Menu>
           </Box>
-          <Link to="/">
+          <StyledLink to="/">
             <Box
               component="img"
               src="/src/assets/share-thin.png"
@@ -163,7 +169,7 @@ function Header() {
                 display: { xs: "flex", md: "none" },
               }}
             ></Box>
-          </Link>
+          </StyledLink>
           <Box
             sx={{
               flexGrow: 1,
@@ -274,5 +280,10 @@ function Header() {
     </AppBar>
   );
 }
+
+const StyledLink = styled(Link)<LinkProps>(() => ({
+  textDecoration: "none",
+  color: "inherit",
+}));
 
 export default Header;
