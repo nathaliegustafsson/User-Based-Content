@@ -93,8 +93,7 @@ export const UserProvider = ({ children }: Props) => {
         register: RegisterUser,
         login: LogInUser,
         logout: LogoutUser,
-      }}
-    >
+      }}>
       {children}
     </UserContext.Provider>
   );

@@ -27,9 +27,8 @@ function Footer() {
         paddingTop: "1rem",
       }}>
       <Grid
-        item
-        xs={6}
-        md={6}
+        container
+        maxWidth={"sm"}
         sx={{
           display: "flex",
           justifyContent: "center",

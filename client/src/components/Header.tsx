@@ -15,6 +15,8 @@ import {
   useTheme,
 } from "@mui/material";
 import * as React from "react";
+import { Link } from "react-router-dom";
+import { useUserContext } from "../context/UserContext";
 
 const pages = ["Explore", "Search"];
 const loggedInSettings = ["Profile", "Account", "Logout"];
@@ -24,6 +26,22 @@ function Header() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const userContext = useUserContext();
+  const { user, login, logout } = userContext;
+
+  React.useEffect(() => {
+    if (user) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, [user]);
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    handleCloseUserMenu();
+    userContext.logout();
+  };
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -50,15 +68,19 @@ function Header() {
     setIsLoggedIn(true);
   };
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    handleCloseUserMenu();
-  };
-
   const settings = isLoggedIn
-    ? ["Create profile"]
-    : ["Create profile", "Login"];
-  const loggedInSettings = isLoggedIn ? ["Profile", "Account", "Logout"] : [];
+    ? [{ name: "Create profile", link: "/createprofile" }]
+    : [
+        { name: "Create profile", link: "/createprofile" },
+        { name: "Login", link: "/signin" },
+      ];
+  const loggedInSettings = isLoggedIn
+    ? [
+        { name: "Profile", link: "/user/:id" },
+        { name: "Logout", link: "/logout" },
+        // { name: "Logout", handleClick: handleLogout },
+      ]
+    : [];
 
   return (
     <AppBar
@@ -73,16 +95,19 @@ function Header() {
           disableGutters
           sx={{
             display: "flex",
-            justifyContent: { xs: "space-between", md: "space-between" },
+            justifyContent: "space-between",
+            alignItems: "center",
           }}>
-          <Box
-            component="img"
-            src="/src/assets/share-thin.png"
-            alt="logo photo share"
-            sx={{
-              height: { xs: "4rem", md: "5rem" },
-              display: { xs: "none", md: "flex" },
-            }}></Box>
+          <Link to="/">
+            <Box
+              component="img"
+              src="/src/assets/share-thin.png"
+              alt="logo photo share"
+              sx={{
+                height: isSmallScreen ? "4rem" : "5rem",
+                display: { xs: "none", md: "flex" },
+              }}></Box>
+          </Link>
 
           <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -118,14 +143,16 @@ function Header() {
               ))}
             </Menu>
           </Box>
-          <Box
-            component="img"
-            src="/src/assets/share-thin.png"
-            alt="logo photo share"
-            sx={{
-              height: isSmallScreen ? "4rem" : "5rem",
-              display: { xs: "flex", md: "none" },
-            }}></Box>
+          <Link to="/">
+            <Box
+              component="img"
+              src="/src/assets/share-thin.png"
+              alt="logo photo share"
+              sx={{
+                height: isSmallScreen ? "4rem" : "5rem",
+                display: { xs: "flex", md: "none" },
+              }}></Box>
+          </Link>
           <Box
             sx={{
               flexGrow: 1,
@@ -157,7 +184,12 @@ function Header() {
                   padding: 0,
                 }}>
                 {isLoggedIn ? (
-                  <Avatar src={"/react.svg"} alt="User avatar" />
+                  <Avatar
+                    src={
+                      "https://www.dmarge.com/wp-content/uploads/2021/01/dwayne-the-rock-.jpg"
+                    }
+                    alt="User avatar"
+                  />
                 ) : (
                   <Icon
                     sx={{
@@ -185,13 +217,25 @@ function Header() {
               onClose={handleCloseUserMenu}>
               {isLoggedIn
                 ? loggedInSettings.map((option) => (
-                    <MenuItem key={option} onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">{option}</Typography>
+                    <MenuItem key={option.name} onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">
+                        <Link
+                          style={{ textDecoration: "none", color: "black" }}
+                          to={option.link}>
+                          {option.name}
+                        </Link>
+                      </Typography>
                     </MenuItem>
                   ))
                 : settings.map((option) => (
-                    <MenuItem key={option} onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">{option}</Typography>
+                    <MenuItem key={option.name} onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">
+                        <Link
+                          style={{ textDecoration: "none", color: "black" }}
+                          to={option.link}>
+                          {option.name}
+                        </Link>
+                      </Typography>
                     </MenuItem>
                   ))}
             </Menu>
