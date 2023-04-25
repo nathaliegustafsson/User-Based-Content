@@ -1,8 +1,11 @@
 import { Avatar, Box, Button, Container, Typography } from "@mui/material";
 import * as React from "react";
+import { useUserContext } from "../context/UserContext";
 
 function UserInfo() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const userContext = useUserContext();
+  const { user } = userContext;
 
   const handleLogin = () => {
     setIsLoggedIn(true);
@@ -29,7 +32,7 @@ function UserInfo() {
         src="https://www.dmarge.com/wp-content/uploads/2021/01/dwayne-the-rock-.jpg"
         sx={{ width: "6rem", height: "6rem" }}
       />
-      <Typography variant="h5">{/*username*/}The Rock</Typography>
+      <Typography variant="h5">{user?.username}</Typography>
       <Typography variant="subtitle2" color={"#696969"} marginTop={"0.2rem"}>
         Gothenburg, Sweden
       </Typography>
