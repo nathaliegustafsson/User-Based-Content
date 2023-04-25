@@ -82,8 +82,28 @@ export const UserProvider = ({ children }: Props) => {
     }
   };
 
-  const LogoutUser = () => {
-    setUser(null);
+  const LogoutUser = async () => {
+    try {
+      await sendLogoutRequest();
+      setUser(null);
+    } catch (error) {
+      console.error("Failed to log out user:", error);
+    }
+  };
+
+  const sendLogoutRequest = async () => {
+    try {
+      const response = await fetch("/api/users/logout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to log out user");
+      }
+    } catch (error: any) {
+      throw new Error(error.message || "Failed to log out user");
+    }
   };
 
   return (
