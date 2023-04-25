@@ -57,9 +57,17 @@ function Header() {
   };
 
   const settings = isLoggedIn
-    ? ["Create profile"]
-    : ["Create profile", "Login"];
-  const loggedInSettings = isLoggedIn ? ["Profile", "Account", "Logout"] : [];
+    ? [{ name: "Create profile", link: "/createprofile" }]
+    : [
+        { name: "Create profile", link: "/createprofile" },
+        { name: "Login", link: "/signin" },
+      ];
+  const loggedInSettings = isLoggedIn
+    ? [
+        { name: "Profile", link: "/user/:id" },
+        { name: "Logout", link: "/SignOutPage" },
+      ]
+    : [];
 
   return (
     <AppBar
@@ -191,13 +199,25 @@ function Header() {
               onClose={handleCloseUserMenu}>
               {isLoggedIn
                 ? loggedInSettings.map((option) => (
-                    <MenuItem key={option} onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">{option}</Typography>
+                    <MenuItem key={option.name} onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">
+                        <Link
+                          style={{ textDecoration: "none", color: "black" }}
+                          to={option.link}>
+                          {option.name}
+                        </Link>
+                      </Typography>
                     </MenuItem>
                   ))
                 : settings.map((option) => (
-                    <MenuItem key={option} onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">{option}</Typography>
+                    <MenuItem key={option.name} onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">
+                        <Link
+                          style={{ textDecoration: "none", color: "black" }}
+                          to={option.link}>
+                          {option.name}
+                        </Link>
+                      </Typography>
                     </MenuItem>
                   ))}
             </Menu>
