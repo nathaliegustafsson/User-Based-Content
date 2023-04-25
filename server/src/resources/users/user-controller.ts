@@ -18,7 +18,7 @@ export async function getAllUsers(req: Request, res: Response) {
 
 // Register user
 export async function registerUser(req: Request, res: Response) {
-  const { username } = req.body;
+  const { username, password, isAdmin = false } = req.body;
 
   const existingUser = await UserModel.findOne({ username });
 
