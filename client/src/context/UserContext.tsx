@@ -12,14 +12,14 @@ interface Props {
 interface UserContextProps {
   user: User | null;
   login: (username: string, password: string) => void;
-  logout: () => void;
+  logout: () => Promise<void>; // Update the return type to Promise<void>
   register: (username: string, password: string) => void;
 }
 
 const UserContext = createContext<UserContextProps>({
   user: null,
   login: () => {},
-  logout: () => {},
+  logout: () => Promise.resolve(),
   register: () => {},
 });
 
@@ -91,6 +91,7 @@ export const UserProvider = ({ children }: Props) => {
     }
   };
 
+  // Ensure sendLogoutRequest returns a Promise as well
   const sendLogoutRequest = async () => {
     try {
       const response = await fetch("/api/users/logout", {
@@ -113,7 +114,8 @@ export const UserProvider = ({ children }: Props) => {
         register: RegisterUser,
         login: LogInUser,
         logout: LogoutUser,
-      }}>
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
