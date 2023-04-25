@@ -3,16 +3,39 @@ import {
   Box,
   Button,
   Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   IconButton,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import * as React from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-function EditAndDeletePost() {
+function EditAndDeletePost({ postId }: { postId: number }) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const [deletePostDialogOpen, setDeletePostDialogOpen] = React.useState(false);
+  const navigate = useNavigate();
+
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(`/api/posts/${postId}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        navigate("/");
+      } else {
+        throw new Error("Failed to delete post");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <Container maxWidth={"md"}>
       <Typography
@@ -86,17 +109,42 @@ function EditAndDeletePost() {
             }}>
             <Button
               component={Link}
-              to="/user/:id/create/posts"
+              to="/user/:id/edit/post"
               variant="contained"
               sx={{ marginRight: "0.5rem" }}>
               Edit
             </Button>
-            <Button component={Link} to="/" variant="contained">
+            <Button
+              onClick={() => setDeletePostDialogOpen(true)}
+              variant="contained">
               Delete
             </Button>
+            <Dialog
+              open={deletePostDialogOpen}
+              onClose={() => setDeletePostDialogOpen(false)}>
+              <DialogTitle>Delete Post</DialogTitle>
+              <DialogContent>
+                <Typography variant="body1">
+                  Are you sure you want to delete this post?
+                </Typography>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => setDeletePostDialogOpen(false)}>
+                  Cancel
+                </Button>
+                <Button onClick={handleDelete} color="primary" autoFocus>
+                  Delete
+                </Button>
+              </DialogActions>
+            </Dialog>
           </Container>
         </Container>
       </Container>
+      {/* <DeletePostDialog
+        open={deletePostDialogOpen}
+        handleClose={() => setDeletePostDialogOpen(false)}
+        // removePost={() => removeProduct(props.product)}
+      /> */}
     </Container>
   );
 }
