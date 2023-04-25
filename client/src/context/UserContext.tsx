@@ -42,7 +42,7 @@ export const UserProvider = ({ children }: Props) => {
       }
     };
 
-      fetchUser();
+    fetchUser();
   }, []);
 
   const RegisterUser = async (username: string, password: string) => {
