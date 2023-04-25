@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import "express-async-errors";
-import mongoose, { Error, Types as MongooseTypes } from "mongoose";
+import { Error, Types as MongooseTypes } from "mongoose";
 import * as Yup from "yup";
 import { default as postCreateValidationSchema } from "./post-create-validation";
 import { PostModel } from "./post-model";
@@ -75,46 +75,27 @@ export async function updatePost(req: Request, res: Response) {
     return res.status(401).json("You must be logged in to update a post.");
   }
 
-  try {
-    const post = await PostModel.findById(postId);
-    if (!post) {
-      return res.status(404).json(`Post with ID ${postId} not found.`);
-    }
-
-    if (post.author.toString() !== userId.toString()) {
-      return res
-        .status(403)
-        .json("You do not have permission to update this post.");
-    }
-
-    // Validate request body with Yup
-    try {
-      await postUpdateValidationSchema.validate(req.body, {
-        abortEarly: false,
-      });
-    } catch (validationError) {
-      if (validationError instanceof Yup.ValidationError) {
-        return res.status(400).json(validationError.message);
-      } else {
-        return res.status(500).json("An unexpected error occurred.");
-      }
-    }
-
-    const updatedPost = await PostModel.findByIdAndUpdate(postId, req.body, {
-      new: true,
-      runValidators: true,
-    });
-    res.status(200).json(updatedPost);
-  } catch (error) {
-    if (error instanceof mongoose.Error.ValidationError) {
-      const validationErrors = Object.entries(error.errors)
-        .map(([key, err]) => `"${key}": ${err.message}`)
-        .join(", ");
-      res.status(400).json(`Post validation failed: ${validationErrors}`);
-    } else {
-      res.status(500).json("An unexpected error occurred.");
-    }
+  const post = await PostModel.findById(postId);
+  if (!post) {
+    return res.status(404).json(`Post with ID ${postId} not found.`);
   }
+
+  if (post.author.toString() !== userId.toString()) {
+    return res
+      .status(403)
+      .json("You do not have permission to update this post.");
+  }
+
+  // Validate request body with Yup
+  await postUpdateValidationSchema.validate(req.body, {
+    abortEarly: false,
+  });
+
+  const updatedPost = await PostModel.findByIdAndUpdate(postId, req.body, {
+    new: true,
+    runValidators: true,
+  });
+  res.status(200).json(updatedPost);
 }
 
 export async function deletePost(req: Request, res: Response) {
