@@ -15,10 +15,16 @@ function UserInfo() {
       setIsLoggedIn(false);
     }
   }, [user]);
+  React.useEffect(() => {
+    if (user) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, [user]);
 
   const handleLogout = () => {
     setIsLoggedIn(false);
-
     userContext.logout();
   };
 
@@ -28,20 +34,21 @@ function UserInfo() {
         display: "flex",
         alignItems: "center",
         flexDirection: "column",
+        marginTop: "2.5rem",
       }}>
       <Avatar
         alt={user?.username}
         src="https://www.dmarge.com/wp-content/uploads/2021/01/dwayne-the-rock-.jpg"
-        sx={{ width: "6rem", height: "6rem" }}
+        sx={{ width: "6rem", height: "6rem", marginBottom: "0.5rem" }}
       />
       <Typography variant="h5">{user?.username}</Typography>
-      <Typography variant="subtitle2" color={"#696969"} marginTop={"0.2rem"}>
+      <Typography variant="body2" color={"#696969"} marginTop={"0.5rem"}>
         Gothenburg, Sweden
       </Typography>
-      <Typography marginTop={"0.8rem"}>
+      <Typography variant="body2" marginTop={"0.8rem"}>
         I'm The Rock and here's some of my best flowers. Enjoy.
       </Typography>
-      <Box sx={{ marginTop: "1rem" }}>
+      <Box sx={{ marginTop: "1.3rem" }}>
         {isLoggedIn ? (
           <>
             <Button

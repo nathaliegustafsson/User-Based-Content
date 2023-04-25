@@ -10,18 +10,16 @@ POST http://localhost:3000/api/posts
 Content-Type: application/json
 
 {
-    "title": "Hello hello",
-    "content": "Testa ta bort"
+    "title": "Test 6",
+    "content": "hej hej"
 }
 
 ### UPDATE POST 
-
-PUT http://localhost:3000/api/posts/643e96e5712459260b62d035
+PUT http://localhost:3000/api/posts/6446d9c58217db06f94a8130
 Content-Type: application/json
 
-{
-    "title": "Ny post",
-    "content": "Uppdaterad"
+{   "title": "",
+    "film": "hej"
 }
 
 ### DELETE POST
@@ -35,8 +33,8 @@ POST http://localhost:3000/api/users/register
 Content-Type: application/json
 
 {
-    "username": "hejhejhejhejhej",
-    "password": "ettlosen1234!"
+    "username": "lisam",
+    "password": "1234!"
 }
 
 ### LOGIN USER
@@ -44,9 +42,12 @@ POST http://localhost:3000/api/users/login
 Content-Type: application/json
 
 {
-    "username": "hejhejhejhej",
-    "password": "ettlosen1234!"
+    "username": "lisa",
+    "password": "1234!"
 }
 
 ### LOGOUT USER
-DELETE  http://localhost:3000/api/users/logout
+POST  http://localhost:3000/api/users/logout
+
+### LISA 64464d6c8cb8d29dadc2cbf0
+### LISAMARIE 6446bd73e8450273cae0b996
