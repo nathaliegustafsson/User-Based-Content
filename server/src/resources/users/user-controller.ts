@@ -72,6 +72,18 @@ export async function loginUser(req: Request, res: Response) {
   res.status(200).json(userResponse);
 }
 
+export async function getLoggedInUser(req: Request, res: Response) {
+    // Create a new user object without the password field
+    const userResponse = {
+      _id: req.session?.userId,
+      username: req.session?.username,
+      isAdmin: req.session?.isAdmin,
+    };
+  
+    // Send response
+    res.status(200).json(userResponse);
+}
+
 // Logout user
 export function logoutUser(req: Request, res: Response) {
   req.session = null;

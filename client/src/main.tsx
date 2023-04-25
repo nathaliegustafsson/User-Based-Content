@@ -7,6 +7,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
+import { UserProvider } from "./context/UserContext";
 import "./index.css";
 import CreatePostPage from "./pages/CreatePostPage";
 import CreateProfilePage from "./pages/CreateProfilePage";
@@ -34,8 +35,10 @@ const router = createBrowserRouter(
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     {/* <App /> */}
-    <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <UserProvider>
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </UserProvider>
   </React.StrictMode>
 );
