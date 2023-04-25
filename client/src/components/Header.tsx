@@ -15,7 +15,7 @@ import {
   useTheme,
 } from "@mui/material";
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
 
 const pages = ["Explore", "Search"];
@@ -28,6 +28,7 @@ function Header() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const userContext = useUserContext();
   const { user, login, logout } = userContext;
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     if (user) {
@@ -37,11 +38,6 @@ function Header() {
     }
   }, [user]);
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    handleCloseUserMenu();
-    userContext.logout();
-  };
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -68,6 +64,15 @@ function Header() {
     setIsLoggedIn(true);
   };
 
+  const handleLogout = () => {
+    userContext.logout().then(() => {
+      setIsLoggedIn(false);
+      handleCloseUserMenu();
+      // Use navigate to go to the start page after logging out
+      navigate("/");
+    });
+  };
+
   const settings = isLoggedIn
     ? [{ name: "Create profile", link: "/createprofile" }]
     : [
@@ -77,8 +82,8 @@ function Header() {
   const loggedInSettings = isLoggedIn
     ? [
         { name: "Profile", link: "/user/:id" },
-        { name: "Logout", link: "/logout" },
-        // { name: "Logout", handleClick: handleLogout },
+        // { name: "Logout", link: "/logout" },
+        { name: "Logout", handleClick: handleLogout },
       ]
     : [];
 
@@ -89,7 +94,8 @@ function Header() {
       sx={{
         background: (theme) => theme.palette.background.default,
         padding: { xs: "0.5rem", md: "1rem" },
-      }}>
+      }}
+    >
       <Container maxWidth="xl">
         <Toolbar
           disableGutters
@@ -97,7 +103,8 @@ function Header() {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-          }}>
+          }}
+        >
           <Link to="/">
             <Box
               component="img"
@@ -106,7 +113,8 @@ function Header() {
               sx={{
                 height: isSmallScreen ? "4rem" : "5rem",
                 display: { xs: "none", md: "flex" },
-              }}></Box>
+              }}
+            ></Box>
           </Link>
 
           <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
@@ -121,7 +129,8 @@ function Header() {
                 fontSize: { xs: "2rem", sm: "2.5rem", cursor: "pointer" },
                 color: (theme) => theme.palette.text.primary,
                 padding: 0,
-              }}>
+              }}
+            >
               menu
             </IconButton>
             <Menu
@@ -135,7 +144,8 @@ function Header() {
               sx={{
                 display: { xs: "block", md: "none" },
                 mt: "45px",
-              }}>
+              }}
+            >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
@@ -151,14 +161,16 @@ function Header() {
               sx={{
                 height: isSmallScreen ? "4rem" : "5rem",
                 display: { xs: "flex", md: "none" },
-              }}></Box>
+              }}
+            ></Box>
           </Link>
           <Box
             sx={{
               flexGrow: 1,
               display: { xs: "none", md: "flex" },
               ml: "1rem",
-            }}>
+            }}
+          >
             {pages.map((page) => (
               <Button
                 key={page}
@@ -168,7 +180,8 @@ function Header() {
                   color: "black",
                   display: "block",
                   fontSize: "1.2rem",
-                }}>
+                }}
+              >
                 {page}
               </Button>
             ))}
@@ -182,7 +195,8 @@ function Header() {
                 sx={{
                   color: (theme) => theme.palette.text.primary,
                   padding: 0,
-                }}>
+                }}
+              >
                 {isLoggedIn ? (
                   <Avatar
                     src={
@@ -194,7 +208,8 @@ function Header() {
                   <Icon
                     sx={{
                       fontSize: { xs: "2.5rem", sm: "3rem", cursor: "pointer" },
-                    }}>
+                    }}
+                  >
                     account_circle
                   </Icon>
                 )}
@@ -214,16 +229,29 @@ function Header() {
                 horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}>
+              onClose={handleCloseUserMenu}
+            >
               {isLoggedIn
                 ? loggedInSettings.map((option) => (
-                    <MenuItem key={option.name} onClick={handleCloseUserMenu}>
+                    <MenuItem
+                      key={option.name}
+                      onClick={
+                        option.handleClick
+                          ? option.handleClick
+                          : handleCloseUserMenu
+                      }
+                    >
                       <Typography textAlign="center">
-                        <Link
-                          style={{ textDecoration: "none", color: "black" }}
-                          to={option.link}>
-                          {option.name}
-                        </Link>
+                        {option.link ? (
+                          <Link
+                            style={{ textDecoration: "none", color: "black" }}
+                            to={option.link}
+                          >
+                            {option.name}
+                          </Link>
+                        ) : (
+                          option.name
+                        )}
                       </Typography>
                     </MenuItem>
                   ))
@@ -232,7 +260,8 @@ function Header() {
                       <Typography textAlign="center">
                         <Link
                           style={{ textDecoration: "none", color: "black" }}
-                          to={option.link}>
+                          to={option.link}
+                        >
                           {option.name}
                         </Link>
                       </Typography>
