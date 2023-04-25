@@ -19,7 +19,7 @@ app.use(
     secure: false,
     httpOnly: true,
     secret: "hgsgshtdhpdhdhdndbdsplladawgsbf",
-    maxAge: 1000 * 20,
+    maxAge: 3600000,
   })
 );
 
