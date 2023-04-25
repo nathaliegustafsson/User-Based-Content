@@ -23,7 +23,7 @@ import { Link } from "react-router-dom";
 // }
 
 /**
- * Returns a grid of posts to explore
+ * Returns a grid of posts to explore on the startpage
  */
 function ExplorePostsGrid() {
   const posts = [
@@ -72,11 +72,29 @@ function ExplorePostsGrid() {
 
   return (
     <Container maxWidth="md" sx={rootStyle}>
+      <Box>
+        <Typography
+          variant="h5"
+          sx={{
+            marginBottom: {
+              xs: "2rem", // Smaller screens
+              sm: "3rem", // Tablet
+              md: "4rem", // Desktop
+            },
+          }}
+        >
+          Posts to Explore
+        </Typography>
+      </Box>
       <Box sx={{ width: "100%" }}>
-        <Grid container rowSpacing={2} columnSpacing={2}>
+        <Grid
+          container
+          rowSpacing={{ xs: 2, sm: 4 }}
+          columnSpacing={{ xs: 2, sm: 4 }}
+        >
           {posts.map((postItem) => {
             return (
-              <Grid key={postItem.id} xs={6} sm={6} md={6}>
+              <Grid key={postItem.id} xs={12} sm={6} md={6}>
                 <StyledLink
                   to={`/user/:id`}
                   onClick={() => {
@@ -153,7 +171,9 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const rootStyle: SxProps<Theme> = {
   display: "flex",
+  flexDirection: "column",
   justifyContent: "center",
+  alignItems: "center",
   marginTop: "1.5rem",
 };
 
