@@ -5,12 +5,15 @@ import Header from "../components/Header";
 function CreateProfilePage() {
   return (
     <div>
-      <Header />
-      <main>
+      <header>
         <Header />
+      </header>
+      <main>
         <CreateProfileForm />
       </main>
-      <Footer />
+      <footer>
+        <Footer />
+      </footer>
     </div>
   );
 }

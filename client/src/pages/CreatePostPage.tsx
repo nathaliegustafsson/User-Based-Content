@@ -5,11 +5,15 @@ import Header from "../components/Header";
 function CreatePostPage() {
   return (
     <div>
-      <Header />
+      <header>
+        <Header />
+      </header>
       <main>
         <CreatePost />
       </main>
-      <Footer />
+      <footer>
+        <Footer />
+      </footer>
     </div>
   );
 }
