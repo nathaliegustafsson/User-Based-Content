@@ -23,6 +23,14 @@ const pages = ["Explore", "Search"];
 const loggedInSettings = ["Profile", "Account", "Logout"];
 const settings = ["Create profile", "Login"];
 
+type UserMenuItem = {
+  name: string;
+  link?: string;
+  handleClick?: () => void;
+};
+
+// ... rest of the Header component
+
 function Header() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -62,7 +70,13 @@ function Header() {
   };
 
   const handleLogin = () => {
-    setIsLoggedIn(true);
+    handleCloseUserMenu();
+    navigate("/signin");
+  };
+
+  const handleCreateProfile = () => {
+    handleCloseUserMenu();
+    navigate("/createprofile");
   };
 
   const handleLogout = () => {
@@ -75,18 +89,38 @@ function Header() {
   };
 
   const settings = isLoggedIn
-    ? [{ name: "Create profile", link: "/createprofile" }]
+    ? []
     : [
-        { name: "Create profile", link: "/createprofile" },
-        { name: "Login", link: "/signin" },
+        { name: "Create profile", handleClick: handleCreateProfile },
+        { name: "Login", handleClick: handleLogin },
       ];
+
   const loggedInSettings = isLoggedIn
     ? [
         { name: "Profile", link: "/user/:id" },
-        // { name: "Logout", link: "/logout" },
         { name: "Logout", handleClick: handleLogout },
       ]
     : [];
+
+  const renderUserMenuItems = (items: UserMenuItem[]) => {
+    return items.map((item, index) => {
+      if (item.link) {
+        return (
+          <MenuItem key={index} onClick={handleCloseUserMenu}>
+            <StyledLink to={item.link}>{item.name}</StyledLink>
+          </MenuItem>
+        );
+      } else if (item.handleClick) {
+        return (
+          <MenuItem key={index} onClick={item.handleClick}>
+            {item.name}
+          </MenuItem>
+        );
+      } else {
+        return null;
+      }
+    });
+  };
 
   return (
     <AppBar
@@ -237,42 +271,8 @@ function Header() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {isLoggedIn
-                ? loggedInSettings.map((option) => (
-                    <MenuItem
-                      key={option.name}
-                      onClick={
-                        option.handleClick
-                          ? option.handleClick
-                          : handleCloseUserMenu
-                      }
-                    >
-                      <Typography textAlign="center">
-                        {option.link ? (
-                          <Link
-                            style={{ textDecoration: "none", color: "black" }}
-                            to={option.link}
-                          >
-                            {option.name}
-                          </Link>
-                        ) : (
-                          option.name
-                        )}
-                      </Typography>
-                    </MenuItem>
-                  ))
-                : settings.map((option) => (
-                    <MenuItem key={option.name} onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">
-                        <Link
-                          style={{ textDecoration: "none", color: "black" }}
-                          to={option.link}
-                        >
-                          {option.name}
-                        </Link>
-                      </Typography>
-                    </MenuItem>
-                  ))}
+              {renderUserMenuItems(settings)}
+              {renderUserMenuItems(loggedInSettings)}
             </Menu>
           </Box>
         </Toolbar>
