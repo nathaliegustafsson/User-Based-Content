@@ -11,16 +11,25 @@ import {
   Toolbar,
   Tooltip,
   Typography,
+  styled,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, LinkProps, useNavigate } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
 
 const pages = ["Explore", "Search"];
 const loggedInSettings = ["Profile", "Account", "Logout"];
 const settings = ["Create profile", "Login"];
+
+type UserMenuItem = {
+  name: string;
+  link?: string;
+  handleClick?: () => void;
+};
+
+// ... rest of the Header component
 
 function Header() {
   const theme = useTheme();
@@ -28,6 +37,7 @@ function Header() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const userContext = useUserContext();
   const { user, login, logout } = userContext;
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     if (user) {
@@ -37,11 +47,6 @@ function Header() {
     }
   }, [user]);
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    handleCloseUserMenu();
-    userContext.logout();
-  };
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -65,22 +70,57 @@ function Header() {
   };
 
   const handleLogin = () => {
-    setIsLoggedIn(true);
+    handleCloseUserMenu();
+    navigate("/signin");
+  };
+
+  const handleCreateProfile = () => {
+    handleCloseUserMenu();
+    navigate("/createprofile");
+  };
+
+  const handleLogout = () => {
+    userContext.logout().then(() => {
+      setIsLoggedIn(false);
+      handleCloseUserMenu();
+      // Use navigate to go to the start page after logging out
+      navigate("/");
+    });
   };
 
   const settings = isLoggedIn
-    ? [{ name: "Create profile", link: "/createprofile" }]
+    ? []
     : [
-        { name: "Create profile", link: "/createprofile" },
-        { name: "Login", link: "/signin" },
+        { name: "Create profile", handleClick: handleCreateProfile },
+        { name: "Login", handleClick: handleLogin },
       ];
+
   const loggedInSettings = isLoggedIn
     ? [
-        { name: "Profile", link: "/user/:id" },
-        { name: "Logout", link: "/logout" },
-        // { name: "Logout", handleClick: handleLogout },
+        { name: "Profile", link: `/user/${user?.username}` },
+        { name: "Logout", handleClick: handleLogout },
       ]
     : [];
+
+  const renderUserMenuItems = (items: UserMenuItem[]) => {
+    return items.map((item, index) => {
+      if (item.link) {
+        return (
+          <MenuItem key={index} onClick={handleCloseUserMenu}>
+            <StyledLink to={item.link}>{item.name}</StyledLink>
+          </MenuItem>
+        );
+      } else if (item.handleClick) {
+        return (
+          <MenuItem key={index} onClick={item.handleClick}>
+            {item.name}
+          </MenuItem>
+        );
+      } else {
+        return null;
+      }
+    });
+  };
 
   return (
     <AppBar
@@ -89,7 +129,8 @@ function Header() {
       sx={{
         background: (theme) => theme.palette.background.default,
         padding: { xs: "0.5rem", md: "1rem" },
-      }}>
+      }}
+    >
       <Container maxWidth="xl">
         <Toolbar
           disableGutters
@@ -97,17 +138,24 @@ function Header() {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-          }}>
-          <Link to="/">
-            <Box
-              component="img"
-              src="/src/assets/share-thin.png"
-              alt="logo photo share"
-              sx={{
-                height: isSmallScreen ? "4rem" : "5rem",
-                display: { xs: "none", md: "flex" },
-              }}></Box>
-          </Link>
+          }}
+        >
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+            }}
+          >
+            <StyledLink to="/">
+              <Box
+                component="img"
+                src="/src/assets/share-thin.png"
+                alt="logo photo share"
+                sx={{
+                  height: isSmallScreen ? "4rem" : "5rem",
+                }}
+              ></Box>
+            </StyledLink>
+          </Box>
 
           <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -121,7 +169,8 @@ function Header() {
                 fontSize: { xs: "2rem", sm: "2.5rem", cursor: "pointer" },
                 color: (theme) => theme.palette.text.primary,
                 padding: 0,
-              }}>
+              }}
+            >
               menu
             </IconButton>
             <Menu
@@ -135,7 +184,8 @@ function Header() {
               sx={{
                 display: { xs: "block", md: "none" },
                 mt: "45px",
-              }}>
+              }}
+            >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
@@ -143,7 +193,7 @@ function Header() {
               ))}
             </Menu>
           </Box>
-          <Link to="/">
+          <StyledLink to="/">
             <Box
               component="img"
               src="/src/assets/share-thin.png"
@@ -151,14 +201,16 @@ function Header() {
               sx={{
                 height: isSmallScreen ? "4rem" : "5rem",
                 display: { xs: "flex", md: "none" },
-              }}></Box>
-          </Link>
+              }}
+            ></Box>
+          </StyledLink>
           <Box
             sx={{
               flexGrow: 1,
               display: { xs: "none", md: "flex" },
               ml: "1rem",
-            }}>
+            }}
+          >
             {pages.map((page) => (
               <Button
                 key={page}
@@ -168,7 +220,8 @@ function Header() {
                   color: "black",
                   display: "block",
                   fontSize: "1.2rem",
-                }}>
+                }}
+              >
                 {page}
               </Button>
             ))}
@@ -182,7 +235,8 @@ function Header() {
                 sx={{
                   color: (theme) => theme.palette.text.primary,
                   padding: 0,
-                }}>
+                }}
+              >
                 {isLoggedIn ? (
                   <Avatar
                     src={
@@ -194,7 +248,8 @@ function Header() {
                   <Icon
                     sx={{
                       fontSize: { xs: "2.5rem", sm: "3rem", cursor: "pointer" },
-                    }}>
+                    }}
+                  >
                     account_circle
                   </Icon>
                 )}
@@ -214,30 +269,10 @@ function Header() {
                 horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}>
-              {isLoggedIn
-                ? loggedInSettings.map((option) => (
-                    <MenuItem key={option.name} onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">
-                        <Link
-                          style={{ textDecoration: "none", color: "black" }}
-                          to={option.link}>
-                          {option.name}
-                        </Link>
-                      </Typography>
-                    </MenuItem>
-                  ))
-                : settings.map((option) => (
-                    <MenuItem key={option.name} onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">
-                        <Link
-                          style={{ textDecoration: "none", color: "black" }}
-                          to={option.link}>
-                          {option.name}
-                        </Link>
-                      </Typography>
-                    </MenuItem>
-                  ))}
+              onClose={handleCloseUserMenu}
+            >
+              {renderUserMenuItems(settings)}
+              {renderUserMenuItems(loggedInSettings)}
             </Menu>
           </Box>
         </Toolbar>
@@ -245,5 +280,10 @@ function Header() {
     </AppBar>
   );
 }
+
+const StyledLink = styled(Link)<LinkProps>(() => ({
+  textDecoration: "none",
+  color: "inherit",
+}));
 
 export default Header;
