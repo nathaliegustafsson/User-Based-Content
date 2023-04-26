@@ -1,6 +1,8 @@
 import {
+  Avatar,
   Box,
   CardContent,
+  CardMedia,
   Container,
   LinkProps,
   Paper,
@@ -71,7 +73,10 @@ function ExplorePostsGrid() {
                           gap: "1rem",
                         }}
                       >
-                        {/* <Avatar src={postItem.avatar} alt={postItem.title} /> */}
+                        <Avatar
+                          src="https://user-images.githubusercontent.com/116926631/233385334-05af6be5-c0bf-49ed-8691-2eed4ac15f62.jpeg"
+                          alt={post.title}
+                        />
                         <Box>
                           <Typography variant="subtitle1">
                             {post.username}
@@ -87,7 +92,9 @@ function ExplorePostsGrid() {
                         </Box>
                       </Box>
                     </CardContent>
-                    <img src={post.content} alt={post.title} />
+                    <CardMedia>
+                      <img src={post.content} alt={post.title} />
+                    </CardMedia>
                     <CardContent sx={cardContentStyle}>
                       <Box>
                         <Typography
