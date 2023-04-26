@@ -97,7 +97,7 @@ function Header() {
 
   const loggedInSettings = isLoggedIn
     ? [
-        { name: "Profile", link: "/user/:id" },
+        { name: "Profile", link: `/user/${user?.username}` },
         { name: "Logout", handleClick: handleLogout },
       ]
     : [];
