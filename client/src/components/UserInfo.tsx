@@ -35,7 +35,8 @@ function UserInfo() {
         alignItems: "center",
         flexDirection: "column",
         marginTop: "2.5rem",
-      }}>
+      }}
+    >
       <Avatar
         alt={user?.username}
         src="https://www.dmarge.com/wp-content/uploads/2021/01/dwayne-the-rock-.jpg"
@@ -54,14 +55,16 @@ function UserInfo() {
             <Button
               variant="contained"
               component={Link}
-              to="/user/:id/create/posts"
-              sx={{ marginRight: "1rem" }}>
+              to={`/user/${user?.username}/create/posts`}
+              sx={{ marginRight: "1rem" }}
+            >
               Create
             </Button>
             <Button
               variant="contained"
               component={Link}
-              to="/user/:id/edit/posts">
+              to={`/user/${user?.username}/edit/posts`}
+            >
               Edit profile
             </Button>
           </>
