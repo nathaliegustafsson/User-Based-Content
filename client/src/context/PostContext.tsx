@@ -9,7 +9,9 @@ export interface Post {
   // location: string;
   content: string;
   title: string;
-  author: string;
+  author: {
+    username: string;
+  };
 }
 
 interface Props {
