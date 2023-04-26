@@ -34,8 +34,6 @@ const PostContext = createContext<PostContextProps>({
   createPost: () => {},
   updatePost: () => {},
   deletePost: () => {},
-  getPost: () => {},
-  postId: 0,
 });
 
 export const usePostContext = () => useContext(PostContext);
@@ -154,8 +152,6 @@ export const PostProvider = ({ children }: Props) => {
         createPost,
         updatePost,
         deletePost,
-        getPost,
-        postId,
       }}>
       {children}
     </PostContext.Provider>
