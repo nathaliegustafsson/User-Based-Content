@@ -1,11 +1,9 @@
 import { Box, Button, Container, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
-import { Link, redirect } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useUserContext } from "../context/UserContext";
-import { useNavigate } from "react-router-dom";
-
 
 const SignInSchema = Yup.object({
   username: Yup.string().required("Please enter your username"),
@@ -42,10 +40,9 @@ function SignInForm() {
         alignItems: "center",
         flexDirection: "column",
         marginTop: "1rem",
-      }}
-    >
+      }}>
       <Typography variant="h5" sx={{ marginBottom: "2rem" }}>
-        Sign In
+        Log in
       </Typography>
       <form onSubmit={formik.handleSubmit}>
         <Box
@@ -57,8 +54,7 @@ function SignInForm() {
               width: "35ch",
               borderRadius: "0.6rem",
             },
-          }}
-        >
+          }}>
           <TextField
             id="outlined-username-input"
             name="username"
@@ -112,8 +108,7 @@ function SignInForm() {
                   textDecorationThickness: "0.05rem",
                   textUnderlineOffset: "0.1rem",
                 },
-              }}
-            >
+              }}>
               Forgot Password?
             </Typography>
           </Box>
@@ -122,10 +117,9 @@ function SignInForm() {
               display: "flex",
               justifyContent: "center",
               marginTop: "3rem",
-            }}
-          >
+            }}>
             <Button variant="contained" type="submit" sx={{ width: "6rem" }}>
-              Sign in
+              Log in
             </Button>
           </Box>
 
@@ -134,15 +128,13 @@ function SignInForm() {
               display: "flex",
               justifyContent: "center",
               marginTop: "5rem",
-            }}
-          >
+            }}>
             <Typography variant="body1">New to Photo Share?</Typography>
             <Typography
               variant="body1"
               component={Link}
               to="/createprofile"
-              sx={{ marginLeft: "0.4rem", color: "black" }}
-            >
+              sx={{ marginLeft: "0.4rem", color: "black" }}>
               Join now
             </Typography>
           </Box>
