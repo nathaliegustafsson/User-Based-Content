@@ -7,12 +7,12 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
+import PostPage from "./components/PostCard";
 import { PostProvider } from "./context/PostContext";
 import { UserProvider } from "./context/UserContext";
 import "./index.css";
 import CreatePostPage from "./pages/CreatePostPage";
 import CreateProfilePage from "./pages/CreateProfilePage";
-import EditAndDeletePostPage from "./pages/EditAndDeletePostPage";
 import EditPostPage from "./pages/EditPostPage";
 import ProfilePage from "./pages/ProfilePage";
 import SignInPage from "./pages/SignInPage";
@@ -27,7 +27,8 @@ const router = createBrowserRouter(
       <Route path="/createprofile" element={<CreateProfilePage />} />
       <Route path="/user/:username" element={<ProfilePage />} />
       <Route path="/user/:id/create/posts" element={<CreatePostPage />} />
-      <Route path="/posts/:id" element={<EditAndDeletePostPage />} />
+      <Route path="/posts/:id" element={<PostPage />} />
+      {/* <Route path="/posts/:id" element={<EditAndDeletePostPage />} /> */}
       <Route path="/user/:id/edit/post" element={<EditPostPage />} />
     </Route>
   )
