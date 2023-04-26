@@ -16,7 +16,7 @@ export async function getPostById(req: Request, res: Response) {
   if (!MongooseTypes.ObjectId.isValid(postId)) {
     return res.status(400).json({ error: `Invalid post ID.` });
   }
-  const post = await PostModel.findById(postId);
+  const post = await PostModel.findById(postId).populate('author', 'username');
   if (post) {
     res.status(200).json(post);
   } else {

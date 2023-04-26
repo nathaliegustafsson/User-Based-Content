@@ -19,6 +19,7 @@ function PostCard() {
   const { _id } = useParams<{ _id: string }>();
   const { getPostById } = usePostContext();
   const [post, setPost] = useState<Post | null>(null);
+  // const { posts, getAllPosts } = usePostContext();
 
   useEffect(() => {
     if (_id) {
@@ -66,7 +67,7 @@ function PostCard() {
                   />
                   <Box>
                     <Typography variant="subtitle1">
-                      Sadie Sink {post.username}
+                      Sadie Sink {post.author.username}
                     </Typography>
                     <Typography
                       variant="caption"
