@@ -7,13 +7,13 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import PostPage from "./components/PostCard";
 import { PostProvider } from "./context/PostContext";
 import { UserProvider } from "./context/UserContext";
 import "./index.css";
 import CreatePostPage from "./pages/CreatePostPage";
 import CreateProfilePage from "./pages/CreateProfilePage";
 import EditPostPage from "./pages/EditPostPage";
+import PostPage from "./pages/PostPage";
 import ProfilePage from "./pages/ProfilePage";
 import SignInPage from "./pages/SignInPage";
 import StartPage from "./pages/StartPage";
@@ -27,8 +27,8 @@ const router = createBrowserRouter(
       <Route path="/createprofile" element={<CreateProfilePage />} />
       <Route path="/user/:username" element={<ProfilePage />} />
       <Route path="/user/:id/create/posts" element={<CreatePostPage />} />
-      <Route path="/posts/:id" element={<PostPage />} />
-      {/* <Route path="/posts/:id" element={<EditAndDeletePostPage />} /> */}
+      <Route path="/posts/:_id" element={<PostPage />} />
+      {/* <Route path="/posts/:_id" element={<EditAndDeletePostPage />} /> */}
       <Route path="/user/:id/edit/post" element={<EditPostPage />} />
     </Route>
   )
@@ -36,13 +36,12 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    {/* <App /> */}
-    <UserProvider>
-      <PostProvider>
-        <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <UserProvider>
+        <PostProvider>
           <RouterProvider router={router} />
-        </ThemeProvider>
-      </PostProvider>
-    </UserProvider>
+        </PostProvider>
+      </UserProvider>
+    </ThemeProvider>
   </React.StrictMode>
 );
