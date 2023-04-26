@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   CardContent,
   CardMedia,
@@ -20,11 +21,9 @@ function PostCard() {
   const [post, setPost] = useState<Post | null>(null);
 
   useEffect(() => {
-    console.log("useEffect triggered");
     if (_id) {
       const fetchSinglePost = async () => {
         const fetchedPost = await getPostById(_id);
-        console.log("fetchedPost", fetchedPost);
         if (fetchedPost) {
           setPost(fetchedPost);
         }
@@ -33,7 +32,6 @@ function PostCard() {
     }
   }, [_id, getPostById]);
 
-  console.log("post", post);
   if (!post) {
     return <div>Sorry! The post was not found.</div>;
   }
@@ -46,19 +44,44 @@ function PostCard() {
             <Item
               sx={{
                 display: "flex",
-                flexDirection: { xs: "column", md: "row" },
+                flexDirection: { xs: "column-reverse", md: "row" },
               }}
             >
               <CardMedia>
                 <img src={post?.content} alt={post?.title} />
               </CardMedia>
               <CardContent sx={cardContentStyle}>
-                <Typography variant="overline" sx={{ marginBottom: "1rem" }}>
-                  {post?.title}
-                </Typography>
-                <Typography variant="h5" sx={{ marginBottom: "1rem" }}>
-                  {post?.title}
-                </Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginTop: "0.5rem",
+                    gap: "1rem",
+                  }}
+                >
+                  <Avatar
+                    src="https://user-images.githubusercontent.com/116926631/233385334-05af6be5-c0bf-49ed-8691-2eed4ac15f62.jpeg"
+                    alt={post.title}
+                  />
+                  <Box>
+                    <Typography variant="subtitle1">
+                      Sadie Sink {post.username}
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        color: "#777777",
+                        marginBottom: "3rem",
+                      }}
+                    >
+                      Malmö, Sweden{/* {postItem.location} */}
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box sx={{ marginTop: "3rem" }}>
+                  <Typography variant="caption">{post.title}</Typography>
+                </Box>
               </CardContent>
             </Item>
           </Grid>
@@ -92,6 +115,7 @@ const cardContentStyle: SxProps<Theme> = {
   flexDirection: "column",
   justifyContent: "flex-start",
   textAlign: "left",
+  paddingBottom: "0",
   "@media (min-width: 960px)": {
     // Media query for desktop view
     width: "100%",
