@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Link } from "react-router-dom";
+import { usePostContext } from "../context/PostContext";
 
 // export interface ContentItem {
 //   id: number;
@@ -80,23 +81,22 @@ function ProfilePageGrid() {
     // More content objects here...
   ];
 
+  const { postId } = usePostContext();
   return (
     <Container maxWidth="md" sx={rootStyle}>
       <Box sx={{ width: "100%" }}>
         <Grid
           container
           rowSpacing={{ xs: 0.5, sm: 1.5 }}
-          columnSpacing={{ xs: 1, sm: 2 }}
-        >
+          columnSpacing={{ xs: 1, sm: 2 }}>
           {posts.map((postItem) => {
             return (
               <Grid key={postItem.id} xs={4} sm={4} md={4}>
                 <StyledLink
-                  to={`/posts/:id`}
+                  to={`/posts/${postItem.id}`}
                   onClick={() => {
                     window.scroll(0, 0);
-                  }}
-                >
+                  }}>
                   <Box
                     component="img"
                     src={postItem.content}
@@ -106,8 +106,7 @@ function ProfilePageGrid() {
                       height: "auto",
                       objectFit: "cover",
                       cursor: "pointer",
-                    }}
-                  ></Box>
+                    }}></Box>
                 </StyledLink>
               </Grid>
             );
