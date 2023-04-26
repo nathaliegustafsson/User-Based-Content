@@ -14,27 +14,24 @@ import {
 } from "@mui/material";
 import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Post, usePostContext } from "../context/PostContext";
 
 function EditAndDeletePost({ postId }: { postId: number }) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [deletePostDialogOpen, setDeletePostDialogOpen] = React.useState(false);
   const navigate = useNavigate();
+  const { deletePost, getPost } = usePostContext();
+  const [post, setPost] = React.useState<Post | null>(null);
 
-  const handleDelete = async () => {
-    try {
-      const response = await fetch(`/api/posts/${postId}`, {
-        method: "DELETE",
-      });
-      if (response.ok) {
-        navigate("/");
-      } else {
-        throw new Error("Failed to delete post");
-      }
-    } catch (error) {
-      console.error(error);
+  React.useEffect(() => {
+    async function fetchPost() {
+      const post = await getPost(postId);
+      setPost(post!);
     }
-  };
+
+    fetchPost();
+  }, [postId]);
 
   return (
     <Container maxWidth={"md"}>
@@ -58,7 +55,7 @@ function EditAndDeletePost({ postId }: { postId: number }) {
         <Container sx={{ display: "flex", flexDirection: "column" }}>
           <Box
             component="img"
-            src="https://user-images.githubusercontent.com/116926631/233002175-166792cc-0b12-405f-8080-d081acae2507.JPG"
+            src={post?.content}
             sx={{
               width: "100%",
               marginTop: isSmallScreen ? "1rem" : "0",
@@ -98,9 +95,7 @@ function EditAndDeletePost({ postId }: { postId: number }) {
               </Typography>
             </Box>
             <Box>
-              <Typography sx={{ marginTop: "1rem" }}>
-                Found this pretty tree with these flowers!!!
-              </Typography>
+              <Typography sx={{ marginTop: "1rem" }}>{post?.title}</Typography>
             </Box>
           </Container>
           <Container
@@ -132,7 +127,7 @@ function EditAndDeletePost({ postId }: { postId: number }) {
                 <Button onClick={() => setDeletePostDialogOpen(false)}>
                   Cancel
                 </Button>
-                <Button onClick={handleDelete} color="primary" autoFocus>
+                <Button onClick={deletePost} color="primary" autoFocus>
                   Delete
                 </Button>
               </DialogActions>

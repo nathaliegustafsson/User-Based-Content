@@ -10,8 +10,10 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import * as React from "react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { usePostContext } from "../context/PostContext";
 
 function EditPost({ postId }: { postId: number }) {
   const navigate = useNavigate();
@@ -23,6 +25,16 @@ function EditPost({ postId }: { postId: number }) {
   });
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const { getPost } = usePostContext();
+
+  React.useEffect(() => {
+    async function fetchPost() {
+      const post = await getPost(postId);
+      setPost(post!);
+    }
+
+    fetchPost();
+  }, [postId]);
 
   useEffect(() => {
     async function fetchPost() {
@@ -85,7 +97,7 @@ function EditPost({ postId }: { postId: number }) {
         <Container sx={{ display: "flex", flexDirection: "column" }}>
           <Box
             component="img"
-            src="https://user-images.githubusercontent.com/116926631/233002175-166792cc-0b12-405f-8080-d081acae2507.JPG"
+            // src={post?.content}
             sx={{
               width: "100%",
               marginTop: isSmallScreen ? "1rem" : "0",
