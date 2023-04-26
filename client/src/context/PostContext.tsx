@@ -4,14 +4,14 @@ import { createContext, useContext, useState } from "react";
 export interface Post {
   timestamp: string;
   _id: string;
-  // avatar: string;
-  username: string;
-  // location: string;
   content: string;
   title: string;
   author: {
     username: string;
-  };
+  }
+  authorPostGrid: string;
+  // avatar: string;
+  // location: string;
 }
 
 interface Props {
@@ -59,7 +59,7 @@ export const PostProvider = ({ children }: Props) => {
           const authorData = await authorResponse.json();
           return {
             ...post,
-            author: authorData.username,
+            authorPostGrid: authorData.username,
           };
         })
       );
