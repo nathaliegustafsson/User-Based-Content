@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
-interface Post {
+export interface Post {
   title: string;
   content: string;
 }
@@ -14,6 +14,8 @@ interface PostContextProps {
   createPost: (newPost: Post) => void;
   updatePost: (updatedPost: Post) => void;
   deletePost: () => void;
+  getPost: (postId: number) => void;
+  postId: number;
 }
 
 const PostContext = createContext<PostContextProps>({
@@ -21,12 +23,33 @@ const PostContext = createContext<PostContextProps>({
   createPost: () => {},
   updatePost: () => {},
   deletePost: () => {},
+  getPost: () => {},
+  postId: 0,
 });
 
 export const usePostContext = () => useContext(PostContext);
 
 export const PostProvider = ({ children }: Props) => {
   const [post, setPost] = useState<Post | null>(null);
+  const [postId, setPostId] = useState<number>(0);
+
+  const getPost = async (postId: number) => {
+    try {
+      const response = await fetch(`/api/posts/${postId}`, {
+        method: "GET",
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch post ${postId}.`);
+      }
+
+      const postData = await response.json();
+      setPost(postData);
+      setPostId(postData.id); // add this line
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const createPost = async (newPost: Post) => {
     try {
@@ -90,8 +113,9 @@ export const PostProvider = ({ children }: Props) => {
         createPost,
         updatePost,
         deletePost,
-      }}
-    >
+        getPost,
+        postId,
+      }}>
       {children}
     </PostContext.Provider>
   );
