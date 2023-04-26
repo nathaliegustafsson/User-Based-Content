@@ -9,20 +9,20 @@ export async function getAllPosts(req: Request, res: Response) {
   const posts = await PostModel.find({});
   res.status(200).json(posts);
 }
-
 export async function getPostById(req: Request, res: Response) {
   const postId = req.params.id;
   // Check if the provided postId is a valid ObjectId
   if (!MongooseTypes.ObjectId.isValid(postId)) {
     return res.status(400).json({ error: `Invalid post ID.` });
   }
-  const post = await PostModel.findById(postId);
+  const post = await PostModel.findById(postId).populate('author', 'username');
   if (post) {
     res.status(200).json(post);
   } else {
     res.status(404).json(`/${postId} not found.`);
   }
 }
+
 
 // Create post
 export async function createPost(req: Request, res: Response) {
