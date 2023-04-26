@@ -127,7 +127,13 @@ function EditAndDeletePost({ postId }: { postId: number }) {
                 <Button onClick={() => setDeletePostDialogOpen(false)}>
                   Cancel
                 </Button>
-                <Button onClick={deletePost} color="primary" autoFocus>
+                <Button
+                  onClick={async () => {
+                    await deletePost();
+                    setDeletePostDialogOpen(false);
+                  }}
+                  color="primary"
+                  autoFocus>
                   Delete
                 </Button>
               </DialogActions>
