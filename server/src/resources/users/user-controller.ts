@@ -16,6 +16,21 @@ export async function getAllUsers(req: Request, res: Response) {
   res.status(200).json(users);
 }
 
+export async function getSpecificUser(req: Request, res: Response) {
+  const { userId } = req.query;
+  try {
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+    res.status(200).json({ username: user.username });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+}
+
+
 // Register user
 export async function registerUser(req: Request, res: Response) {
   const { username, password, isAdmin = false } = req.body;
