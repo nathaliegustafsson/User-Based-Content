@@ -79,10 +79,11 @@ const Item = styled(Paper)(({ theme }) => ({
   boxShadow: "0 .125rem .625rem rgba(0, 0, 0, 0.2)",
   "&:hover": {
     backgroundColor: "#FFFFFF",
+  },
   "& img": {
     width: "100%",
     height: "auto",
-    objectFit: "cover", // Ensures that the image fills the available space while preserving its aspect ratio
+    objectFit: "cover",
   },
 }));
 
