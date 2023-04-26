@@ -18,7 +18,7 @@ function PostCard() {
   const { _id } = useParams<{ _id: string }>();
   const { getPostById } = usePostContext();
   const [post, setPost] = useState<Post | null>(null);
-  const { posts, getAllPosts } = usePostContext();
+  // const { posts, getAllPosts } = usePostContext();
 
   useEffect(() => {
     console.log("useEffect triggered");
@@ -55,7 +55,7 @@ function PostCard() {
               </CardMedia>
               <CardContent sx={cardContentStyle}>
                 <Typography variant="overline" sx={{ marginBottom: "1rem" }}>
-                  {post.author}
+                  {post.author.username}
                 </Typography>
                 <Typography variant="h5" sx={{ marginBottom: "1rem" }}>
                   {post?.title}
