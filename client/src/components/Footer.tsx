@@ -25,14 +25,16 @@ function Footer() {
         alignItems: "center",
         marginTop: "4rem",
         paddingTop: "1rem",
-      }}>
+      }}
+    >
       <Grid
         container
         maxWidth={"sm"}
         sx={{
           display: "flex",
           justifyContent: "center",
-        }}>
+        }}
+      >
         <Grid item xs>
           <List>
             <ListItem sx={{ padding: "0 1rem" }}>
@@ -41,13 +43,19 @@ function Footer() {
               </ListItemText>
             </ListItem>
             <ListItem sx={{ padding: "0 1rem" }}>
-              <ListItemText sx={hoverEffectStyling}>About us</ListItemText>
+              <ListItemText sx={hoverEffectStyling}>
+                <Typography variant="body2">About Us</Typography>
+              </ListItemText>
             </ListItem>
             <ListItem sx={{ padding: "0 1rem" }}>
-              <ListItemText sx={hoverEffectStyling}>Our Product</ListItemText>
+              <ListItemText sx={hoverEffectStyling}>
+                <Typography variant="body2">Our Product</Typography>
+              </ListItemText>
             </ListItem>
             <ListItem sx={{ padding: "0 1rem" }}>
-              <ListItemText sx={hoverEffectStyling}>Careers</ListItemText>
+              <ListItemText sx={hoverEffectStyling}>
+                <Typography variant="body2">Careers</Typography>
+              </ListItemText>
             </ListItem>
           </List>
         </Grid>
@@ -59,13 +67,24 @@ function Footer() {
               </ListItemText>
             </ListItem>
             <ListItem sx={{ padding: "0 1rem" }}>
-              <ListItemText sx={hoverEffectStyling}>Guidelines</ListItemText>
+              <ListItemText sx={hoverEffectStyling}>
+                <Typography variant="body2">Guidelines</Typography>
+              </ListItemText>
             </ListItem>
             <ListItem sx={{ padding: "0 1rem" }}>
-              <ListItemText sx={hoverEffectStyling}>Safety</ListItemText>
+              <ListItemText sx={hoverEffectStyling}>
+                <Typography variant="body2">Safety</Typography>
+              </ListItemText>
             </ListItem>
             <ListItem sx={{ padding: "0 1rem" }}>
-              <ListItemText sx={hoverEffectStyling}>Support</ListItemText>
+              <ListItemText sx={hoverEffectStyling}>
+                <Typography variant="body2">Support</Typography>
+              </ListItemText>
+            </ListItem>
+            <ListItem sx={{ padding: "0 1rem" }}>
+              <ListItemText sx={hoverEffectStyling}>
+                <Typography variant="body2">Forum</Typography>
+              </ListItemText>
             </ListItem>
           </List>
         </Grid>
@@ -77,15 +96,24 @@ function Footer() {
               </ListItemText>
             </ListItem>
             <ListItem sx={{ padding: "0 1rem" }}>
-              <ListItemText sx={hoverEffectStyling}>Terms of use</ListItemText>
-            </ListItem>
-            <ListItem sx={{ padding: "0 1rem" }}>
               <ListItemText sx={hoverEffectStyling}>
-                Privacy Policy
+                <Typography variant="body2">Terms of Use</Typography>
               </ListItemText>
             </ListItem>
             <ListItem sx={{ padding: "0 1rem" }}>
-              <ListItemText sx={hoverEffectStyling}>Cookie Notice</ListItemText>
+              <ListItemText sx={hoverEffectStyling}>
+                <Typography variant="body2">Privacy Policy</Typography>
+              </ListItemText>
+            </ListItem>
+            <ListItem sx={{ padding: "0 1rem" }}>
+              <ListItemText sx={hoverEffectStyling}>
+                <Typography variant="body2">Cookie Notice</Typography>
+              </ListItemText>
+            </ListItem>
+            <ListItem sx={{ padding: "0 1rem" }}>
+              <ListItemText sx={hoverEffectStyling}>
+                <Typography variant="body2">Cookie Settings</Typography>
+              </ListItemText>
             </ListItem>
           </List>
         </Grid>
@@ -97,10 +125,14 @@ function Footer() {
               </ListItemText>
             </ListItem>
             <ListItem sx={{ padding: "0 1rem" }}>
-              <ListItemText sx={hoverEffectStyling}>Brands</ListItemText>
+              <ListItemText sx={hoverEffectStyling}>
+                <Typography variant="body2">Brands</Typography>
+              </ListItemText>
             </ListItem>
             <ListItem sx={{ padding: "0 1rem" }}>
-              <ListItemText sx={hoverEffectStyling}>Press</ListItemText>
+              <ListItemText sx={hoverEffectStyling}>
+                <Typography variant="body2">Press</Typography>
+              </ListItemText>
             </ListItem>
           </List>
         </Grid>
@@ -116,7 +148,8 @@ function Footer() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-          }}></Box>
+          }}
+        ></Box>
       </Link>
       <Typography sx={{ marginTop: "0.5rem" }}>Photo Share</Typography>
       <Typography
@@ -126,7 +159,8 @@ function Footer() {
           fontSize: "12px",
           marginTop: "1rem",
           marginBottom: "1rem",
-        }}>
+        }}
+      >
         Copyright 2023 Photo Share. All rights reserved
       </Typography>
     </Container>

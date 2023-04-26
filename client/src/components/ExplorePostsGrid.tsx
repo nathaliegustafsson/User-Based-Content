@@ -13,15 +13,6 @@ import {
 import Grid from "@mui/material/Unstable_Grid2";
 import { Link } from "react-router-dom";
 
-// export interface ContentItem {
-//   id: number;
-//   avatar: string;
-//   username: string;
-//   location: string;
-//   content: string;
-//   title: string;
-// }
-
 /**
  * Returns a grid of posts to explore on the startpage
  */
@@ -89,8 +80,8 @@ function ExplorePostsGrid() {
       <Box sx={{ width: "100%" }}>
         <Grid
           container
-          rowSpacing={{ xs: 2, sm: 4 }}
-          columnSpacing={{ xs: 2, sm: 4 }}
+          rowSpacing={{ xs: 2, sm: 3 }}
+          columnSpacing={{ xs: 2, sm: 3 }}
         >
           {posts.map((postItem) => {
             return (
