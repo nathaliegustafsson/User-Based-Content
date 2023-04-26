@@ -2,7 +2,8 @@
 import { createContext, useContext, useState } from "react";
 
 export interface Post {
-  id: string;
+  timestamp: string;
+  _id: string;
   // avatar: string;
   username: string;
   // location: string;
@@ -17,15 +18,14 @@ interface Props {
 interface PostContextProps {
   posts: Post[];
   getAllPosts: () => void;
-  getPostById: (id: string) => Promise<Post | null>;
+  getPostById: (_id: string) => Promise<Post | null>;
   createPost: (newPost: Post) => void;
   updatePost: (updatedPost: Post) => void;
-  deletePost: (id: number) => void;
+  deletePost: (id: string) => void;
 }
 
 const PostContext = createContext<PostContextProps>({
   posts: [],
-  // post: null,
   getAllPosts: () => {},
   getPostById: () => Promise.resolve(null),
   createPost: () => {},
@@ -51,14 +51,14 @@ export const PostProvider = ({ children }: Props) => {
     }
   };
 
-  const getPostById = async (id: string): Promise<Post | null> => {
+  const getPostById = async (_id: string): Promise<Post | null> => {
     try {
-      const response = await fetch(`/api/posts/:id`);
+      const response = await fetch(`/api/posts/${_id}`);
       if (!response.ok) {
         throw new Error("Failed to fetch post.");
       }
-      const getAllPosts = await response.json();
-      return getAllPosts;
+      const getPost = await response.json();
+      return getPost;
     } catch (error) {
       console.error(error);
       return null;
@@ -86,7 +86,7 @@ export const PostProvider = ({ children }: Props) => {
 
   const updatePost = async (updatedPost: Post) => {
     try {
-      const response = await fetch(`/api/posts/${updatedPost.id}`, {
+      const response = await fetch(`/api/posts/${updatedPost._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -101,7 +101,7 @@ export const PostProvider = ({ children }: Props) => {
       const updatedPostData = await response.json();
       setPosts((prevPosts) =>
         prevPosts.map((post) =>
-          post.id === updatedPostData.id ? updatedPostData : post
+          post._id === updatedPostData.id ? updatedPostData : post
         )
       );
     } catch (error) {
@@ -109,7 +109,7 @@ export const PostProvider = ({ children }: Props) => {
     }
   };
 
-  const deletePost = async (id: number) => {
+  const deletePost = async (_id: string) => {
     try {
       const response = await fetch(`/api/posts/:id`, {
         method: "DELETE",
@@ -119,7 +119,7 @@ export const PostProvider = ({ children }: Props) => {
         throw new Error("Failed to delete post.");
       }
 
-      setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id));
+      setPosts((prevPosts) => prevPosts.filter((post) => post._id !== _id));
     } catch (error) {
       console.error(error);
     }
