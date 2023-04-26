@@ -74,7 +74,7 @@ function ExplorePostsGrid() {
                         {/* <Avatar src={postItem.avatar} alt={postItem.title} /> */}
                         <Box>
                           <Typography variant="subtitle1">
-                            {post.username}
+                            {post.author}
                           </Typography>
                           <Typography
                             variant="caption"
