@@ -30,7 +30,6 @@ export async function getSpecificUser(req: Request, res: Response) {
   }
 }
 
-
 // Register user
 export async function registerUser(req: Request, res: Response) {
   const { username, password, isAdmin = false } = req.body;
