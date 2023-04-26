@@ -9,6 +9,7 @@ export interface Post {
   // location: string;
   content: string;
   title: string;
+  author: string;
 }
 
 interface Props {
@@ -44,8 +45,23 @@ export const PostProvider = ({ children }: Props) => {
       if (!response.ok) {
         throw new Error("Failed to fetch posts.");
       }
-      const getAllPosts = await response.json();
-      setPosts(getAllPosts);
+      const posts = await response.json();
+      const postsWithAuthors = await Promise.all(
+        posts.map(async (post: Post) => {
+          const authorResponse = await fetch(
+            `/api/users/username?userId=${post.author}`
+          );
+          if (!authorResponse.ok) {
+            throw new Error("Failed to fetch author.");
+          }
+          const authorData = await authorResponse.json();
+          return {
+            ...post,
+            author: authorData.username,
+          };
+        })
+      );
+      setPosts(postsWithAuthors);
     } catch (error) {
       console.error(error);
     }
