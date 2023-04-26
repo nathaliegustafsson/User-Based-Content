@@ -79,7 +79,7 @@ function ExplorePostsGrid() {
                         />
                         <Box>
                           <Typography variant="subtitle1">
-                            {post.author}
+                            {post.authorPostGrid}
                           </Typography>
                           <Typography
                             variant="caption"
