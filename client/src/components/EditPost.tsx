@@ -30,7 +30,7 @@ function EditPost() {
   const navigate = useNavigate();
   const [post, setPost] = useState<Post | null>(null);
   const theme = useTheme();
-  const navigate = useNavigate();
+  const { username } = useParams<{ username: string }>();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const { user } = useUserContext();
 
@@ -45,7 +45,6 @@ function EditPost() {
       fetchSinglePost();
     }
   }, [_id, getPostById]);
-
 
   const initialValues = {
     title: post?.title || "",
@@ -68,37 +67,9 @@ function EditPost() {
         };
         updatePost(updatedPost);
         navigate(`/user/${username}`);
+      }
     },
   });
-
-  React.useEffect(() => {
-    let isMounted = true; // Add this flag to check if the component is still mounted
-    if (_id) {
-      const fetchSinglePost = async () => {
-        const fetchedPost = await getPostById(_id);
-        if (fetchedPost && isMounted) {
-          // Check if the component is still mounted before updating state
-          setPost((prevPost) => ({
-            ...prevPost,
-            title: fetchedPost.title,
-            content: fetchedPost.content,
-            timestamp: fetchedPost.timestamp || "",
-            _id: fetchedPost._id,
-            author: fetchedPost.author,
-            authorPostGrid: fetchedPost.authorPostGrid,
-          }));
-          formik.setValues({
-            title: fetchedPost.title,
-            content: fetchedPost.content,
-          });
-        }
-      };
-      fetchSinglePost();
-    }
-    return () => {
-      isMounted = false; // Set the flag to false when the component unmounts
-    };
-  }, [_id, getPostById]); // Remove formik from the dependency array
 
   return (
     <Container maxWidth={"md"}>
