@@ -22,7 +22,7 @@ interface PostContextProps {
   posts: Post[];
   getAllPosts: () => void;
   getPostById: (_id: string) => Promise<Post | null>;
-  getAllPostsByUser: (_id: string) => void;
+  getAllPostsByUser: (userId: string) => void;
   createPost: (newPost: Post) => void;
   updatePost: (updatedPost: Post) => void;
   deletePost: (id: string) => void;
@@ -50,22 +50,10 @@ export const PostProvider = ({ children }: Props) => {
         throw new Error("Failed to fetch posts.");
       }
       const posts = await response.json();
-      const postsWithAuthors = await Promise.all(
-        posts.map(async (post: Post) => {
-          const authorResponse = await fetch(
-            `/api/users/username?userId=${post.author}`
-          );
-          if (!authorResponse.ok) {
-            throw new Error("Failed to fetch author.");
-          }
-          const authorData = await authorResponse.json();
-          return {
-            ...post,
-            authorPostGrid: authorData.username,
-          };
-        })
+      const filteredPosts = posts.filter(
+        (post: { author: string }) => post.author === userId
       );
-      setPosts(postsWithAuthors);
+      setPosts(filteredPosts);
     } catch (error) {
       console.error(error);
     }
@@ -183,8 +171,7 @@ export const PostProvider = ({ children }: Props) => {
         createPost,
         updatePost,
         deletePost,
-      }}
-    >
+      }}>
       {children}
     </PostContext.Provider>
   );

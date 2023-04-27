@@ -10,22 +10,23 @@ import Grid from "@mui/material/Unstable_Grid2";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { usePostContext } from "../context/PostContext";
+import { useUserContext } from "../context/UserContext";
 
 /**
  * Returns a grid of posts to explore
  */
 function ProfilePageGrid() {
+  const { user } = useUserContext();
   const { posts, getAllPostsByUser } = usePostContext();
-  const { userId, username } = useParams<{
-    userId: string;
+  const { username } = useParams<{
     username: string;
   }>();
-  const { getAllPosts } = usePostContext();
+
   useEffect(() => {
-    if (userId) {
-      getAllPostsByUser(userId);
+    if (user && user._id) {
+      getAllPostsByUser(user._id);
     }
-  }, [userId, getAllPosts]);
+  }, [user]);
 
   return (
     <Container maxWidth="md" sx={rootStyle}>
@@ -33,8 +34,7 @@ function ProfilePageGrid() {
         <Grid
           container
           rowSpacing={{ xs: 0.5, sm: 1.5 }}
-          columnSpacing={{ xs: 1, sm: 2 }}
-        >
+          columnSpacing={{ xs: 1, sm: 2 }}>
           {posts.map((post) => {
             return (
               <Grid key={post._id} xs={4} sm={4} md={4}>
@@ -42,8 +42,7 @@ function ProfilePageGrid() {
                   to={`/user/${username}/posts/${post._id}/editdelete`}
                   onClick={() => {
                     window.scroll(0, 0);
-                  }}
-                >
+                  }}>
                   <Box
                     component="img"
                     src={post.content}
@@ -53,8 +52,7 @@ function ProfilePageGrid() {
                       height: "auto",
                       objectFit: "cover",
                       cursor: "pointer",
-                    }}
-                  ></Box>
+                    }}></Box>
                 </StyledLink>
               </Grid>
             );

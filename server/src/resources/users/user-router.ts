@@ -17,6 +17,6 @@ const userRouter = express
   .post("/api/users/login", loginUser)
   .post("/api/users/logout", logoutUser)
   .get("/api/users/auth", isAuthenticated, getLoggedInUser)
-  .get("/api/users/username", getSpecificUser)
+  .get("/api/users/:username", getSpecificUser)
   .post("/api/users/checkUsername", checkUsername);
 export default userRouter;
