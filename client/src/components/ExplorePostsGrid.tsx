@@ -75,7 +75,7 @@ function ExplorePostsGrid() {
                       >
                         <Avatar
                           src="https://user-images.githubusercontent.com/116926631/233385334-05af6be5-c0bf-49ed-8691-2eed4ac15f62.jpeg"
-                          alt={post.title}
+                          alt="user avatar"
                         />
                         <Box>
                           <Typography variant="subtitle1">
@@ -92,9 +92,11 @@ function ExplorePostsGrid() {
                         </Box>
                       </Box>
                     </CardContent>
-                    <CardMedia>
-                      <img src={post.content} alt={post.title} />
-                    </CardMedia>
+                    <CardMedia
+                      component="img"
+                      src={post.content}
+                      alt={post.title}
+                    />
                     <CardContent sx={cardContentStyle}>
                       <Box>
                         <Typography

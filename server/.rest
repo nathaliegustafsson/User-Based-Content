@@ -10,20 +10,20 @@ POST http://localhost:3000/api/posts
 Content-Type: application/json
 
 {
-    "title": "Test 6",
-    "content": "hej hej"
+    "title": "Amazing tiles!!",
+    "content": "https://user-images.githubusercontent.com/116926631/234859310-5ba21d60-aaf3-4094-b4c7-0cb81e12d8e4.JPG"
 }
 
 ### UPDATE POST 
-PUT http://localhost:3000/api/posts/6446d9c58217db06f94a8130
+PUT http://localhost:3000/api/posts/644990eca68eb684734f0685
 Content-Type: application/json
 
-{   "title": "",
-    "film": "hej"
+{   
+    "title": "Amazing chairs, for an amazing Pedro."
 }
 
 ### DELETE POST
-DELETE http://localhost:3000/api/posts/643fb8bfba0a23cb43517744
+DELETE http://localhost:3000/api/posts/644990eca68eb684734f0685
 
 ### GET USERS
 GET http://localhost:3000/api/users
@@ -33,8 +33,8 @@ POST http://localhost:3000/api/users/register
 Content-Type: application/json
 
 {
-    "username": "lisam",
-    "password": "1234!"
+    "username": "Rihanna",
+    "password": "rihanna"
 }
 
 ### LOGIN USER
@@ -42,12 +42,10 @@ POST http://localhost:3000/api/users/login
 Content-Type: application/json
 
 {
-    "username": "lisa",
-    "password": "1234!"
+    "username": "Rihanna",
+    "password": "rihanna"
 }
 
 ### LOGOUT USER
 POST  http://localhost:3000/api/users/logout
 
-### LISA 64464d6c8cb8d29dadc2cbf0
-### LISAMARIE 6446bd73e8450273cae0b996
