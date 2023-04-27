@@ -70,7 +70,7 @@ function CreateProfileForm() {
             flexDirection: "column",
             "& .MuiTextField-root": {
               m: 2,
-              width: "35ch",
+              // width: "35ch",
               borderRadius: "0.6rem",
             },
           }}>

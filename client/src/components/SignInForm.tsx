@@ -43,8 +43,7 @@ function SignInForm() {
         alignItems: "center",
         flexDirection: "column",
         marginTop: "1rem",
-      }}
-    >
+      }}>
       <Typography variant="h5" sx={{ marginBottom: "2rem" }}>
         Log in
       </Typography>
@@ -55,11 +54,10 @@ function SignInForm() {
             flexDirection: "column",
             "& .MuiTextField-root": {
               m: 2,
-              width: "35ch",
+              // width: "35ch",
               borderRadius: "0.6rem",
             },
-          }}
-        >
+          }}>
           <TextField
             id="outlined-username-input"
             name="username"
@@ -113,8 +111,7 @@ function SignInForm() {
                   textDecorationThickness: "0.05rem",
                   textUnderlineOffset: "0.1rem",
                 },
-              }}
-            >
+              }}>
               Forgot Password?
             </Typography>
           </Box>
@@ -123,8 +120,7 @@ function SignInForm() {
               display: "flex",
               justifyContent: "center",
               marginTop: "3rem",
-            }}
-          >
+            }}>
             <Button variant="contained" type="submit" sx={{ width: "6rem" }}>
               Log in
             </Button>
@@ -135,15 +131,13 @@ function SignInForm() {
               display: "flex",
               justifyContent: "center",
               marginTop: "5rem",
-            }}
-          >
+            }}>
             <Typography variant="body1">New to Photo Share?</Typography>
             <Typography
               variant="body1"
               component={Link}
               to="/createprofile"
-              sx={{ marginLeft: "0.4rem", color: "black" }}
-            >
+              sx={{ marginLeft: "0.4rem", color: "black" }}>
               Join now
             </Typography>
           </Box>
