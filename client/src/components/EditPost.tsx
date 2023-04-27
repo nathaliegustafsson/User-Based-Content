@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
-import React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { Post, usePostContext } from "../context/PostContext";
@@ -75,7 +74,11 @@ function EditPost() {
     <Container maxWidth={"md"}>
       <Typography
         variant="h6"
-        sx={{ display: "flex", justifyContent: "center" }}>
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: isSmallScreen ? "2rem" : "",
+        }}>
         Edit post
       </Typography>
       <IconButton
@@ -129,8 +132,7 @@ function EditPost() {
                 variant="h6"
                 sx={{
                   marginLeft: "1rem",
-                }}
-              >
+                }}>
                 {user?.username}
               </Typography>
             </Box>
@@ -167,13 +169,11 @@ function EditPost() {
                 <Container
                   sx={{
                     padding: "0px !important",
-                  }}
-                >
+                  }}>
                   <Button
                     variant="contained"
                     type="submit"
-                    sx={{ marginRight: "0.5rem", marginTop: "1rem" }}
-                  >
+                    sx={{ marginRight: "0.5rem", marginTop: "1rem" }}>
                     Save
                   </Button>
                 </Container>
