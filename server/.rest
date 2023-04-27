@@ -10,8 +10,8 @@ POST http://localhost:3000/api/posts
 Content-Type: application/json
 
 {
-    "title": "I took this.",
-    "content": "https://user-images.githubusercontent.com/116926631/233377366-b95d05f9-11a7-4d1b-9d9f-5d912a5e522f.JPG"
+    "title": "Amazing tiles!!",
+    "content": "https://user-images.githubusercontent.com/116926631/234859310-5ba21d60-aaf3-4094-b4c7-0cb81e12d8e4.JPG"
 }
 
 ### UPDATE POST 
@@ -33,8 +33,8 @@ POST http://localhost:3000/api/users/register
 Content-Type: application/json
 
 {
-    "username": "Brad Pitt",
-    "password": "bradpitt"
+    "username": "Rihanna",
+    "password": "rihanna"
 }
 
 ### LOGIN USER
@@ -42,8 +42,8 @@ POST http://localhost:3000/api/users/login
 Content-Type: application/json
 
 {
-    "username": "Brad Pitt",
-    "password": "bradpitt"
+    "username": "Rihanna",
+    "password": "rihanna"
 }
 
 ### LOGOUT USER
