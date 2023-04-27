@@ -1,17 +1,21 @@
 // PostContext.tsx
 import React, { createContext, useContext, useState } from "react";
 
+export interface NewPost {
+  title: string;
+  content: string;
+}
+
 export interface Post {
-  timestamp: string;
   _id: string;
   content: string;
   title: string;
-  author: {
+  author: string;
+  authorPostGrid: string;
+  authorOnEdit: {
     username: string;
   };
-  authorPostGrid: string;
-  // avatar: string;
-  // location: string;
+  timestamp: string;
 }
 
 interface Props {
@@ -23,7 +27,7 @@ interface PostContextProps {
   getAllPosts: () => void;
   getPostById: (_id: string) => Promise<Post | null>;
   getAllPostsByUser: (userId: string) => void;
-  createPost: (newPost: Post) => void;
+  createPost: (newPost: NewPost) => void;
   updatePost: (updatedPost: Post) => void;
   deletePost: (id: string) => void;
 }
@@ -101,7 +105,8 @@ export const PostProvider = ({ children }: Props) => {
     }
   };
 
-  const createPost = async (newPost: Post) => {
+  const createPost = async (newPost: NewPost) => {
+    console.log("Creating post: ", newPost);
     try {
       const response = await fetch("/api/posts", {
         method: "POST",
@@ -114,39 +119,38 @@ export const PostProvider = ({ children }: Props) => {
         throw new Error("Failed to create post.");
       }
       const createdPost = await response.json();
+      console.log("createdPost:", createdPost); 
       setPosts((prevPosts) => [...prevPosts, createdPost]);
+      return createdPost;
     } catch (error) {
       console.error(error);
     }
   };
 
-  const updatePost = React.useCallback(
-    async (updatedPost: Post) => {
-      try {
-        const response = await fetch(`/api/posts/${updatedPost._id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedPost),
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to update post.");
-        }
-
-        const updatedPostData = await response.json();
-        setPosts((prevPosts) =>
-          prevPosts.map((post) =>
-            post._id === updatedPostData._id ? updatedPostData : post
-          )
-        );
-      } catch (error) {
-        console.error(error);
+  const updatePost = async (updatedPost: Post) => {
+    try {
+      const response = await fetch(`/api/posts/${updatedPost._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedPost),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to update post: ${await response.text()}`);
       }
-    },
-    [setPosts]
-  );
+  
+      const updatedPostData = await response.json();
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post._id === updatedPostData._id ? updatedPostData : post
+        )
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const deletePost = async (_id: string) => {
     try {

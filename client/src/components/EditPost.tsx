@@ -10,10 +10,12 @@ import {
   useTheme,
 } from "@mui/material";
 import { useFormik } from "formik";
+import { useEffect, useState } from "react";
 import React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { Post, usePostContext } from "../context/PostContext";
+import { useUserContext } from "../context/UserContext";
 
 const EditSchema = Yup.object({
   title: Yup.string().required("Write something"),
@@ -23,63 +25,51 @@ const EditSchema = Yup.object({
 export type EditValues = Yup.InferType<typeof EditSchema>;
 
 function EditPost() {
-  const theme = useTheme();
-  const navigate = useNavigate();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const { getPostById, updatePost } = usePostContext();
+  const { _id } = useParams<{ _id?: string }>();
+  const navigate = useNavigate();
+  const [post, setPost] = useState<Post | null>(null);
+  const theme = useTheme();
   const { username } = useParams<{ username: string }>();
-  const { _id } = useParams<{ _id: string }>();
-  const [post, setPost] = React.useState<Post | null>(null);
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const { user } = useUserContext();
 
-  const formik = useFormik<EditValues>({
-    initialValues: {
-      title: post?.title || "",
-      content: post?.content || "",
-    },
-    validationSchema: EditSchema,
-    onSubmit: (values) => {
-      console.log("test if submit works" + values);
-      if (post) {
-        console.log("test if submit works again" + values);
-        updatePost({
-          ...post,
-          title: values.title,
-          content: values.content,
-        });
-        console.log("test if submit works againnnnnnn" + values);
-      }
-      navigate(`/user/${username}`);
-    },
-  });
-
-  React.useEffect(() => {
-    let isMounted = true; // Add this flag to check if the component is still mounted
+  useEffect(() => {
     if (_id) {
       const fetchSinglePost = async () => {
         const fetchedPost = await getPostById(_id);
-        if (fetchedPost && isMounted) {
-          // Check if the component is still mounted before updating state
-          setPost((prevPost) => ({
-            ...prevPost,
-            title: fetchedPost.title,
-            content: fetchedPost.content,
-            timestamp: fetchedPost.timestamp || "",
-            _id: fetchedPost._id,
-            author: fetchedPost.author,
-            authorPostGrid: fetchedPost.authorPostGrid,
-          }));
-          formik.setValues({
-            title: fetchedPost.title,
-            content: fetchedPost.content,
-          });
+        if (fetchedPost) {
+          setPost(fetchedPost);
         }
       };
       fetchSinglePost();
     }
-    return () => {
-      isMounted = false; // Set the flag to false when the component unmounts
-    };
-  }, [_id, getPostById]); // Remove formik from the dependency array
+  }, [_id, getPostById]);
+
+  const initialValues = {
+    title: post?.title || "",
+    content: post?.content || "",
+  };
+
+  const formik = useFormik<EditValues>({
+    initialValues,
+    validationSchema: EditSchema,
+    onSubmit: (values) => {
+      if (post && _id) {
+        const author =
+          typeof post.author === "string" ? { _id: post.author } : post.author;
+        const updatedPost: Post = {
+          ...post,
+          title: values.title,
+          content: values.content,
+          author: author._id.toString(),
+          timestamp: post.timestamp,
+        };
+        updatePost(updatedPost);
+        navigate(`/user/${username}`);
+      }
+    },
+  });
 
   return (
     <Container maxWidth={"md"}>
@@ -139,8 +129,9 @@ function EditPost() {
                 variant="h6"
                 sx={{
                   marginLeft: "1rem",
-                }}>
-                The Rock
+                }}
+              >
+                {user?.username}
               </Typography>
             </Box>
             <Container sx={{ padding: "0px !important" }}>
@@ -173,12 +164,19 @@ function EditPost() {
                   helperText={formik.touched.content && formik.errors.content}
                   sx={{ marginTop: "1rem" }}
                 />
-                <Button
-                  variant="contained"
-                  type="submit"
-                  sx={{ marginRight: "0.5rem", marginTop: "1rem" }}>
-                  Save
-                </Button>
+                <Container
+                  sx={{
+                    padding: "0px !important",
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    sx={{ marginRight: "0.5rem", marginTop: "1rem" }}
+                  >
+                    Save
+                  </Button>
+                </Container>
               </form>
             </Container>
           </Container>

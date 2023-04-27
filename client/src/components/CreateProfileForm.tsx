@@ -56,7 +56,7 @@ function CreateProfileForm() {
         display: "flex",
         alignItems: "center",
         flexDirection: "column",
-        marginTop: "1rem",
+        marginTop: "3rem",
       }}
     >
       <Typography variant="h5" sx={{ marginBottom: "1.1rem" }}>
@@ -72,12 +72,12 @@ function CreateProfileForm() {
             flexDirection: "column",
             "& .MuiTextField-root": {
               m: 2,
-              // width: "35ch",
               borderRadius: "0.6rem",
             },
           }}
         >
           <TextField
+            fullWidth
             id="outlined-username-input"
             name="username"
             label="Username"
@@ -98,6 +98,7 @@ function CreateProfileForm() {
             }}
           />
           <TextField
+            fullWidth
             id="outlined-password-input"
             name="password"
             label="Password"
