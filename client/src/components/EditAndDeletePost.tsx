@@ -104,7 +104,7 @@ function EditAndDeletePost() {
                   marginLeft: "1rem",
                 }}
               >
-                The Rock
+                {post?.author.username}
               </Typography>
             </Box>
             <Box>
