@@ -11,15 +11,6 @@ import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { usePostContext } from "../context/PostContext";
 
-// export interface Contentitem {
-//   id: number;
-//   avatar: string;
-//   username: string;
-//   location: string;
-//   content: string;
-//   title: string;
-// }
-
 /**
  * Returns a grid of posts to explore
  */
@@ -39,7 +30,8 @@ function ProfilePageGrid() {
         <Grid
           container
           rowSpacing={{ xs: 0.5, sm: 1.5 }}
-          columnSpacing={{ xs: 1, sm: 2 }}>
+          columnSpacing={{ xs: 1, sm: 2 }}
+        >
           {posts.map((post) => {
             return (
               <Grid key={post._id} xs={4} sm={4} md={4}>
@@ -47,7 +39,8 @@ function ProfilePageGrid() {
                   to={`/user/editanddelete/${post._id}`}
                   onClick={() => {
                     window.scroll(0, 0);
-                  }}>
+                  }}
+                >
                   <Box
                     component="img"
                     src={post.content}
@@ -57,7 +50,8 @@ function ProfilePageGrid() {
                       height: "auto",
                       objectFit: "cover",
                       cursor: "pointer",
-                    }}></Box>
+                    }}
+                  ></Box>
                 </StyledLink>
               </Grid>
             );
