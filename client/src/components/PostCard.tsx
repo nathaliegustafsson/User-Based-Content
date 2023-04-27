@@ -47,7 +47,7 @@ function PostCard() {
         }}>
         <IconButton
           component={Link}
-          to={`/user/${username}`}
+          to={`/`}
           className="material-symbols-outlined"
           sx={{
             color: "black",
