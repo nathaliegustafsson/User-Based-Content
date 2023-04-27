@@ -183,7 +183,8 @@ export const PostProvider = ({ children }: Props) => {
         createPost,
         updatePost,
         deletePost,
-      }}>
+      }}
+    >
       {children}
     </PostContext.Provider>
   );
