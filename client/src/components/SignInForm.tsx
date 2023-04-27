@@ -1,7 +1,7 @@
 import { Box, Button, Container, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useUserContext } from "../context/UserContext";
 
@@ -14,7 +14,6 @@ export type SignInValues = Yup.InferType<typeof SignInSchema>;
 
 function SignInForm() {
   const { login } = useUserContext();
-  const { username } = useParams<{ username: string }>();
   const navigate = useNavigate();
   const formik = useFormik<SignInValues>({
     initialValues: {
@@ -24,9 +23,12 @@ function SignInForm() {
     validationSchema: SignInSchema,
     onSubmit: async (signInValues) => {
       try {
-        const user = await login(signInValues.username, signInValues.password);
-        console.log(user + "INLOGGAD!");
-        navigate(`/user/${username}`);
+        const loggedInUser = await login(
+          signInValues.username,
+          signInValues.password
+        );
+        console.log(loggedInUser + "INLOGGAD!");
+        navigate(`/user/${loggedInUser.username}`);
       } catch (error) {
         console.log(error);
       }
@@ -55,8 +57,7 @@ function SignInForm() {
               m: 2,
               borderRadius: "0.6rem",
             },
-          }}
-        >
+          }}>
           <TextField
             fullWidth
             id="outlined-username-input"
@@ -112,8 +113,7 @@ function SignInForm() {
                   textDecorationThickness: "0.05rem",
                   textUnderlineOffset: "0.1rem",
                 },
-              }}
-            >
+              }}>
               Forgot Password?
             </Typography>
           </Box>
@@ -122,8 +122,7 @@ function SignInForm() {
               display: "flex",
               justifyContent: "center",
               marginTop: "3rem",
-            }}
-          >
+            }}>
             <Button variant="contained" type="submit" sx={{ width: "6rem" }}>
               Log in
             </Button>
@@ -134,15 +133,13 @@ function SignInForm() {
               display: "flex",
               justifyContent: "center",
               marginTop: "5rem",
-            }}
-          >
+            }}>
             <Typography variant="body1">New to Photo Share?</Typography>
             <Typography
               variant="body1"
               component={Link}
               to="/createprofile"
-              sx={{ marginLeft: "0.4rem", color: "black" }}
-            >
+              sx={{ marginLeft: "0.4rem", color: "black" }}>
               Join now
             </Typography>
           </Box>

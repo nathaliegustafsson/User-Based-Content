@@ -12,7 +12,7 @@ interface Props {
 
 interface UserContextProps {
   user: User | null;
-  login: (username: string, password: string) => void;
+  login: (username: string, password: string) => Promise<User>;
   logout: () => Promise<void>; // Update the return type to Promise<void>
   register: (username: string, password: string) => void;
   checkUsername: (username: string) => void;
@@ -20,7 +20,11 @@ interface UserContextProps {
 
 const UserContext = createContext<UserContextProps>({
   user: null,
-  login: () => {},
+  login: () => {
+    return new Promise((_, reject) => {
+      reject(new Error("Login function not implemented"));
+    });
+  },
   logout: () => Promise.resolve(),
   register: () => {},
   checkUsername: () => {},
@@ -139,7 +143,8 @@ export const UserProvider = ({ children }: Props) => {
         login: LogInUser,
         logout: LogoutUser,
         checkUsername: CheckUsername,
-      }}>
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
+import React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { Post, usePostContext } from "../context/PostContext";
@@ -29,7 +30,7 @@ function EditPost() {
   const navigate = useNavigate();
   const [post, setPost] = useState<Post | null>(null);
   const theme = useTheme();
-  const { username } = useParams<{ username: string }>();
+  const navigate = useNavigate();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const { user } = useUserContext();
 
@@ -44,6 +45,7 @@ function EditPost() {
       fetchSinglePost();
     }
   }, [_id, getPostById]);
+
 
   const initialValues = {
     title: post?.title || "",
@@ -66,32 +68,57 @@ function EditPost() {
         };
         updatePost(updatedPost);
         navigate(`/user/${username}`);
-      }
     },
   });
+
+  React.useEffect(() => {
+    let isMounted = true; // Add this flag to check if the component is still mounted
+    if (_id) {
+      const fetchSinglePost = async () => {
+        const fetchedPost = await getPostById(_id);
+        if (fetchedPost && isMounted) {
+          // Check if the component is still mounted before updating state
+          setPost((prevPost) => ({
+            ...prevPost,
+            title: fetchedPost.title,
+            content: fetchedPost.content,
+            timestamp: fetchedPost.timestamp || "",
+            _id: fetchedPost._id,
+            author: fetchedPost.author,
+            authorPostGrid: fetchedPost.authorPostGrid,
+          }));
+          formik.setValues({
+            title: fetchedPost.title,
+            content: fetchedPost.content,
+          });
+        }
+      };
+      fetchSinglePost();
+    }
+    return () => {
+      isMounted = false; // Set the flag to false when the component unmounts
+    };
+  }, [_id, getPostById]); // Remove formik from the dependency array
 
   return (
     <Container maxWidth={"md"}>
       <Typography
         variant="h6"
-        sx={{ display: "flex", justifyContent: "center" }}
-      >
+        sx={{ display: "flex", justifyContent: "center" }}>
         Edit post
       </Typography>
       <IconButton
         component={Link}
         to={`/user/${username}`}
         className="material-symbols-outlined"
-        sx={{ color: "black" }}
-      >
+        sx={{ color: "black" }}>
         arrow_back
       </IconButton>
       <Container
         sx={{
           display: "flex",
           flexDirection: isSmallScreen ? "column-reverse" : "row",
-        }}
-      >
+        }}>
         <Container sx={{ display: "flex", flexDirection: "column" }}>
           <Box
             component="img"
@@ -100,8 +127,7 @@ function EditPost() {
             sx={{
               width: "100%",
               marginTop: isSmallScreen ? "1rem" : "0",
-            }}
-          ></Box>
+            }}></Box>
         </Container>
         <Container
           sx={{
@@ -110,19 +136,16 @@ function EditPost() {
             flexDirection: "column",
             justifyContent: "space-between",
             marginTop: isSmallScreen ? "1rem" : "0",
-          }}
-        >
+          }}>
           <Container
             sx={{
               padding: "0px !important",
-            }}
-          >
+            }}>
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
-              }}
-            >
+              }}>
               <Avatar
                 alt="Remy Sharp"
                 src="https://www.dmarge.com/wp-content/uploads/2021/01/dwayne-the-rock-.jpg"
@@ -140,7 +163,7 @@ function EditPost() {
                 {user?.username}
               </Typography>
             </Box>
-            <Box>
+            <Container sx={{ padding: "0px !important" }}>
               <form onSubmit={formik.handleSubmit}>
                 <TextField
                   fullWidth
@@ -184,7 +207,7 @@ function EditPost() {
                   </Button>
                 </Container>
               </form>
-            </Box>
+            </Container>
           </Container>
         </Container>
       </Container>

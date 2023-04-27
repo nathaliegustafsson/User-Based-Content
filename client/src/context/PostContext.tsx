@@ -1,5 +1,5 @@
 // PostContext.tsx
-import { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 export interface NewPost {
   title: string;

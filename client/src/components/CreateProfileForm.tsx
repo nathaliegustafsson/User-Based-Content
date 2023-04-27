@@ -1,7 +1,7 @@
 import { Box, Button, Container, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { useUserContext } from "../context/UserContext";
 
@@ -26,6 +26,7 @@ export type CreateProfileValues = Yup.InferType<typeof CreateProfileSchema>;
 
 function CreateProfileForm() {
   const { register, login } = useUserContext();
+  const { username } = useParams<{ username: string }>();
   const navigate = useNavigate();
   const formik = useFormik<CreateProfileValues>({
     initialValues: {
@@ -40,7 +41,7 @@ function CreateProfileForm() {
           createProfileValues.password
         );
         await login(createProfileValues.username, createProfileValues.password);
-        navigate("/user/:id");
+        navigate(`/user/${createProfileValues.username}`);
         console.log(user);
       } catch (error) {
         console.log(error);

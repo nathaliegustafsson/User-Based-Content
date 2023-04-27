@@ -13,13 +13,14 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Post, usePostContext } from "../context/PostContext";
 
 function PostCard() {
   const { _id } = useParams<{ _id: string }>();
   const { getPostById } = usePostContext();
   const [post, setPost] = useState<Post | null>(null);
+  const { username } = useParams<{ username: string }>();
 
   useEffect(() => {
     if (_id) {
@@ -39,15 +40,30 @@ function PostCard() {
 
   return (
     <Container maxWidth="md" sx={rootStyle}>
-      <Box>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-start",
+        }}>
+        <IconButton
+          component={Link}
+          to={`/`}
+          className="material-symbols-outlined"
+          sx={{
+            color: "black",
+            width: "2rem",
+            height: "2rem",
+            marginRight: "0.5rem",
+          }}>
+          arrow_back
+        </IconButton>
         <Grid container rowSpacing={2} columnSpacing={2}>
           <Grid key={`${post?._id}-${post?.timestamp}`} xs={12} sm={12} md={12}>
             <Item
               sx={{
                 display: "flex",
                 flexDirection: { xs: "column", sm: "column", md: "row" },
-              }}
-            >
+              }}>
               <CardMedia sx={cardMediaStyle}>
                 <img src={post?.content} alt={post?.title} />
               </CardMedia>
@@ -60,8 +76,7 @@ function PostCard() {
                       alignItems: "center",
                       marginTop: { xs: "0.5rem", sm: "0.8rem", md: "1rem" },
                       gap: "1rem",
-                    }}
-                  >
+                    }}>
                     <Avatar
                       src="https://user-images.githubusercontent.com/116926631/233385334-05af6be5-c0bf-49ed-8691-2eed4ac15f62.jpeg"
                       alt="user avatar"
@@ -75,8 +90,7 @@ function PostCard() {
                         sx={{
                           color: "#777777",
                           marginBottom: "3rem",
-                        }}
-                      >
+                        }}>
                         Malmö, Sweden{/* {postItem.location} */}
                       </Typography>
                     </Box>
@@ -88,14 +102,12 @@ function PostCard() {
                 <Box>
                   <IconButton
                     className="material-symbols-outlined"
-                    sx={iconStyle}
-                  >
+                    sx={iconStyle}>
                     favorite
                   </IconButton>
                   <IconButton
                     className="material-symbols-outlined"
-                    sx={iconStyle}
-                  >
+                    sx={iconStyle}>
                     chat_bubble
                   </IconButton>
                 </Box>
