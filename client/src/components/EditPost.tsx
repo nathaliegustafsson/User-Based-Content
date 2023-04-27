@@ -24,6 +24,7 @@ export type EditValues = Yup.InferType<typeof EditSchema>;
 
 function EditPost() {
   const theme = useTheme();
+  const { username } = useParams<{ username: string }>();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const { _id } = useParams<{ _id: string }>();
   const { getPostById, updatePost } = usePostContext();
@@ -67,21 +68,24 @@ function EditPost() {
     <Container maxWidth={"md"}>
       <Typography
         variant="h6"
-        sx={{ display: "flex", justifyContent: "center" }}>
+        sx={{ display: "flex", justifyContent: "center" }}
+      >
         Edit post
       </Typography>
       <IconButton
         component={Link}
-        to="/"
+        to={`/user/${username}`}
         className="material-symbols-outlined"
-        sx={{ color: "black" }}>
+        sx={{ color: "black" }}
+      >
         arrow_back
       </IconButton>
       <Container
         sx={{
           display: "flex",
           flexDirection: isSmallScreen ? "column-reverse" : "row",
-        }}>
+        }}
+      >
         <Container sx={{ display: "flex", flexDirection: "column" }}>
           <Box
             component="img"
@@ -90,7 +94,8 @@ function EditPost() {
             sx={{
               width: "100%",
               marginTop: isSmallScreen ? "1rem" : "0",
-            }}></Box>
+            }}
+          ></Box>
         </Container>
         <Container
           sx={{
@@ -99,16 +104,19 @@ function EditPost() {
             flexDirection: "column",
             justifyContent: "space-between",
             marginTop: isSmallScreen ? "1rem" : "0",
-          }}>
+          }}
+        >
           <Container
             sx={{
               padding: "0px !important",
-            }}>
+            }}
+          >
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
-              }}>
+              }}
+            >
               <Avatar
                 alt="Remy Sharp"
                 src="https://www.dmarge.com/wp-content/uploads/2021/01/dwayne-the-rock-.jpg"
@@ -121,7 +129,8 @@ function EditPost() {
                 variant="h6"
                 sx={{
                   marginLeft: "1rem",
-                }}>
+                }}
+              >
                 The Rock
               </Typography>
             </Box>
@@ -143,11 +152,13 @@ function EditPost() {
                 <Container
                   sx={{
                     padding: "0px !important",
-                  }}>
+                  }}
+                >
                   <Button
                     variant="contained"
                     type="submit"
-                    sx={{ marginRight: "0.5rem", marginTop: "1rem" }}>
+                    sx={{ marginRight: "0.5rem", marginTop: "1rem" }}
+                  >
                     Save
                   </Button>
                 </Container>
