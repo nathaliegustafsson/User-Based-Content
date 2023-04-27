@@ -12,7 +12,7 @@ import { useFormik } from "formik";
 import { CSSProperties, ChangeEvent, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
-import { usePostContext } from "../context/PostContext";
+import { NewPost, Post, usePostContext } from "../context/PostContext";
 
 const CreatePostSchema = Yup.object({
   title: Yup.string().required("Please enter a title"),
@@ -38,18 +38,19 @@ function CreatePost() {
     validationSchema: CreatePostSchema,
     onSubmit: async (createProfileValues) => {
       try {
-        const post = createPost({
+        const newPost: NewPost = {
           title: createProfileValues.title,
           content: createProfileValues.content,
-        });
-        console.log(post + "post skapad");
+        };
+        const result = await createPost(newPost);
+        console.log(result + " post skapad");
         navigate(`/user/${username}`);
       } catch (error) {
         console.log(error);
       }
     },
   });
-
+  
   const handleImageUrlChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
