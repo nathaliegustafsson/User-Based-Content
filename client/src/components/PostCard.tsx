@@ -67,7 +67,7 @@ function PostCard() {
                   />
                   <Box>
                     <Typography variant="subtitle1">
-                      Sadie Sink {post.author.username}
+                      {post.author.username}
                     </Typography>
                     <Typography
                       variant="caption"
