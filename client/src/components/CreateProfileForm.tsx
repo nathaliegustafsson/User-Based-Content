@@ -1,7 +1,7 @@
 import { Box, Button, Container, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { useUserContext } from "../context/UserContext";
 
@@ -26,6 +26,7 @@ export type CreateProfileValues = Yup.InferType<typeof CreateProfileSchema>;
 
 function CreateProfileForm() {
   const { register, login } = useUserContext();
+  const { username } = useParams<{ username: string }>();
   const navigate = useNavigate();
   const formik = useFormik<CreateProfileValues>({
     initialValues: {
@@ -40,7 +41,7 @@ function CreateProfileForm() {
           createProfileValues.password
         );
         await login(createProfileValues.username, createProfileValues.password);
-        navigate("/user/:id");
+        navigate(`/user/${createProfileValues.username}`);
         console.log(user);
       } catch (error) {
         console.log(error);
@@ -56,7 +57,8 @@ function CreateProfileForm() {
         alignItems: "center",
         flexDirection: "column",
         marginTop: "1rem",
-      }}>
+      }}
+    >
       <Typography variant="h5" sx={{ marginBottom: "1.1rem" }}>
         Create a profile
       </Typography>
@@ -70,10 +72,11 @@ function CreateProfileForm() {
             flexDirection: "column",
             "& .MuiTextField-root": {
               m: 2,
-              width: "35ch",
+              // width: "35ch",
               borderRadius: "0.6rem",
             },
-          }}>
+          }}
+        >
           <TextField
             id="outlined-username-input"
             name="username"
@@ -121,7 +124,8 @@ function CreateProfileForm() {
               display: "flex",
               justifyContent: "center",
               marginTop: "2.5rem",
-            }}>
+            }}
+          >
             <Button variant="contained" type="submit" sx={{ width: "6rem" }}>
               Sign up
             </Button>
@@ -132,7 +136,8 @@ function CreateProfileForm() {
               alignItems: "center",
               flexDirection: "column",
               marginTop: "4rem",
-            }}>
+            }}
+          >
             <Typography variant="body2" sx={{ color: "#696969" }}>
               By signing up, you agree to Photo Share's
             </Typography>
@@ -145,13 +150,15 @@ function CreateProfileForm() {
               display: "flex",
               justifyContent: "center",
               marginTop: "5rem",
-            }}>
+            }}
+          >
             <Typography variant="body1">Already have a profile?</Typography>
             <Typography
               variant="body1"
               component={Link}
               to="/signin"
-              sx={{ marginLeft: "0.4rem", color: "black" }}>
+              sx={{ marginLeft: "0.4rem", color: "black" }}
+            >
               Log in
             </Typography>
           </Box>
