@@ -16,7 +16,10 @@ import { usePostContext } from "../context/PostContext";
  */
 function ProfilePageGrid() {
   const { posts, getAllPostsByUser } = usePostContext();
-  const { userId } = useParams<{ userId: string }>();
+  const { userId, username } = useParams<{
+    userId: string;
+    username: string;
+  }>();
   const { getAllPosts } = usePostContext();
   useEffect(() => {
     if (userId) {
@@ -36,7 +39,7 @@ function ProfilePageGrid() {
             return (
               <Grid key={post._id} xs={4} sm={4} md={4}>
                 <StyledLink
-                  to={`/user/editanddelete/${post._id}`}
+                  to={`/user/${username}/posts/${post._id}/editdelete`}
                   onClick={() => {
                     window.scroll(0, 0);
                   }}
