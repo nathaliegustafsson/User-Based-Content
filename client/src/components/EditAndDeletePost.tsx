@@ -13,25 +13,28 @@ import {
   useTheme,
 } from "@mui/material";
 import * as React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Post, usePostContext } from "../context/PostContext";
 
-function EditAndDeletePost({ postId }: { postId: number }) {
+function EditAndDeletePost() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [deletePostDialogOpen, setDeletePostDialogOpen] = React.useState(false);
-  const navigate = useNavigate();
-  const { deletePost, getPost } = usePostContext();
+  const { _id } = useParams<{ _id: string }>();
+  const { deletePost, getPostById } = usePostContext();
   const [post, setPost] = React.useState<Post | null>(null);
 
   React.useEffect(() => {
-    async function fetchPost() {
-      const post = await getPost(postId);
-      setPost(post!);
+    if (_id) {
+      const fetchSinglePost = async () => {
+        const fetchedPost = await getPostById(_id);
+        if (fetchedPost) {
+          setPost(fetchedPost);
+        }
+      };
+      fetchSinglePost();
     }
-
-    fetchPost();
-  }, [postId]);
+  }, [_id, getPostById]);
 
   return (
     <Container maxWidth={"md"}>
@@ -104,7 +107,7 @@ function EditAndDeletePost({ postId }: { postId: number }) {
             }}>
             <Button
               component={Link}
-              to="/user/:id/edit/post"
+              to={`/user/edit/post/${_id}`}
               variant="contained"
               sx={{ marginRight: "0.5rem" }}>
               Edit
@@ -129,8 +132,10 @@ function EditAndDeletePost({ postId }: { postId: number }) {
                 </Button>
                 <Button
                   onClick={async () => {
-                    await deletePost();
-                    setDeletePostDialogOpen(false);
+                    if (_id) {
+                      deletePost(_id);
+                      setDeletePostDialogOpen(false);
+                    }
                   }}
                   color="primary"
                   autoFocus>

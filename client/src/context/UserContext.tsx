@@ -14,7 +14,7 @@ interface UserContextProps {
   login: (username: string, password: string) => void;
   logout: () => Promise<void>; // Update the return type to Promise<void>
   register: (username: string, password: string) => void;
-  checkUser: (username: string) => void;
+  checkUsername: (username: string) => void;
 }
 
 const UserContext = createContext<UserContextProps>({
@@ -22,7 +22,7 @@ const UserContext = createContext<UserContextProps>({
   login: () => {},
   logout: () => Promise.resolve(),
   register: () => {},
-  checkUser: () => {},
+  checkUsername: () => {},
 });
 
 export const useUserContext = () => useContext(UserContext);
@@ -137,7 +137,7 @@ export const UserProvider = ({ children }: Props) => {
         register: RegisterUser,
         login: LogInUser,
         logout: LogoutUser,
-        checkUser: CheckUsername,
+        checkUsername: CheckUsername,
       }}>
       {children}
     </UserContext.Provider>

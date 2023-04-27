@@ -9,7 +9,7 @@ function EditAndDeletePostPage() {
         <Header />
       </header>
       <main>
-        <EditPost postId={0} />
+        <EditPost />
       </main>
       <footer>
         <Footer />

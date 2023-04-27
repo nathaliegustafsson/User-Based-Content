@@ -22,6 +22,7 @@ interface PostContextProps {
   posts: Post[];
   getAllPosts: () => void;
   getPostById: (_id: string) => Promise<Post | null>;
+  getAllPostsByUser: (_id: string) => void;
   createPost: (newPost: Post) => void;
   updatePost: (updatedPost: Post) => void;
   deletePost: (id: string) => void;
@@ -31,6 +32,7 @@ const PostContext = createContext<PostContextProps>({
   posts: [],
   getAllPosts: () => {},
   getPostById: () => Promise.resolve(null),
+  getAllPostsByUser: () => {},
   createPost: () => {},
   updatePost: () => {},
   deletePost: () => {},
@@ -40,6 +42,34 @@ export const usePostContext = () => useContext(PostContext);
 
 export const PostProvider = ({ children }: Props) => {
   const [posts, setPosts] = useState<Post[]>([]);
+
+  const getAllPostsByUser = async (userId: string) => {
+    try {
+      const response = await fetch(`/api/posts?userId=${userId}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch posts.");
+      }
+      const posts = await response.json();
+      const postsWithAuthors = await Promise.all(
+        posts.map(async (post: Post) => {
+          const authorResponse = await fetch(
+            `/api/users/username?userId=${post.author}`
+          );
+          if (!authorResponse.ok) {
+            throw new Error("Failed to fetch author.");
+          }
+          const authorData = await authorResponse.json();
+          return {
+            ...post,
+            authorPostGrid: authorData.username,
+          };
+        })
+      );
+      setPosts(postsWithAuthors);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const getAllPosts = async () => {
     try {
@@ -149,6 +179,7 @@ export const PostProvider = ({ children }: Props) => {
         posts,
         getAllPosts,
         getPostById,
+        getAllPostsByUser,
         createPost,
         updatePost,
         deletePost,

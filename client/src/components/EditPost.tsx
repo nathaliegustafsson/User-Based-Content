@@ -10,8 +10,8 @@ import {
   useTheme,
 } from "@mui/material";
 import { useFormik } from "formik";
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { Post, usePostContext } from "../context/PostContext";
 
@@ -22,22 +22,25 @@ const EditSchema = Yup.object({
 
 export type EditValues = Yup.InferType<typeof EditSchema>;
 
-function EditPost({ postId }: { postId: number }) {
+function EditPost() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const navigate = useNavigate();
-  const { getPost, updatePost } = usePostContext();
+  const { _id } = useParams<{ _id: string }>();
+  const { getPostById, updatePost } = usePostContext();
   const [post, setPost] = React.useState<Post | null>(null);
   const isEdit = Boolean(post);
 
-  React.useEffect(() => {
-    async function fetchPost() {
-      const post = await getPost(postId);
-      setPost(post!);
+  useEffect(() => {
+    if (_id) {
+      const fetchSinglePost = async () => {
+        const fetchedPost = await getPostById(_id);
+        if (fetchedPost) {
+          setPost(fetchedPost);
+        }
+      };
+      fetchSinglePost();
     }
-
-    fetchPost();
-  }, [postId]);
+  }, [_id, getPostById]);
 
   const formik = useFormik<EditValues>({
     initialValues: {
@@ -45,9 +48,17 @@ function EditPost({ postId }: { postId: number }) {
       content: isEdit ? post?.content ?? "" : "",
     },
     validationSchema: EditSchema,
-    onSubmit: (post) => {
+    onSubmit: (values) => {
       if (isEdit) {
-        updatePost(post);
+        const updatedPost: Post = {
+          _id: post!._id,
+          title: values.title,
+          content: values.content,
+          author: { username: post!.author.username },
+          timestamp: post!.timestamp,
+          username: "",
+        };
+        updatePost(updatedPost);
       }
     },
   });

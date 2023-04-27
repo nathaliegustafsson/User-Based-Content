@@ -12,7 +12,10 @@ import { UserProvider } from "./context/UserContext";
 import "./index.css";
 import CreatePostPage from "./pages/CreatePostPage";
 import CreateProfilePage from "./pages/CreateProfilePage";
-import EditPostPage from "./pages/EditPostPage";
+import {
+  default as EditAndDeletePostPage,
+  default as EditPostPage,
+} from "./pages/EditPostPage";
 import PostPage from "./pages/PostPage";
 import ProfilePage from "./pages/ProfilePage";
 import SignInPage from "./pages/SignInPage";
@@ -26,10 +29,10 @@ const router = createBrowserRouter(
       <Route path="/signin" element={<SignInPage />} />
       <Route path="/createprofile" element={<CreateProfilePage />} />
       <Route path="/user/:username" element={<ProfilePage />} />
-      <Route path="/user/:id/create/posts" element={<CreatePostPage />} />
+      <Route path="/user/:_id/create/posts" element={<CreatePostPage />} />
       <Route path="/posts/:_id" element={<PostPage />} />
-      {/* <Route path="/posts/:_id" element={<EditAndDeletePostPage />} /> */}
-      <Route path="/user/:id/edit/post" element={<EditPostPage />} />
+      <Route path="/user/edit/:_id" element={<EditAndDeletePostPage />} />
+      <Route path="/user/edit/post/:_id" element={<EditPostPage />} />
     </Route>
   )
 );
