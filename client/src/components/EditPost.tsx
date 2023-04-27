@@ -29,7 +29,6 @@ function EditPost() {
   const { _id } = useParams<{ _id: string }>();
   const { getPostById, updatePost } = usePostContext();
   const [post, setPost] = React.useState<Post | null>(null);
-  const isEdit = Boolean(post);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,25 +43,23 @@ function EditPost() {
     }
   }, [_id, getPostById]);
 
-  const { values, handleChange, handleBlur, touched, errors, handleSubmit } =
-    useFormik<EditValues>({
-      initialValues: {
-        title: isEdit ? post?.title || "" : "",
-        content: isEdit ? post?.content || "" : "",
-      },
-      validationSchema: EditSchema,
-      onSubmit: (values) => {
-        console.log("save edit");
-        if (post) {
-          updatePost({
-            ...post,
-            title: values.title,
-            content: values.content,
-          });
-          navigate(`/user/${username}`);
-        }
-      },
-    });
+  const formik = useFormik<EditValues>({
+    initialValues: {
+      title: post?.title || "",
+      content: post?.content || "",
+    },
+    validationSchema: EditSchema,
+    onSubmit: (values) => {
+      if (post) {
+        updatePost({
+          ...post,
+          title: values.title,
+          content: values.content,
+        });
+        navigate(`/user/${username}`);
+      }
+    },
+  });
 
   return (
     <Container maxWidth={"md"}>
@@ -127,31 +124,26 @@ function EditPost() {
               </Typography>
             </Box>
             <Box>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={formik.handleSubmit}>
                 <TextField
                   fullWidth
                   id="title"
                   type="text"
                   label="Title"
                   name="title"
-                  value={values.title}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={Boolean(touched.title && errors.title)}
-                  helperText={touched.title && errors.title}
+                  value={formik.values.title}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={Boolean(formik.touched.title && formik.errors.title)}
+                  helperText={formik.touched.title && formik.errors.title}
                   sx={{ marginTop: "1rem" }}
                 />
-                <Container
-                  sx={{
-                    padding: "0px !important",
-                  }}>
-                  <Button
-                    variant="contained"
-                    type="submit"
-                    sx={{ marginRight: "0.5rem", marginTop: "1rem" }}>
-                    Save
-                  </Button>
-                </Container>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  sx={{ marginRight: "0.5rem", marginTop: "1rem" }}>
+                  Save
+                </Button>
               </form>
             </Box>
           </Container>
