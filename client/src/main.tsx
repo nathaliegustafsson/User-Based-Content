@@ -26,14 +26,17 @@ const router = createBrowserRouter(
       <Route index element={<StartPage />} />
       <Route path="/signin" element={<SignInPage />} />
       <Route path="/createprofile" element={<CreateProfilePage />} />
-      <Route path="/user/:username" element={<ProfilePage />} />
-      <Route path="/user/:_id/create/posts" element={<CreatePostPage />} />
       <Route path="/posts/:_id" element={<PostPage />} />
+      <Route path="/user/:username" element={<ProfilePage />} />
+      <Route path="/user/:username/posts/create" element={<CreatePostPage />} />
       <Route
-        path="/user/editanddelete/:_id"
+        path="/user/:username/posts/:_id/editdelete"
         element={<EditAndDeletePostPage />}
       />
-      <Route path="/user/edit/post/:_id" element={<EditPostPage />} />
+      <Route
+        path="/user/:username/posts/:_id/edit"
+        element={<EditPostPage />}
+      />
     </Route>
   )
 );
