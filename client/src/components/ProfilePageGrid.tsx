@@ -44,9 +44,9 @@ function ProfilePageGrid() {
             return (
               <Grid key={post._id} xs={4} sm={4} md={4}>
                 <StyledLink
-                  to={`/user/edit/${post._id}`}
+                  to={`/user/editanddelete/${post._id}`}
                   onClick={() => {
-                    window.scroll(0, 0);
+                    console.log("kom till edit and delete page");
                   }}>
                   <Box
                     component="img"

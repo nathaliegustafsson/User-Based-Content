@@ -2,7 +2,7 @@ import EditPost from "../components/EditPost";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
-function EditAndDeletePostPage() {
+function EditPostPage() {
   return (
     <div>
       <header>
@@ -18,4 +18,4 @@ function EditAndDeletePostPage() {
   );
 }
 
-export default EditAndDeletePostPage;
+export default EditPostPage;

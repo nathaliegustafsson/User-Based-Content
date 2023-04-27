@@ -28,6 +28,8 @@ function EditAndDeletePost() {
     if (_id) {
       const fetchSinglePost = async () => {
         const fetchedPost = await getPostById(_id);
+        console.log("är på edit abd delete page");
+
         if (fetchedPost) {
           setPost(fetchedPost);
         }
