@@ -16,13 +16,6 @@ function UserInfo() {
       setIsLoggedIn(false);
     }
   }, [user]);
-  React.useEffect(() => {
-    if (user) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, [user]);
 
   const handleLogout = () => {
     setIsLoggedIn(false);
