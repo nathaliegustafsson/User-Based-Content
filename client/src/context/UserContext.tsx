@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 interface User {
   username: string;
   password: string;
+  _id: string;
 }
 
 interface Props {
@@ -14,6 +15,7 @@ interface UserContextProps {
   login: (username: string, password: string) => void;
   logout: () => Promise<void>; // Update the return type to Promise<void>
   register: (username: string, password: string) => void;
+  checkUsername: (username: string) => void;
 }
 
 const UserContext = createContext<UserContextProps>({
@@ -21,6 +23,7 @@ const UserContext = createContext<UserContextProps>({
   login: () => {},
   logout: () => Promise.resolve(),
   register: () => {},
+  checkUsername: () => {},
 });
 
 export const useUserContext = () => useContext(UserContext);
@@ -45,7 +48,28 @@ export const UserProvider = ({ children }: Props) => {
     fetchUser();
   }, []);
 
+  const CheckUsername = async (username: string) => {
+    try {
+      const response = await fetch("/api/users/checkUsername", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to check username");
+      }
+      const { isUsernameTaken } = await response.json();
+      return isUsernameTaken;
+    } catch (error: any) {
+      throw new Error(error.message || "Failed to check username");
+    }
+  };
+
   const RegisterUser = async (username: string, password: string) => {
+    const isUsernameTaken = await CheckUsername(username);
+    if (isUsernameTaken) {
+      throw new Error("Username is already taken");
+    }
     try {
       const response = await fetch("/api/users/register", {
         method: "POST",
@@ -114,8 +138,8 @@ export const UserProvider = ({ children }: Props) => {
         register: RegisterUser,
         login: LogInUser,
         logout: LogoutUser,
-      }}
-    >
+        checkUsername: CheckUsername,
+      }}>
       {children}
     </UserContext.Provider>
   );

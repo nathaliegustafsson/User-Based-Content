@@ -10,14 +10,13 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { CSSProperties, ChangeEvent, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
+import { usePostContext } from "../context/PostContext";
 
 const CreatePostSchema = Yup.object({
   title: Yup.string().required("Please enter a title"),
-  content: Yup.string()
-    .required("Please enter your content")
-    .url("Please enter a valid url"),
+  content: Yup.string().required("Please enter your content"),
 });
 
 export type CreateProfileValues = Yup.InferType<typeof CreatePostSchema>;
@@ -27,7 +26,8 @@ function CreatePost() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
-  // const { createPost } = usePostContext;
+  const { createPost } = usePostContext();
+  const { username } = useParams<{ username: string }>();
   const onSubmit = async (createPostValues: CreateProfileValues) => {};
 
   const formik = useFormik<CreateProfileValues>({
@@ -36,17 +36,17 @@ function CreatePost() {
       content: "",
     },
     validationSchema: CreatePostSchema,
-    onSubmit: async (CreateProfileValues) => {
-      // try {
-      //   const post = await createPost(
-      //     CreateProfileValues.title,
-      //     CreateProfileValues.content
-      //   );
-      //   console.log(post + "post skapad");
-      //   navigate("/user/:id");
-      // } catch (error) {
-      //   console.log(error);
-      // }
+    onSubmit: async (createProfileValues) => {
+      try {
+        const post = createPost({
+          title: createProfileValues.title,
+          content: createProfileValues.content,
+        });
+        console.log(post + "post skapad");
+        navigate(`/user/${username}`);
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
 
@@ -61,21 +61,24 @@ function CreatePost() {
     <Container maxWidth={"md"}>
       <Typography
         variant="h6"
-        sx={{ display: "flex", justifyContent: "center" }}>
+        sx={{ display: "flex", justifyContent: "center" }}
+      >
         Create a new post
       </Typography>
       <IconButton
         component={Link}
-        to="/"
+        to={`/user/${username}`}
         className="material-symbols-outlined"
-        sx={{ color: "black" }}>
+        sx={{ color: "black" }}
+      >
         arrow_back
       </IconButton>
       <Container
         sx={{
           display: "flex",
           flexDirection: isSmallScreen ? "column" : "row",
-        }}>
+        }}
+      >
         <Container sx={{ display: "flex", flexDirection: "column" }}>
           {imageUrl && (
             <Box
@@ -83,7 +86,8 @@ function CreatePost() {
               src={imageUrl}
               sx={{
                 width: "100%",
-              }}></Box>
+              }}
+            ></Box>
           )}
           {!imageUrl && (
             <Box
@@ -94,7 +98,8 @@ function CreatePost() {
                 width: "100%",
                 height: "300px",
                 border: "1px solid grey",
-              }}>
+              }}
+            >
               <Typography variant="subtitle2">No image uploaded yet</Typography>
             </Box>
           )}
@@ -103,7 +108,8 @@ function CreatePost() {
         <Container
           sx={{
             marginTop: isSmallScreen ? "1rem" : "0",
-          }}>
+          }}
+        >
           <form onSubmit={formik.handleSubmit} style={rootStyle}>
             <TextField
               id="title"

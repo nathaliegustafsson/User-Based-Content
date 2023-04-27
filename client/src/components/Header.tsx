@@ -19,10 +19,6 @@ import * as React from "react";
 import { Link, LinkProps, useNavigate } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
 
-const pages = ["Explore", "Search"];
-const loggedInSettings = ["Profile", "Account", "Logout"];
-const settings = ["Create profile", "Login"];
-
 type UserMenuItem = {
   name: string;
   link?: string;
@@ -88,6 +84,11 @@ function Header() {
     });
   };
 
+  const pages = [
+    { name: "Explore", link: "/" },
+    { name: "Search", link: "/" },
+  ];
+
   const settings = isLoggedIn
     ? []
     : [
@@ -129,8 +130,7 @@ function Header() {
       sx={{
         background: (theme) => theme.palette.background.default,
         padding: { xs: "0.5rem", md: "1rem" },
-      }}
-    >
+      }}>
       <Container maxWidth="xl">
         <Toolbar
           disableGutters
@@ -138,22 +138,19 @@ function Header() {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-          }}
-        >
+          }}>
           <Box
             sx={{
               display: { xs: "none", md: "flex" },
-            }}
-          >
+            }}>
             <StyledLink to="/">
               <Box
                 component="img"
                 src="/src/assets/share-thin.png"
                 alt="logo photo share"
                 sx={{
-                  height: isSmallScreen ? "4rem" : "5rem",
-                }}
-              ></Box>
+                  height: isSmallScreen ? "3rem" : "4rem",
+                }}></Box>
             </StyledLink>
           </Box>
 
@@ -169,8 +166,7 @@ function Header() {
                 fontSize: { xs: "2rem", sm: "2.5rem", cursor: "pointer" },
                 color: (theme) => theme.palette.text.primary,
                 padding: 0,
-              }}
-            >
+              }}>
               menu
             </IconButton>
             <Menu
@@ -184,11 +180,10 @@ function Header() {
               sx={{
                 display: { xs: "block", md: "none" },
                 mt: "45px",
-              }}
-            >
+              }}>
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -199,30 +194,29 @@ function Header() {
               src="/src/assets/share-thin.png"
               alt="logo photo share"
               sx={{
-                height: isSmallScreen ? "4rem" : "5rem",
+                height: isSmallScreen ? "3rem" : "4rem",
                 display: { xs: "flex", md: "none" },
-              }}
-            ></Box>
+              }}></Box>
           </StyledLink>
           <Box
             sx={{
               flexGrow: 1,
               display: { xs: "none", md: "flex" },
               ml: "1rem",
-            }}
-          >
+            }}>
             {pages.map((page) => (
               <Button
-                key={page}
+                key={page.name}
+                component={Link}
+                to={page.link}
                 onClick={handleCloseNavMenu}
                 sx={{
                   my: 2,
                   color: "black",
                   display: "block",
                   fontSize: "1.2rem",
-                }}
-              >
-                {page}
+                }}>
+                {page.name}
               </Button>
             ))}
           </Box>
@@ -235,8 +229,7 @@ function Header() {
                 sx={{
                   color: (theme) => theme.palette.text.primary,
                   padding: 0,
-                }}
-              >
+                }}>
                 {isLoggedIn ? (
                   <Avatar
                     src={
@@ -248,8 +241,7 @@ function Header() {
                   <Icon
                     sx={{
                       fontSize: { xs: "2.5rem", sm: "3rem", cursor: "pointer" },
-                    }}
-                  >
+                    }}>
                     account_circle
                   </Icon>
                 )}
@@ -269,8 +261,7 @@ function Header() {
                 horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
+              onClose={handleCloseUserMenu}>
               {renderUserMenuItems(settings)}
               {renderUserMenuItems(loggedInSettings)}
             </Menu>

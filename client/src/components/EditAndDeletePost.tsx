@@ -13,56 +13,62 @@ import {
   useTheme,
 } from "@mui/material";
 import * as React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { Post, usePostContext } from "../context/PostContext";
 
-function EditAndDeletePost({ postId }: { postId: number }) {
+function EditAndDeletePost() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [deletePostDialogOpen, setDeletePostDialogOpen] = React.useState(false);
+  const { _id } = useParams<{ _id: string }>();
+  const { deletePost, getPostById } = usePostContext();
+  const [post, setPost] = React.useState<Post | null>(null);
   const navigate = useNavigate();
+  const { username } = useParams<{ username: string }>();
 
-  const handleDelete = async () => {
-    try {
-      const response = await fetch(`/api/posts/${postId}`, {
-        method: "DELETE",
-      });
-      if (response.ok) {
-        navigate("/");
-      } else {
-        throw new Error("Failed to delete post");
-      }
-    } catch (error) {
-      console.error(error);
+  React.useEffect(() => {
+    if (_id) {
+      const fetchSinglePost = async () => {
+        const fetchedPost = await getPostById(_id);
+        if (fetchedPost) {
+          setPost(fetchedPost);
+        }
+      };
+      fetchSinglePost();
     }
-  };
+  }, [_id, getPostById]);
 
   return (
     <Container maxWidth={"md"}>
       <Typography
         variant="h6"
-        sx={{ display: "flex", justifyContent: "center" }}>
+        sx={{ display: "flex", justifyContent: "center" }}
+      >
         Edit or delete post
       </Typography>
       <IconButton
         component={Link}
-        to="/"
+        to={`/user/${username}`}
         className="material-symbols-outlined"
-        sx={{ color: "black" }}>
+        sx={{ color: "black" }}
+      >
         arrow_back
       </IconButton>
       <Container
         sx={{
           display: "flex",
           flexDirection: isSmallScreen ? "column-reverse" : "row",
-        }}>
+        }}
+      >
         <Container sx={{ display: "flex", flexDirection: "column" }}>
           <Box
             component="img"
-            src="https://user-images.githubusercontent.com/116926631/233002175-166792cc-0b12-405f-8080-d081acae2507.JPG"
+            src={post?.content}
             sx={{
               width: "100%",
               marginTop: isSmallScreen ? "1rem" : "0",
-            }}></Box>
+            }}
+          ></Box>
         </Container>
         <Container
           sx={{
@@ -71,16 +77,19 @@ function EditAndDeletePost({ postId }: { postId: number }) {
             flexDirection: "column",
             justifyContent: "space-between",
             marginTop: isSmallScreen ? "1rem" : "0",
-          }}>
+          }}
+        >
           <Container
             sx={{
               padding: "0px !important",
-            }}>
+            }}
+          >
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
-              }}>
+              }}
+            >
               <Avatar
                 alt="Remy Sharp"
                 src="https://www.dmarge.com/wp-content/uploads/2021/01/dwayne-the-rock-.jpg"
@@ -93,35 +102,38 @@ function EditAndDeletePost({ postId }: { postId: number }) {
                 variant="h6"
                 sx={{
                   marginLeft: "1rem",
-                }}>
+                }}
+              >
                 The Rock
               </Typography>
             </Box>
             <Box>
-              <Typography sx={{ marginTop: "1rem" }}>
-                Found this pretty tree with these flowers!!!
-              </Typography>
+              <Typography sx={{ marginTop: "1rem" }}>{post?.title}</Typography>
             </Box>
           </Container>
           <Container
             sx={{
               padding: "0px !important",
-            }}>
+            }}
+          >
             <Button
               component={Link}
-              to="/user/:id/edit/post"
+              to={`/user/${username}/posts/${_id}/edit`}
               variant="contained"
-              sx={{ marginRight: "0.5rem" }}>
+              sx={{ marginRight: "0.5rem" }}
+            >
               Edit
             </Button>
             <Button
               onClick={() => setDeletePostDialogOpen(true)}
-              variant="contained">
+              variant="contained"
+            >
               Delete
             </Button>
             <Dialog
               open={deletePostDialogOpen}
-              onClose={() => setDeletePostDialogOpen(false)}>
+              onClose={() => setDeletePostDialogOpen(false)}
+            >
               <DialogTitle>Delete Post</DialogTitle>
               <DialogContent>
                 <Typography variant="body1">
@@ -132,7 +144,17 @@ function EditAndDeletePost({ postId }: { postId: number }) {
                 <Button onClick={() => setDeletePostDialogOpen(false)}>
                   Cancel
                 </Button>
-                <Button onClick={handleDelete} color="primary" autoFocus>
+                <Button
+                  onClick={async () => {
+                    if (_id) {
+                      await deletePost(_id);
+                      setDeletePostDialogOpen(false);
+                      navigate(`/user/${username}`);
+                    }
+                  }}
+                  color="primary"
+                  autoFocus
+                >
                   Delete
                 </Button>
               </DialogActions>

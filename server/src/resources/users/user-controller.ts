@@ -84,15 +84,15 @@ export async function loginUser(req: Request, res: Response) {
 }
 
 export async function getLoggedInUser(req: Request, res: Response) {
-    // Create a new user object without the password field
-    const userResponse = {
-      _id: req.session?.userId,
-      username: req.session?.username,
-      isAdmin: req.session?.isAdmin,
-    };
-  
-    // Send response
-    res.status(200).json(userResponse);
+  // Create a new user object without the password field
+  const userResponse = {
+    _id: req.session?.userId,
+    username: req.session?.username,
+    isAdmin: req.session?.isAdmin,
+  };
+
+  // Send response
+  res.status(200).json(userResponse);
 }
 
 // Logout user
@@ -103,4 +103,17 @@ export function logoutUser(req: Request, res: Response) {
     `session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`
   );
   res.sendStatus(204);
+}
+
+// Check if username is in use
+export async function checkUsername(req: Request, res: Response) {
+  const { username } = req.body;
+
+  const existingUser = await UserModel.findOne({ username });
+
+  if (existingUser) {
+    res.json({ isUsernameTaken: true });
+  } else {
+    res.json({ isUsernameTaken: false });
+  }
 }

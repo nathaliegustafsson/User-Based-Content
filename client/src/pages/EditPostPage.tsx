@@ -2,14 +2,14 @@ import EditPost from "../components/EditPost";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
-function EditAndDeletePostPage() {
+function EditPostPage() {
   return (
     <div>
       <header>
         <Header />
       </header>
       <main>
-        <EditPost postId={0} />
+        <EditPost />
       </main>
       <footer>
         <Footer />
@@ -18,4 +18,4 @@ function EditAndDeletePostPage() {
   );
 }
 
-export default EditAndDeletePostPage;
+export default EditPostPage;

@@ -1,12 +1,13 @@
 import { Avatar, Box, Button, Container, Typography } from "@mui/material";
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
 
 function UserInfo() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const userContext = useUserContext();
   const { user, login, logout } = userContext;
+  const { _id } = useParams<{ _id: string }>();
 
   React.useEffect(() => {
     if (user) {
@@ -55,7 +56,7 @@ function UserInfo() {
             <Button
               variant="contained"
               component={Link}
-              to={`/user/${user?.username}/create/posts`}
+              to={`/user/${user?.username}/posts/create`}
               sx={{ marginRight: "1rem" }}
             >
               Create
@@ -63,7 +64,7 @@ function UserInfo() {
             <Button
               variant="contained"
               component={Link}
-              to={`/user/${user?.username}/edit/posts`}
+              to={`/user/${user?.username}/posts/${_id}/edit`}
             >
               Edit profile
             </Button>

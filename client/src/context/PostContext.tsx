@@ -22,6 +22,7 @@ interface PostContextProps {
   posts: Post[];
   getAllPosts: () => void;
   getPostById: (_id: string) => Promise<Post | null>;
+  getAllPostsByUser: (userId: string) => void;
   createPost: (newPost: Post) => void;
   updatePost: (updatedPost: Post) => void;
   deletePost: (id: string) => void;
@@ -31,6 +32,7 @@ const PostContext = createContext<PostContextProps>({
   posts: [],
   getAllPosts: () => {},
   getPostById: () => Promise.resolve(null),
+  getAllPostsByUser: () => {},
   createPost: () => {},
   updatePost: () => {},
   deletePost: () => {},
@@ -40,6 +42,22 @@ export const usePostContext = () => useContext(PostContext);
 
 export const PostProvider = ({ children }: Props) => {
   const [posts, setPosts] = useState<Post[]>([]);
+
+  const getAllPostsByUser = async (userId: string) => {
+    try {
+      const response = await fetch(`/api/posts?userId=${userId}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch posts.");
+      }
+      const posts = await response.json();
+      const filteredPosts = posts.filter(
+        (post: { author: string }) => post.author === userId
+      );
+      setPosts(filteredPosts);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const getAllPosts = async () => {
     try {
@@ -129,7 +147,7 @@ export const PostProvider = ({ children }: Props) => {
 
   const deletePost = async (_id: string) => {
     try {
-      const response = await fetch(`/api/posts/:id`, {
+      const response = await fetch(`/api/posts/${_id}`, {
         method: "DELETE",
       });
 
@@ -149,11 +167,11 @@ export const PostProvider = ({ children }: Props) => {
         posts,
         getAllPosts,
         getPostById,
+        getAllPostsByUser,
         createPost,
         updatePost,
         deletePost,
-      }}
-    >
+      }}>
       {children}
     </PostContext.Provider>
   );

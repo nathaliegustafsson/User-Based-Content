@@ -2,7 +2,6 @@ import {
   Avatar,
   Box,
   Button,
-  CircularProgress,
   Container,
   IconButton,
   TextField,
@@ -10,86 +9,93 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import React, { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import * as Yup from "yup";
+import { Post, usePostContext } from "../context/PostContext";
 
-function EditPost({ postId }: { postId: number }) {
-  const navigate = useNavigate();
-  const [post, setPost] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [formData, setFormData] = useState({
-    title: "",
-    content: "",
-  });
+const EditSchema = Yup.object({
+  title: Yup.string().required("Write something"),
+  content: Yup.string().required("Write url"),
+});
+
+export type EditValues = Yup.InferType<typeof EditSchema>;
+
+function EditPost() {
   const theme = useTheme();
+  const { username } = useParams<{ username: string }>();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const { _id } = useParams<{ _id: string }>();
+  const { getPostById, updatePost } = usePostContext();
+  const [post, setPost] = React.useState<Post | null>(null);
+  const isEdit = Boolean(post);
 
   useEffect(() => {
-    async function fetchPost() {
-      const response = await fetch(`/api/posts/${postId}`);
-      const post = await response.json();
-      setPost(post);
-      setFormData({
-        title: post.title,
-        content: post.content,
-      });
-      setLoading(false);
+    if (_id) {
+      const fetchSinglePost = async () => {
+        const fetchedPost = await getPostById(_id);
+        if (fetchedPost) {
+          setPost(fetchedPost);
+        }
+      };
+      fetchSinglePost();
     }
-    fetchPost();
-  }, [postId]);
+  }, [_id, getPostById]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [event.target.name]: event.target.value,
-    }));
-  };
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setLoading(true);
-    await fetch(`/api/posts/${postId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-    setLoading(false);
-    navigate(`/posts/${postId}`);
-  };
-
-  if (loading) {
-    return <CircularProgress />;
-  }
+  const formik = useFormik<EditValues>({
+    initialValues: {
+      title: isEdit ? post?.title ?? "" : "",
+      content: isEdit ? post?.content ?? "" : "",
+    },
+    validationSchema: EditSchema,
+    onSubmit: (values) => {
+      if (isEdit) {
+        const updatedPost: Post = {
+          _id: post!._id,
+          title: values.title,
+          content: values.content,
+          author: { username: post!.author.username },
+          timestamp: post!.timestamp,
+          username: "",
+        };
+        updatePost(updatedPost);
+      }
+    },
+  });
 
   return (
     <Container maxWidth={"md"}>
       <Typography
         variant="h6"
-        sx={{ display: "flex", justifyContent: "center" }}>
+        sx={{ display: "flex", justifyContent: "center" }}
+      >
         Edit post
       </Typography>
       <IconButton
         component={Link}
-        to="/"
+        to={`/user/${username}`}
         className="material-symbols-outlined"
-        sx={{ color: "black" }}>
+        sx={{ color: "black" }}
+      >
         arrow_back
       </IconButton>
       <Container
         sx={{
           display: "flex",
           flexDirection: isSmallScreen ? "column-reverse" : "row",
-        }}>
+        }}
+      >
         <Container sx={{ display: "flex", flexDirection: "column" }}>
           <Box
             component="img"
-            src="https://user-images.githubusercontent.com/116926631/233002175-166792cc-0b12-405f-8080-d081acae2507.JPG"
+            // src="https://user-images.githubusercontent.com/116926631/233002457-be833494-2c6d-4c8a-9932-81a0791893b6.JPG"
+            src={post?.content}
             sx={{
               width: "100%",
               marginTop: isSmallScreen ? "1rem" : "0",
-            }}></Box>
+            }}
+          ></Box>
         </Container>
         <Container
           sx={{
@@ -98,16 +104,19 @@ function EditPost({ postId }: { postId: number }) {
             flexDirection: "column",
             justifyContent: "space-between",
             marginTop: isSmallScreen ? "1rem" : "0",
-          }}>
+          }}
+        >
           <Container
             sx={{
               padding: "0px !important",
-            }}>
+            }}
+          >
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
-              }}>
+              }}
+            >
               <Avatar
                 alt="Remy Sharp"
                 src="https://www.dmarge.com/wp-content/uploads/2021/01/dwayne-the-rock-.jpg"
@@ -120,34 +129,41 @@ function EditPost({ postId }: { postId: number }) {
                 variant="h6"
                 sx={{
                   marginLeft: "1rem",
-                }}>
+                }}
+              >
                 The Rock
               </Typography>
             </Box>
             <Box>
-              <form>
+              <form onSubmit={formik.handleSubmit}>
                 <TextField
                   fullWidth
+                  id="title"
+                  type="text"
                   label="Title"
                   name="title"
-                  value={formData.title}
-                  onChange={handleChange}
+                  value={formik.values.title}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={Boolean(formik.touched.title && formik.errors.title)}
+                  helperText={formik.touched.title && formik.errors.title}
                   sx={{ marginTop: "1rem" }}
                 />
+                <Container
+                  sx={{
+                    padding: "0px !important",
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    sx={{ marginRight: "0.5rem", marginTop: "1rem" }}
+                  >
+                    Save
+                  </Button>
+                </Container>
               </form>
             </Box>
-          </Container>
-          <Container
-            sx={{
-              padding: "0px !important",
-            }}>
-            <Button
-              component={Link}
-              to="/user/:id/edit/post"
-              variant="contained"
-              sx={{ marginRight: "0.5rem" }}>
-              Save
-            </Button>
           </Container>
         </Container>
       </Container>
