@@ -15,6 +15,7 @@ import {
 import * as React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Post, usePostContext } from "../context/PostContext";
+import { useUserContext } from "../context/UserContext";
 
 function EditAndDeletePost() {
   const theme = useTheme();
@@ -25,6 +26,7 @@ function EditAndDeletePost() {
   const [post, setPost] = React.useState<Post | null>(null);
   const navigate = useNavigate();
   const { username } = useParams<{ username: string }>();
+  const { user } = useUserContext();
 
   React.useEffect(() => {
     if (_id) {
@@ -104,7 +106,7 @@ function EditAndDeletePost() {
                   marginLeft: "1rem",
                 }}
               >
-                {post?.author.username}
+                {user?.username}
               </Typography>
             </Box>
             <Box>
