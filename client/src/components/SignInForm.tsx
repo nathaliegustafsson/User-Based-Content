@@ -40,7 +40,7 @@ function SignInForm() {
         display: "flex",
         alignItems: "center",
         flexDirection: "column",
-        marginTop: "1rem",
+        marginTop: "3rem",
       }}
     >
       <Typography variant="h5" sx={{ marginBottom: "2rem" }}>
@@ -53,12 +53,12 @@ function SignInForm() {
             flexDirection: "column",
             "& .MuiTextField-root": {
               m: 2,
-              width: "35ch",
               borderRadius: "0.6rem",
             },
           }}
         >
           <TextField
+            fullWidth
             id="outlined-username-input"
             name="username"
             label="Username"
@@ -79,6 +79,7 @@ function SignInForm() {
             }}
           />
           <TextField
+            fullWidth
             id="outlined-password-input"
             name="password"
             label="Password"
