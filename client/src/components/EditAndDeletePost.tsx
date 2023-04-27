@@ -42,21 +42,24 @@ function EditAndDeletePost() {
     <Container maxWidth={"md"}>
       <Typography
         variant="h6"
-        sx={{ display: "flex", justifyContent: "center" }}>
+        sx={{ display: "flex", justifyContent: "center" }}
+      >
         Edit or delete post
       </Typography>
       <IconButton
         component={Link}
-        to="/"
+        to={`/user/${username}`}
         className="material-symbols-outlined"
-        sx={{ color: "black" }}>
+        sx={{ color: "black" }}
+      >
         arrow_back
       </IconButton>
       <Container
         sx={{
           display: "flex",
           flexDirection: isSmallScreen ? "column-reverse" : "row",
-        }}>
+        }}
+      >
         <Container sx={{ display: "flex", flexDirection: "column" }}>
           <Box
             component="img"
@@ -64,7 +67,8 @@ function EditAndDeletePost() {
             sx={{
               width: "100%",
               marginTop: isSmallScreen ? "1rem" : "0",
-            }}></Box>
+            }}
+          ></Box>
         </Container>
         <Container
           sx={{
@@ -73,16 +77,19 @@ function EditAndDeletePost() {
             flexDirection: "column",
             justifyContent: "space-between",
             marginTop: isSmallScreen ? "1rem" : "0",
-          }}>
+          }}
+        >
           <Container
             sx={{
               padding: "0px !important",
-            }}>
+            }}
+          >
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
-              }}>
+              }}
+            >
               <Avatar
                 alt="Remy Sharp"
                 src="https://www.dmarge.com/wp-content/uploads/2021/01/dwayne-the-rock-.jpg"
@@ -95,7 +102,8 @@ function EditAndDeletePost() {
                 variant="h6"
                 sx={{
                   marginLeft: "1rem",
-                }}>
+                }}
+              >
                 The Rock
               </Typography>
             </Box>
@@ -106,22 +114,26 @@ function EditAndDeletePost() {
           <Container
             sx={{
               padding: "0px !important",
-            }}>
+            }}
+          >
             <Button
               component={Link}
-              to={`/user/edit/post/${_id}`}
+              to={`/user/${username}/posts/${_id}/edit`}
               variant="contained"
-              sx={{ marginRight: "0.5rem" }}>
+              sx={{ marginRight: "0.5rem" }}
+            >
               Edit
             </Button>
             <Button
               onClick={() => setDeletePostDialogOpen(true)}
-              variant="contained">
+              variant="contained"
+            >
               Delete
             </Button>
             <Dialog
               open={deletePostDialogOpen}
-              onClose={() => setDeletePostDialogOpen(false)}>
+              onClose={() => setDeletePostDialogOpen(false)}
+            >
               <DialogTitle>Delete Post</DialogTitle>
               <DialogContent>
                 <Typography variant="body1">
@@ -141,7 +153,8 @@ function EditAndDeletePost() {
                     }
                   }}
                   color="primary"
-                  autoFocus>
+                  autoFocus
+                >
                   Delete
                 </Button>
               </DialogActions>
