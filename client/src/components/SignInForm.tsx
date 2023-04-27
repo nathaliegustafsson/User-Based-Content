@@ -1,7 +1,7 @@
 import { Box, Button, Container, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useUserContext } from "../context/UserContext";
 
@@ -14,7 +14,6 @@ export type SignInValues = Yup.InferType<typeof SignInSchema>;
 
 function SignInForm() {
   const { login } = useUserContext();
-  const { username } = useParams<{ username: string }>();
   const navigate = useNavigate();
   const formik = useFormik<SignInValues>({
     initialValues: {
@@ -24,9 +23,12 @@ function SignInForm() {
     validationSchema: SignInSchema,
     onSubmit: async (signInValues) => {
       try {
-        const user = await login(signInValues.username, signInValues.password);
-        console.log(user + "INLOGGAD!");
-        navigate(`/user/${username}`);
+        const loggedInUser = await login(
+          signInValues.username,
+          signInValues.password
+        );
+        console.log(loggedInUser + "INLOGGAD!");
+        navigate(`/user/${loggedInUser.username}`);
       } catch (error) {
         console.log(error);
       }
