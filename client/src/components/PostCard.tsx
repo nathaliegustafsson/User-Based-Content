@@ -92,6 +92,12 @@ function PostCard() {
                   >
                     favorite
                   </IconButton>
+                  <IconButton
+                    className="material-symbols-outlined"
+                    sx={iconStyle}
+                  >
+                    chat_bubble
+                  </IconButton>
                 </Box>
               </CardContent>
             </Item>
