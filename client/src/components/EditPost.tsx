@@ -10,10 +10,11 @@ import {
   useTheme,
 } from "@mui/material";
 import { useFormik } from "formik";
-import React, { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { Post, usePostContext } from "../context/PostContext";
+import { useUserContext } from "../context/UserContext";
 
 const EditSchema = Yup.object({
   title: Yup.string().required("Write something"),
@@ -23,13 +24,14 @@ const EditSchema = Yup.object({
 export type EditValues = Yup.InferType<typeof EditSchema>;
 
 function EditPost() {
+  const { getPostById, updatePost } = usePostContext();
+  const { _id } = useParams<{ _id?: string }>();
+  const navigate = useNavigate();
+  const [post, setPost] = useState<Post | null>(null);
   const theme = useTheme();
   const { username } = useParams<{ username: string }>();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const { _id } = useParams<{ _id: string }>();
-  const { getPostById, updatePost } = usePostContext();
-  const [post, setPost] = React.useState<Post | null>(null);
-  const isEdit = Boolean(post);
+  const { user } = useUserContext();
 
   useEffect(() => {
     if (_id) {
@@ -43,23 +45,27 @@ function EditPost() {
     }
   }, [_id, getPostById]);
 
+  const initialValues = {
+    title: post?.title || "",
+    content: post?.content || "",
+  };
+
   const formik = useFormik<EditValues>({
-    initialValues: {
-      title: isEdit ? post?.title ?? "" : "",
-      content: isEdit ? post?.content ?? "" : "",
-    },
+    initialValues,
     validationSchema: EditSchema,
     onSubmit: (values) => {
-      if (isEdit) {
+      if (post && _id) {
+        const author =
+          typeof post.author === "string" ? { _id: post.author } : post.author;
         const updatedPost: Post = {
-          _id: post!._id,
+          ...post,
           title: values.title,
           content: values.content,
-          author: { username: post!.author.username },
-          timestamp: post!.timestamp,
-          username: "",
+          author: author._id.toString(),
+          timestamp: post.timestamp,
         };
         updatePost(updatedPost);
+        navigate(`/user/${username}`);
       }
     },
   });
@@ -131,7 +137,7 @@ function EditPost() {
                   marginLeft: "1rem",
                 }}
               >
-                The Rock
+                {user?.username}
               </Typography>
             </Box>
             <Box>
@@ -147,6 +153,21 @@ function EditPost() {
                   onBlur={formik.handleBlur}
                   error={Boolean(formik.touched.title && formik.errors.title)}
                   helperText={formik.touched.title && formik.errors.title}
+                  sx={{ marginTop: "1rem" }}
+                />
+                <TextField
+                  fullWidth
+                  id="content"
+                  type="text"
+                  label="Content"
+                  name="content"
+                  value={formik.values.content}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={Boolean(
+                    formik.touched.content && formik.errors.content
+                  )}
+                  helperText={formik.touched.content && formik.errors.content}
                   sx={{ marginTop: "1rem" }}
                 />
                 <Container
