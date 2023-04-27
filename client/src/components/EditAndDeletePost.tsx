@@ -85,10 +85,7 @@ function EditAndDeletePost() {
             justifyContent: "space-between",
             marginTop: isSmallScreen ? "1rem" : "0",
           }}>
-          <Container
-            sx={{
-              padding: "0px !important",
-            }}>
+          <Container>
             <Box
               sx={{
                 display: "flex",
@@ -116,7 +113,6 @@ function EditAndDeletePost() {
           </Container>
           <Container
             sx={{
-              padding: "0px !important",
               marginTop: isSmallScreen ? "1rem" : "",
             }}>
             <Button
