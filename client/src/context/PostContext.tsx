@@ -159,7 +159,7 @@ export const PostProvider = ({ children }: Props) => {
 
   const deletePost = async (_id: string) => {
     try {
-      const response = await fetch(`/api/posts/:id`, {
+      const response = await fetch(`/api/posts/${_id}`, {
         method: "DELETE",
       });
 

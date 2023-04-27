@@ -13,7 +13,7 @@ import {
   useTheme,
 } from "@mui/material";
 import * as React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Post, usePostContext } from "../context/PostContext";
 
 function EditAndDeletePost() {
@@ -23,13 +23,13 @@ function EditAndDeletePost() {
   const { _id } = useParams<{ _id: string }>();
   const { deletePost, getPostById } = usePostContext();
   const [post, setPost] = React.useState<Post | null>(null);
+  const navigate = useNavigate();
+  const { username } = useParams<{ username: string }>();
 
   React.useEffect(() => {
     if (_id) {
       const fetchSinglePost = async () => {
         const fetchedPost = await getPostById(_id);
-        console.log("är på edit abd delete page");
-
         if (fetchedPost) {
           setPost(fetchedPost);
         }
@@ -135,8 +135,9 @@ function EditAndDeletePost() {
                 <Button
                   onClick={async () => {
                     if (_id) {
-                      deletePost(_id);
+                      await deletePost(_id);
                       setDeletePostDialogOpen(false);
+                      navigate(`/user/${username}`);
                     }
                   }}
                   color="primary"

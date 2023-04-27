@@ -46,7 +46,7 @@ function ProfilePageGrid() {
                 <StyledLink
                   to={`/user/editanddelete/${post._id}`}
                   onClick={() => {
-                    console.log("kom till edit and delete page");
+                    window.scroll(0, 0);
                   }}>
                   <Box
                     component="img"
