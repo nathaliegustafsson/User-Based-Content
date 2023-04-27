@@ -1,5 +1,5 @@
 // PostContext.tsx
-import { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 export interface Post {
   timestamp: string;
@@ -8,7 +8,7 @@ export interface Post {
   title: string;
   author: {
     username: string;
-  }
+  };
   authorPostGrid: string;
   // avatar: string;
   // location: string;
@@ -120,30 +120,33 @@ export const PostProvider = ({ children }: Props) => {
     }
   };
 
-  const updatePost = async (updatedPost: Post) => {
-    try {
-      const response = await fetch(`/api/posts/${updatedPost._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedPost),
-      });
+  const updatePost = React.useCallback(
+    async (updatedPost: Post) => {
+      try {
+        const response = await fetch(`/api/posts/${updatedPost._id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedPost),
+        });
 
-      if (!response.ok) {
-        throw new Error("Failed to update post.");
+        if (!response.ok) {
+          throw new Error("Failed to update post.");
+        }
+
+        const updatedPostData = await response.json();
+        setPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post._id === updatedPostData._id ? updatedPostData : post
+          )
+        );
+      } catch (error) {
+        console.error(error);
       }
-
-      const updatedPostData = await response.json();
-      setPosts((prevPosts) =>
-        prevPosts.map((post) =>
-          post._id === updatedPostData.id ? updatedPostData : post
-        )
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    },
+    [setPosts]
+  );
 
   const deletePost = async (_id: string) => {
     try {

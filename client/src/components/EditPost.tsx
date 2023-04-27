@@ -10,7 +10,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { useFormik } from "formik";
-import React, { useEffect } from "react";
+import React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { Post, usePostContext } from "../context/PostContext";
@@ -24,45 +24,62 @@ export type EditValues = Yup.InferType<typeof EditSchema>;
 
 function EditPost() {
   const theme = useTheme();
-  const { username } = useParams<{ username: string }>();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const { _id } = useParams<{ _id: string }>();
-  const { getPostById, updatePost } = usePostContext();
-  const [post, setPost] = React.useState<Post | null>(null);
-  const isEdit = Boolean(post);
   const navigate = useNavigate();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const { getPostById, updatePost } = usePostContext();
+  const { username } = useParams<{ username: string }>();
+  const { _id } = useParams<{ _id: string }>();
+  const [post, setPost] = React.useState<Post | null>(null);
 
-  useEffect(() => {
+  const formik = useFormik<EditValues>({
+    initialValues: {
+      title: post?.title || "",
+      content: post?.content || "",
+    },
+    validationSchema: EditSchema,
+    onSubmit: (values) => {
+      console.log("test if submit works" + values);
+      if (post) {
+        console.log("test if submit works again" + values);
+        updatePost({
+          ...post,
+          title: values.title,
+          content: values.content,
+        });
+        console.log("test if submit works againnnnnnn" + values);
+      }
+      navigate(`/user/${username}`);
+    },
+  });
+
+  React.useEffect(() => {
+    let isMounted = true; // Add this flag to check if the component is still mounted
     if (_id) {
       const fetchSinglePost = async () => {
         const fetchedPost = await getPostById(_id);
-        if (fetchedPost) {
-          setPost(fetchedPost);
+        if (fetchedPost && isMounted) {
+          // Check if the component is still mounted before updating state
+          setPost((prevPost) => ({
+            ...prevPost,
+            title: fetchedPost.title,
+            content: fetchedPost.content,
+            timestamp: fetchedPost.timestamp || "",
+            _id: fetchedPost._id,
+            author: fetchedPost.author,
+            authorPostGrid: fetchedPost.authorPostGrid,
+          }));
+          formik.setValues({
+            title: fetchedPost.title,
+            content: fetchedPost.content,
+          });
         }
       };
       fetchSinglePost();
     }
-  }, [_id, getPostById]);
-
-  const { values, handleChange, handleBlur, touched, errors, handleSubmit } =
-    useFormik<EditValues>({
-      initialValues: {
-        title: isEdit ? post?.title || "" : "",
-        content: isEdit ? post?.content || "" : "",
-      },
-      validationSchema: EditSchema,
-      onSubmit: (values) => {
-        console.log("save edit");
-        if (post) {
-          updatePost({
-            ...post,
-            title: values.title,
-            content: values.content,
-          });
-          navigate(`/user/${username}`);
-        }
-      },
-    });
+    return () => {
+      isMounted = false; // Set the flag to false when the component unmounts
+    };
+  }, [_id, getPostById]); // Remove formik from the dependency array
 
   return (
     <Container maxWidth={"md"}>
@@ -126,34 +143,44 @@ function EditPost() {
                 The Rock
               </Typography>
             </Box>
-            <Box>
-              <form onSubmit={handleSubmit}>
+            <Container sx={{ padding: "0px !important" }}>
+              <form onSubmit={formik.handleSubmit}>
                 <TextField
                   fullWidth
                   id="title"
                   type="text"
                   label="Title"
                   name="title"
-                  value={values.title}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={Boolean(touched.title && errors.title)}
-                  helperText={touched.title && errors.title}
+                  value={formik.values.title}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={Boolean(formik.touched.title && formik.errors.title)}
+                  helperText={formik.touched.title && formik.errors.title}
                   sx={{ marginTop: "1rem" }}
                 />
-                <Container
-                  sx={{
-                    padding: "0px !important",
-                  }}>
-                  <Button
-                    variant="contained"
-                    type="submit"
-                    sx={{ marginRight: "0.5rem", marginTop: "1rem" }}>
-                    Save
-                  </Button>
-                </Container>
+                <TextField
+                  fullWidth
+                  id="content"
+                  type="text"
+                  label="Content"
+                  name="content"
+                  value={formik.values.content}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={Boolean(
+                    formik.touched.content && formik.errors.content
+                  )}
+                  helperText={formik.touched.content && formik.errors.content}
+                  sx={{ marginTop: "1rem" }}
+                />
+                <Button
+                  variant="contained"
+                  type="submit"
+                  sx={{ marginRight: "0.5rem", marginTop: "1rem" }}>
+                  Save
+                </Button>
               </form>
-            </Box>
+            </Container>
           </Container>
         </Container>
       </Container>
