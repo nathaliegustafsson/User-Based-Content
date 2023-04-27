@@ -48,9 +48,6 @@ function PostCard() {
                 flexDirection: { xs: "column", sm: "column", md: "row" },
               }}
             >
-              <IconButton className="material-symbols-outlined" sx={iconStyle}>
-                chat_bubble
-              </IconButton>
               <CardMedia sx={cardMediaStyle}>
                 <img src={post?.content} alt={post?.title} />
               </CardMedia>
