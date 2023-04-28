@@ -6,7 +6,7 @@ import { PostModel } from "./post-model";
 import postUpdateValidationSchema from "./post-update-validation";
 
 export async function getAllPosts(req: Request, res: Response) {
-  const posts = await PostModel.find({});
+  const posts = await PostModel.find({}).populate("author");
   res.status(200).json(posts);
 }
 
@@ -16,7 +16,7 @@ export async function getPostById(req: Request, res: Response) {
   if (!MongooseTypes.ObjectId.isValid(postId)) {
     return res.status(400).json({ error: `Invalid post ID.` });
   }
-  const post = await PostModel.findById(postId).populate('author', 'username');
+  const post = await PostModel.findById(postId).populate("author");
   if (post) {
     res.status(200).json(post);
   } else {

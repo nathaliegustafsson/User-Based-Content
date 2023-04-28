@@ -18,6 +18,7 @@ export async function getAllUsers(req: Request, res: Response) {
 
 export async function getSpecificUser(req: Request, res: Response) {
   const { userId } = req.query;
+  console.log(userId)
   try {
     const user = await UserModel.findById(userId);
     if (!user) {

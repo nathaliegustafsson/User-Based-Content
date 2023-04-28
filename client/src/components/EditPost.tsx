@@ -55,14 +55,10 @@ function EditPost() {
     validationSchema: EditSchema,
     onSubmit: (values) => {
       if (post && _id) {
-        const author =
-          typeof post.author === "string" ? { _id: post.author } : post.author;
         const updatedPost: Post = {
           ...post,
           title: values.title,
           content: values.content,
-          author: author._id.toString(),
-          timestamp: post.timestamp,
         };
         updatePost(updatedPost);
         navigate(`/user/${username}`);
@@ -78,21 +74,24 @@ function EditPost() {
           display: "flex",
           justifyContent: "center",
           marginTop: isSmallScreen ? "2rem" : "",
-        }}>
+        }}
+      >
         Edit post
       </Typography>
       <IconButton
         component={Link}
         to={`/user/${username}`}
         className="material-symbols-outlined"
-        sx={{ color: "black" }}>
+        sx={{ color: "black" }}
+      >
         arrow_back
       </IconButton>
       <Container
         sx={{
           display: "flex",
           flexDirection: isSmallScreen ? "column-reverse" : "row",
-        }}>
+        }}
+      >
         <Container sx={{ display: "flex", flexDirection: "column" }}>
           <Box
             component="img"
@@ -101,7 +100,8 @@ function EditPost() {
             sx={{
               width: "100%",
               marginTop: isSmallScreen ? "1rem" : "0",
-            }}></Box>
+            }}
+          ></Box>
         </Container>
         <Container
           sx={{
@@ -110,16 +110,19 @@ function EditPost() {
             flexDirection: "column",
             justifyContent: "space-between",
             marginTop: isSmallScreen ? "1rem" : "0",
-          }}>
+          }}
+        >
           <Container
             sx={{
               padding: "0px !important",
-            }}>
+            }}
+          >
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
-              }}>
+              }}
+            >
               <Avatar
                 alt="Remy Sharp"
                 src="https://www.dmarge.com/wp-content/uploads/2021/01/dwayne-the-rock-.jpg"
@@ -132,7 +135,8 @@ function EditPost() {
                 variant="h6"
                 sx={{
                   marginLeft: "1rem",
-                }}>
+                }}
+              >
                 {user?.username}
               </Typography>
             </Box>
@@ -169,11 +173,13 @@ function EditPost() {
                 <Container
                   sx={{
                     padding: "0px !important",
-                  }}>
+                  }}
+                >
                   <Button
                     variant="contained"
                     type="submit"
-                    sx={{ marginRight: "0.5rem", marginTop: "1rem" }}>
+                    sx={{ marginRight: "0.5rem", marginTop: "1rem" }}
+                  >
                     Save
                   </Button>
                 </Container>
