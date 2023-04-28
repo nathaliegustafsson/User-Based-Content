@@ -1,47 +1,49 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/G8PqYEM6)
-# User Based Content
+# <img src="./client/src/assets/share-thin.png" width="100rem"/>
 
-## Beskrivning
+# Photo Share
 
-Ni ska skapa en användarbaserad plattform där en användare har möjligheten att registrera sig, logga in och skapa innehåll. Vad för innehåll som användaren kan skapa är valfritt med det ska vara baserat på en resurs i erat Express-API. Användardatan ska även den baseras på en egen resurs (users), där lösenordet är krypterat. Samtligt innehåll som skapas, förändras eller tas bort ska sparas till en MongoDB databas. Innehållet som en användare skapar får endast lov att ändras eller tas bort av skaparen. Plattformen ska innehålla en klientapplikation där samtliga operationer som nämnts ovan är genomförbara. Dessutom ska innehållet på något sätt presenteras i gränssnittet och vara synligt föra alla - även om man inte är inloggad.
+## A user based content platform
 
-## Kodbas
+A webb application made with Express API, MongoDB database and Mongoose for the backend. For the frontend we've used React and MUI. We've used YUP for validation in both ends.
 
-Den här kodbasen är indelad i en [klientmapp](./client/) och en [servermapp](./server/).
-Servern har två miljöer konfigurerade, en för utveckling och en för testning.
+On the platform you are able to create a user profile and login. When you are logged in as a user, you can view, create, edit and delete your own posts on your profile page. You are also able to view all the posts from all the other users, including yourself, on the Explore page. The posts on the Explore page are always visible to everyone who visits the site and does not require login.
 
-Servern innehåller några start-filer som kan vara bra att känna till:
+<br>
 
-- `server.ts` - startfil för utvecklingsmiljön.
-- `app.ts` - innehåller all serverlogik.
-- `index.ts` - exports till testmiljön.
+### Contributors:
 
-Här är en lista på de olika skripten som kan köras i terminalen.
+- [Lisa Marie Andersson](https://github.com/lisamarieandersson)
+- [Nathalie Gustafsson](https://github.com/nathaliegustafsson)
+- [Moa Hedendahl](https://github.com/moamoa07)
 
-Navigera först till server mappen -`cd server` och sedan:
+<br>
 
-- `npm install` - Installerar alla NodeJS moduler (körs en gång).
-- `npm run update` - Uppdaterar testerna och behöver köras om läraren har ändrat dom.
-- `npm run dev` - Startar utvecklingsmiljön.
-- `npm test` - Startar testmiljön så du kan jobba med kravlistan.
+### How to build the project:
 
-För att bli godkänd på den här uppgiften MÅSTE ni använda GIT och GitHub. Inlämningen sker som vanligt via läroplattformen där ni lämnar in er projektmapp som en zip-fil. I projektmappen ska det finnas (utöver all kod) en README.md fil som innehåller en titel, beskrivning av uppgiften och vad som krävs för att bygga och starta projektet.
+Run these commands in the terminal:
 
-En muntligt presentation ska genomföras per grupp där ni visar vad ni har skapat. Samtlig funktionalitet ska demas och kommer att bockas av och Godkännas under presentationen. Upplägg och innehåll i övrigt är valfritt så länge ni håller er till ämnet. Ca 10-15 min per grupp.
+- `npm install`
 
-Para ihop er i grupp om tre - ni väljer själva vilka ni jobbar med.
+- `For client`
+    - `cd client`
+    - `npm run dev`
+
+- `For server`
+    - `cd server`
+    - `npm run dev`
+
+<br>
 
 **Krav för godkänt:**
 
-- [ ] Git & GitHub har använts
-- [ ] Projektmappen innehåller en README.md fil (läs ovan för mer info)
-- [ ] Uppgiften lämnas in i tid!
-- [ ] Det ska finnas minst två stycken resurser (users & posts)
-- [ ] Det ska gå att registrera sig, logga in och skapa innehåll som är kopplat till inloggad användare.
-- [ ] Endast den inloggade användaren får lov att utföra C_UD actions på sitt innehåll.
-- [ ] Allt innehåll ska sparas i en MongoDB databas.
-
-_Gjorda krav ska kryssar i_
+- [x] Git & GitHub har använts
+- [x] Projektmappen innehåller en README.md fil (läs ovan för mer info)
+- [x] Uppgiften lämnas in i tid!
+- [x] Det ska finnas minst två stycken resurser (users & posts)
+- [x] Det ska gå att registrera sig, logga in och skapa innehåll som är kopplat till inloggad användare.
+- [x] Endast den inloggade användaren får lov att utföra C_UD actions på sitt innehåll.
+- [x] Allt innehåll ska sparas i en MongoDB databas.
+_Gjorda krav ska kryssas i_
 
 **Krav för väl godkänt:**
 
@@ -49,4 +51,4 @@ _Gjorda krav ska kryssar i_
 - [ ] Det ska finnas en adminroll i systemet där man som inloggad admin har rättigheten att utföra CRUD operationer på allt innehåll.
 - [ ] Admins ska ha tillgång till ett gränssnitt som listar alla användare och deras roller. En admin ska från gränssnittet kunna ta bort användare eller ändra dess roll.
 
-_Gjorda krav ska kryssar i_
+_Gjorda krav ska kryssas i_
