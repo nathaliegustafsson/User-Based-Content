@@ -14,7 +14,7 @@ interface UserContextProps {
   user: User | null;
   login: (username: string, password: string) => Promise<User>;
   logout: () => Promise<void>; // Update the return type to Promise<void>
-  register: (username: string, password: string) => void;
+  register: (username: string, password: string) => Promise<string>;
   checkUsername: (username: string) => void;
 }
 
@@ -26,7 +26,7 @@ const UserContext = createContext<UserContextProps>({
     });
   },
   logout: () => Promise.resolve(),
-  register: () => {},
+  register: async () => "",
   checkUsername: () => {},
 });
 
@@ -70,10 +70,10 @@ export const UserProvider = ({ children }: Props) => {
   };
 
   const RegisterUser = async (username: string, password: string) => {
-    const isUsernameTaken = await CheckUsername(username);
-    if (isUsernameTaken) {
-      throw new Error("Username is already taken");
-    }
+    // const isUsernameTaken = await CheckUsername(username);
+    // if (isUsernameTaken) {
+    //   throw new Error("Username is already taken");
+    // }
     try {
       const response = await fetch("/api/users/register", {
         method: "POST",
@@ -81,12 +81,13 @@ export const UserProvider = ({ children }: Props) => {
         body: JSON.stringify({ username, password }),
       });
       if (!response.ok) {
-        throw new Error("Failed to register user");
+        const errorMessage = await response.json();
+        return errorMessage;
       }
       const user = await response.json();
       setUser(user);
       // LogInUser(user.username, user.password);
-      return user;
+      return "";
     } catch (error: any) {
       throw new Error(error.message || "Failed to register user");
     }

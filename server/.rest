@@ -15,11 +15,15 @@ Content-Type: application/json
 }
 
 ### UPDATE POST 
-PUT http://localhost:3000/api/posts/644990eca68eb684734f0685
+PUT http://localhost:3000/api/posts/644bd1336c5addfa4cad5e48
 Content-Type: application/json
 
 {   
-    "title": "Amazing chairs, for an amazing Pedro."
+    "title": "Amazing tiles!!",
+  "content": "https://user-images.githubusercontent.com/116926631/234859310-5ba21d60-aaf3-4094-b4c7-0cb81e12d8e4.JPG",
+  "author": "644a6659d78e5b31c936eb8e",
+  "_id": "644bd1336c5addfa4cad5e48",
+  "createdAt": "2023-04-28T13:59:15.270Z"
 }
 
 ### DELETE POST

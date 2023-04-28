@@ -36,13 +36,17 @@ function CreateProfileForm() {
     validationSchema: CreateProfileSchema,
     onSubmit: async (createProfileValues) => {
       try {
-        const user = await register(
+        const error = await register(
           createProfileValues.username,
           createProfileValues.password
         );
+        if (error) {
+          console.log(error);
+          formik.setFieldError("username", error);
+          return;
+        }
         await login(createProfileValues.username, createProfileValues.password);
         navigate(`/user/${createProfileValues.username}`);
-        console.log(user);
       } catch (error) {
         console.log(error);
       }

@@ -10,7 +10,10 @@ export interface Post {
   _id: string;
   content: string;
   title: string;
-  author: string;
+  author: {
+    _id: string;
+    username: string;
+  };
   authorPostGrid: string;
   authorOnEdit: {
     username: string;
@@ -53,10 +56,9 @@ export const PostProvider = ({ children }: Props) => {
       if (!response.ok) {
         throw new Error("Failed to fetch posts.");
       }
-      const posts = await response.json();
-      const filteredPosts = posts.filter(
-        (post: { author: string }) => post.author === userId
-      );
+      const posts: Post[] = await response.json();
+      console.log(posts);
+      const filteredPosts = posts.filter((post) => post.author._id === userId);
       setPosts(filteredPosts);
     } catch (error) {
       console.error(error);
@@ -70,22 +72,22 @@ export const PostProvider = ({ children }: Props) => {
         throw new Error("Failed to fetch posts.");
       }
       const posts = await response.json();
-      const postsWithAuthors = await Promise.all(
-        posts.map(async (post: Post) => {
-          const authorResponse = await fetch(
-            `/api/users/username?userId=${post.author}`
-          );
-          if (!authorResponse.ok) {
-            throw new Error("Failed to fetch author.");
-          }
-          const authorData = await authorResponse.json();
-          return {
-            ...post,
-            authorPostGrid: authorData.username,
-          };
-        })
-      );
-      setPosts(postsWithAuthors);
+      // const postsWithAuthors = await Promise.all(
+      //   posts.map(async (post: Post) => {
+      //     const authorResponse = await fetch(
+      //       `/api/users/username?userId=${post.author}`
+      //     );
+      //     if (!authorResponse.ok) {
+      //       throw new Error("Failed to fetch author.");
+      //     }
+      //     const authorData = await authorResponse.json();
+      //     return {
+      //       ...post,
+      //       authorPostGrid: authorData.username,
+      //     };
+      //   })
+      // );
+      setPosts(posts);
     } catch (error) {
       console.error(error);
     }
@@ -119,7 +121,7 @@ export const PostProvider = ({ children }: Props) => {
         throw new Error("Failed to create post.");
       }
       const createdPost = await response.json();
-      console.log("createdPost:", createdPost); 
+      console.log("createdPost:", createdPost);
       setPosts((prevPosts) => [...prevPosts, createdPost]);
       return createdPost;
     } catch (error) {
@@ -136,11 +138,11 @@ export const PostProvider = ({ children }: Props) => {
         },
         body: JSON.stringify(updatedPost),
       });
-  
+
       if (!response.ok) {
         throw new Error(`Failed to update post: ${await response.text()}`);
       }
-  
+
       const updatedPostData = await response.json();
       setPosts((prevPosts) =>
         prevPosts.map((post) =>
@@ -178,7 +180,8 @@ export const PostProvider = ({ children }: Props) => {
         createPost,
         updatePost,
         deletePost,
-      }}>
+      }}
+    >
       {children}
     </PostContext.Provider>
   );
