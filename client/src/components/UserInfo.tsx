@@ -51,8 +51,6 @@ function UserInfo() {
             </Button>
             <Button
               variant="contained"
-              component={Link}
-              to={`/user/${user?.username}/posts/${_id}/edit`}
             >
               Edit profile
             </Button>
