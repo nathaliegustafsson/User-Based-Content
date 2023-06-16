@@ -63,7 +63,7 @@ function ProfilePageGrid() {
   );
 }
 
-/*  Styling */
+/* Styling */
 
 const rootStyle: SxProps<Theme> = {
   display: "flex",

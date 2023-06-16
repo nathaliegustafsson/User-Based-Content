@@ -6,7 +6,7 @@ import { useUserContext } from "../context/UserContext";
 function UserInfo() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const userContext = useUserContext();
-  const { user, login, logout } = userContext;
+  const { user } = userContext;
   const { _id } = useParams<{ _id: string }>();
 
   React.useEffect(() => {
@@ -16,11 +16,6 @@ function UserInfo() {
       setIsLoggedIn(false);
     }
   }, [user]);
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    userContext.logout();
-  };
 
   return (
     <Container
@@ -56,8 +51,6 @@ function UserInfo() {
             </Button>
             <Button
               variant="contained"
-              component={Link}
-              to={`/user/${user?.username}/posts/${_id}/edit`}
             >
               Edit profile
             </Button>

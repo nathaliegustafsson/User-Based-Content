@@ -9,13 +9,8 @@ export const app = express();
 
 // Global middlewares
 app.use(express.json());
-// app.use((req, res, next) => {
-//   console.log(req.method, req.path);
-//   next();
-// });
 app.use(
   cookieSession({
-    // name: "login",
     secure: false,
     httpOnly: true,
     secret: "hgsgshtdhpdhdhdndbdsplladawgsbf",

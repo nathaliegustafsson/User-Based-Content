@@ -37,9 +37,9 @@ function ExplorePostsGrid() {
           variant="h5"
           sx={{
             marginBottom: {
-              xs: "2rem", // Smaller screens
-              sm: "3rem", // Tablet
-              md: "4rem", // Desktop
+              xs: "2rem",
+              sm: "3rem",
+              md: "4rem", 
             },
           }}
         >
@@ -87,7 +87,6 @@ function ExplorePostsGrid() {
                               color: "#777777",
                             }}
                           >
-                            {/* {postItem.location} */}
                           </Typography>
                         </Box>
                       </Box>
@@ -118,7 +117,7 @@ function ExplorePostsGrid() {
   );
 }
 
-/*  Styling */
+/* Styling */
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.subtitle2,

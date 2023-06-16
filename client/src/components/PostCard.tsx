@@ -91,7 +91,7 @@ function PostCard() {
                           color: "#777777",
                           marginBottom: "3rem",
                         }}>
-                        Malmö, Sweden{/* {postItem.location} */}
+                        Malmö, Sweden
                       </Typography>
                     </Box>
                   </Box>
@@ -120,7 +120,7 @@ function PostCard() {
   );
 }
 
-/*  Styling */
+/* Styling */
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.subtitle2,
@@ -147,11 +147,10 @@ const cardContentStyle: SxProps<Theme> = {
   display: "flex",
   flexBasis: "50%",
   flexDirection: "column",
-  justifyContent: "space-between", // update this line
+  justifyContent: "space-between",
   textAlign: "left",
   paddingBottom: "0",
   "@media (min-width: 960px)": {
-    // Media query for desktop view
     width: "100%",
     height: "auto",
     paddingLeft: "1.4rem",

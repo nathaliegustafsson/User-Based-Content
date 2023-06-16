@@ -1,4 +1,3 @@
-// PostContext.tsx
 import React, { createContext, useContext, useState } from "react";
 
 export interface NewPost {
@@ -72,21 +71,6 @@ export const PostProvider = ({ children }: Props) => {
         throw new Error("Failed to fetch posts.");
       }
       const posts = await response.json();
-      // const postsWithAuthors = await Promise.all(
-      //   posts.map(async (post: Post) => {
-      //     const authorResponse = await fetch(
-      //       `/api/users/username?userId=${post.author}`
-      //     );
-      //     if (!authorResponse.ok) {
-      //       throw new Error("Failed to fetch author.");
-      //     }
-      //     const authorData = await authorResponse.json();
-      //     return {
-      //       ...post,
-      //       authorPostGrid: authorData.username,
-      //     };
-      //   })
-      // );
       setPosts(posts);
     } catch (error) {
       console.error(error);

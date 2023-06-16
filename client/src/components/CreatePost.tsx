@@ -7,16 +7,16 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
-} from "@mui/material";
-import { useFormik } from "formik";
-import { CSSProperties, ChangeEvent, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import * as Yup from "yup";
-import { NewPost, Post, usePostContext } from "../context/PostContext";
+} from '@mui/material';
+import { useFormik } from 'formik';
+import { CSSProperties, ChangeEvent, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import * as Yup from 'yup';
+import { NewPost, usePostContext } from '../context/PostContext';
 
 const CreatePostSchema = Yup.object({
-  title: Yup.string().required("Please enter a title"),
-  content: Yup.string().required("Please enter your content"),
+  title: Yup.string().required('Please enter a title'),
+  content: Yup.string().required('Please enter your content'),
 });
 
 export type CreateProfileValues = Yup.InferType<typeof CreatePostSchema>;
@@ -24,7 +24,7 @@ export type CreateProfileValues = Yup.InferType<typeof CreatePostSchema>;
 function CreatePost() {
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const navigate = useNavigate();
   const { createPost } = usePostContext();
   const { username } = useParams<{ username: string }>();
@@ -32,8 +32,8 @@ function CreatePost() {
 
   const formik = useFormik<CreateProfileValues>({
     initialValues: {
-      title: "",
-      content: "",
+      title: '',
+      content: '',
     },
     validationSchema: CreatePostSchema,
     onSubmit: async (createProfileValues) => {
@@ -43,14 +43,14 @@ function CreatePost() {
           content: createProfileValues.content,
         };
         const result = await createPost(newPost);
-        console.log(result + " post skapad");
+        console.log(result + ' post skapad');
         navigate(`/user/${username}`);
       } catch (error) {
         console.log(error);
       }
     },
   });
-  
+
   const handleImageUrlChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -59,10 +59,10 @@ function CreatePost() {
   };
 
   return (
-    <Container maxWidth={"md"}>
+    <Container maxWidth={'md'}>
       <Typography
         variant="h6"
-        sx={{ display: "flex", justifyContent: "center" }}
+        sx={{ display: 'flex', justifyContent: 'center' }}
       >
         Create a new post
       </Typography>
@@ -70,35 +70,35 @@ function CreatePost() {
         component={Link}
         to={`/user/${username}`}
         className="material-symbols-outlined"
-        sx={{ color: "black" }}
+        sx={{ color: 'black' }}
       >
         arrow_back
       </IconButton>
       <Container
         sx={{
-          display: "flex",
-          flexDirection: isSmallScreen ? "column" : "row",
+          display: 'flex',
+          flexDirection: isSmallScreen ? 'column' : 'row',
         }}
       >
-        <Container sx={{ display: "flex", flexDirection: "column" }}>
+        <Container sx={{ display: 'flex', flexDirection: 'column' }}>
           {imageUrl && (
             <Box
               component="img"
               src={imageUrl}
               sx={{
-                width: "100%",
+                width: '100%',
               }}
             ></Box>
           )}
           {!imageUrl && (
             <Box
               sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: "100%",
-                height: "300px",
-                border: "1px solid grey",
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%',
+                height: '300px',
+                border: '1px solid grey',
               }}
             >
               <Typography variant="subtitle2">No image uploaded yet</Typography>
@@ -108,7 +108,7 @@ function CreatePost() {
         </Container>
         <Container
           sx={{
-            marginTop: isSmallScreen ? "1rem" : "0",
+            marginTop: isSmallScreen ? '1rem' : '0',
           }}
         >
           <form onSubmit={formik.handleSubmit} style={rootStyle}>
@@ -123,12 +123,12 @@ function CreatePost() {
               error={Boolean(formik.touched.title && formik.errors.title)}
               helperText={formik.touched.title && formik.errors.title}
               sx={{
-                "& .MuiInputBase-input": {
+                '& .MuiInputBase-input': {
                   bgcolor: (theme) => theme.palette.secondary.main,
-                  borderRadius: "0.6rem",
+                  borderRadius: '0.6rem',
                 },
-                "& .MuiOutlinedInput-root": { borderRadius: "0.6rem" },
-                "& .MuiOutlinedInput-notchedOutline": {
+                '& .MuiOutlinedInput-root': { borderRadius: '0.6rem' },
+                '& .MuiOutlinedInput-notchedOutline': {
                   borderColor: (theme) => theme.palette.secondary.main,
                 },
               }}
@@ -147,12 +147,12 @@ function CreatePost() {
               error={Boolean(formik.touched.content && formik.errors.content)}
               helperText={formik.touched.content && formik.errors.content}
               sx={{
-                "& .MuiInputBase-input": {
+                '& .MuiInputBase-input': {
                   bgcolor: (theme) => theme.palette.secondary.main,
-                  borderRadius: "0.6rem",
+                  borderRadius: '0.6rem',
                 },
-                "& .MuiOutlinedInput-root": { borderRadius: "0.6rem" },
-                "& .MuiOutlinedInput-notchedOutline": {
+                '& .MuiOutlinedInput-root': { borderRadius: '0.6rem' },
+                '& .MuiOutlinedInput-notchedOutline': {
                   borderColor: (theme) => theme.palette.secondary.main,
                 },
               }}
@@ -167,10 +167,12 @@ function CreatePost() {
   );
 }
 
+/* Styling */
+
 const rootStyle: CSSProperties = {
-  display: "flex",
-  flexDirection: "column",
-  gap: "1rem",
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1rem',
 };
 
 export default CreatePost;

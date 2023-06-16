@@ -25,8 +25,6 @@ type UserMenuItem = {
   handleClick?: () => void;
 };
 
-// ... rest of the Header component
-
 function Header() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -79,7 +77,6 @@ function Header() {
     userContext.logout().then(() => {
       setIsLoggedIn(false);
       handleCloseUserMenu();
-      // Use navigate to go to the start page after logging out
       navigate("/");
     });
   };
@@ -271,6 +268,8 @@ function Header() {
     </AppBar>
   );
 }
+
+/* Styling */
 
 const StyledLink = styled(Link)<LinkProps>(() => ({
   textDecoration: "none",
