@@ -1,20 +1,16 @@
 {
-  "name": "@plugga-tech/react-express-user-content-ts-server-template",
+  "name": "react-express-user-content-ts-server-template",
   "version": "1.0.2",
   "author": "plugga.tech",
   "description": "En självrättande inlämningsuppgift.",
   "homepage": "https://plugga.tech",
   "scripts": {
-    "postinstall": "plugga init",
     "start": "node dist/server.js",
     "build": "tsc",
     "check": "tsc --noEmit",
-    "dev": "nodemon --transpile-only src/server.ts",
-    "test": "plugga test --vitest --ts",
-    "update": "plugga update"
+    "dev": "nodemon --transpile-only src/server.ts"
   },
   "dependencies": {
-    "@plugga-tech/react-express-user-content-ts-server": "^1.0.2",
     "argon2": "^0.30.3",
     "cookie-session": "^2.0.0",
     "express": "^4.18.2",
