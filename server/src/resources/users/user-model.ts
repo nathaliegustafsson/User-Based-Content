@@ -1,5 +1,5 @@
 import argon2 from "argon2";
-import { InferSchemaType, Schema, model } from "mongoose";
+import mongoose, { InferSchemaType, Schema, model } from "mongoose";
 
 const userSchema = new Schema(
   {
@@ -27,11 +27,14 @@ const userSchema = new Schema(
 );
 
 userSchema.pre("save", async function (next) {
-  // kryptera lösenordet
-  this.password = await argon2.hash(this.password, {
+  const doc = this as mongoose.Document & { password?: string }
+
+  // Hash password
+  if (doc.isModified('password') && doc.password) {
+  doc.password = await argon2.hash(doc.password, {
     memoryCost: 1024,
     timeCost: 2,
-  });
+  })};
   next();
 });
 
