@@ -167,6 +167,8 @@ function Footer() {
   );
 }
 
+/* Styling */
+
 const hoverEffectStyling: SxProps<Theme> = {
   textAlign: "center",
   "&:hover": {

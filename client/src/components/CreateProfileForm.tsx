@@ -5,18 +5,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { useUserContext } from "../context/UserContext";
 
-// const { checkUsername } = useUserContext();
-
 const CreateProfileSchema = Yup.object({
   username: Yup.string().required("Please enter a username"),
-  // .test(
-  //   "check-username-availability",
-  //   "This username is already taken",
-  //   async (value) => {
-  //     const isUsernameAvailable = await checkUsername(value);
-  //     return !isUsernameAvailable;
-  //   }
-  // ),
   password: Yup.string()
     .min(5, "Your password needs to be at least 5 characters")
     .required("Please enter a password"),

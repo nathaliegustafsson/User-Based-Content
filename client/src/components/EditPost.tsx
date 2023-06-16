@@ -95,7 +95,6 @@ function EditPost() {
         <Container sx={{ display: "flex", flexDirection: "column" }}>
           <Box
             component="img"
-            // src="https://user-images.githubusercontent.com/116926631/233002457-be833494-2c6d-4c8a-9932-81a0791893b6.JPG"
             src={post?.content}
             sx={{
               width: "100%",

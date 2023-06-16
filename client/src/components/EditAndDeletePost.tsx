@@ -157,11 +157,6 @@ function EditAndDeletePost() {
           </Container>
         </Container>
       </Container>
-      {/* <DeletePostDialog
-        open={deletePostDialogOpen}
-        handleClose={() => setDeletePostDialogOpen(false)}
-        // removePost={() => removeProduct(props.product)}
-      /> */}
     </Container>
   );
 }
