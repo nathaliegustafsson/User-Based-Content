@@ -13,7 +13,7 @@ interface Props {
 interface UserContextProps {
   user: User | null;
   login: (username: string, password: string) => Promise<User>;
-  logout: () => Promise<void>; // Update the return type to Promise<void>
+  logout: () => Promise<void>;
   register: (username: string, password: string) => Promise<string>;
   checkUsername: (username: string) => void;
 }
@@ -70,10 +70,6 @@ export const UserProvider = ({ children }: Props) => {
   };
 
   const RegisterUser = async (username: string, password: string) => {
-    // const isUsernameTaken = await CheckUsername(username);
-    // if (isUsernameTaken) {
-    //   throw new Error("Username is already taken");
-    // }
     try {
       const response = await fetch("/api/users/register", {
         method: "POST",
@@ -86,7 +82,6 @@ export const UserProvider = ({ children }: Props) => {
       }
       const user = await response.json();
       setUser(user);
-      // LogInUser(user.username, user.password);
       return "";
     } catch (error: any) {
       throw new Error(error.message || "Failed to register user");
@@ -120,7 +115,6 @@ export const UserProvider = ({ children }: Props) => {
     }
   };
 
-  // Ensure sendLogoutRequest returns a Promise as well
   const sendLogoutRequest = async () => {
     try {
       const response = await fetch("/api/users/logout", {
